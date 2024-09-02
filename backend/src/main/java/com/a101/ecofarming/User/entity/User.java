@@ -1,2 +1,4 @@
-package com.a101.ecofarming.User.entity;public class User {
+package com.a101.ecofarming.User.entity;
+
+public class User {
 }
