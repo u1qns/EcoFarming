@@ -1,13 +1,48 @@
+/* 모바일 뷰를 위한 전역 스타일 */
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* 모바일 기기의 일반적인 너비 */
+  max-width: 480px;
+  /* 화면 중앙에 콘텐츠 배치 */
+  margin: 0 auto;
+  /* 기본 폰트 크기 설정 */
+  font-size: 16px;
+  /* 텍스트 가독성을 위한 줄 간격 */
+  line-height: 1.5;
+  /* 내용물이 화면을 벗어나지 않도록 설정 */
+  overflow-x: hidden;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* 반응형 이미지 */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 모바일에 적합한 기본 버튼 스타일 */
+button {
+  padding: 10px 15px;
+  font-size: 16px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* 모바일에 적합한 기본 입력 필드 스타일 */
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 16px; /* 모바일에서 확대 방지 */
+}
+
+/* 작은 화면에서의 폰트 크기 조정 */
+@media (max-width: 320px) {
+  body {
+    font-size: 14px;
+  }
+  h1 {
+    font-size: 1.8em;
+  }
+  h2 {
+    font-size: 1.5em;
+  }
 }
