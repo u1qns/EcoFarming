@@ -1,4 +1,7 @@
 package com.a101.ecofarming.User.repository;
 
-public class UserRepository {
+import com.a101.ecofarming.User.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Integer> {
 }
