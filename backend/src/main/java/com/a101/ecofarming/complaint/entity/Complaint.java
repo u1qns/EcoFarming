@@ -1,5 +1,7 @@
 package com.a101.ecofarming.complaint.entity;
 
+import com.a101.ecofarming.proof.entity.Proof;
+import com.a101.ecofarming.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,11 +17,13 @@ public class Complaint {
     @Column(name = "complaint_id")
     private int id;
 
-    @Column(nullable = false)
-    private int proofId;
+    @ManyToOne
+    @JoinColumn(name = "proof_id", nullable = false)
+    private Proof proof;
 
-    @Column(nullable = false)
-    private int complainerId;
+    @ManyToOne
+    @JoinColumn(name = "complainer_id", nullable = false)
+    private User user;
 
     @Column
     private String description;
