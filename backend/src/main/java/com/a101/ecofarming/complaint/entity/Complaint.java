@@ -12,23 +12,23 @@ import lombok.*;
 public class Complaint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Integer complaintId;
+    @Column(name = "complaint_id")
+    private int id;
 
     @Column(nullable = false)
-    private Integer proofId;
+    private int proofId;
 
     @Column(nullable = false)
-    private Integer complainerId;
+    private int complainerId;
 
     @Column
     private String description;
 
     @Column
-    private Boolean aiPass;
+    private boolean aiPass;
 
     @Column
-    private Boolean adminPass;
+    private boolean adminPass;
 
 }
 
