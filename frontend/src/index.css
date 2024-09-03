@@ -1,3 +1,8 @@
+/* 모든 요소에 box-sizing 적용 */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* 모바일 뷰를 위한 전역 스타일 */
 body {
   /* 모바일 기기의 일반적인 너비 */
@@ -10,6 +15,16 @@ body {
   line-height: 1.5;
   /* 내용물이 화면을 벗어나지 않도록 설정 */
   overflow-x: hidden;
+  padding: 0;
+  box-sizing: border-box; /* 모든 요소의 box-sizing을 포함하도록 설정 */
+}
+
+/* 콘텐츠 영역에 상단바와 하단바 높이만큼 패딩 추가 */
+.content {
+  padding-top: 50px; /* Navbar 높이만큼 패딩 */
+  padding-bottom: 50px; /* Footer 높이만큼 패딩 */
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 /* 반응형 이미지 */
@@ -24,6 +39,7 @@ button {
   font-size: 16px;
   width: 100%;
   margin-bottom: 10px;
+  box-sizing: border-box; /* 버튼 패딩이 너비에 포함되도록 설정 */
 }
 
 /* 모바일에 적합한 기본 입력 필드 스타일 */
@@ -32,6 +48,7 @@ input, select, textarea {
   padding: 10px;
   margin-bottom: 10px;
   font-size: 16px; /* 모바일에서 확대 방지 */
+  box-sizing: border-box; /* 입력 필드 패딩이 너비에 포함되도록 설정 */
 }
 
 /* 작은 화면에서의 폰트 크기 조정 */
