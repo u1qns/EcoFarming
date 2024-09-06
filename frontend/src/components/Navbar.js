@@ -1,11 +1,15 @@
 import React from 'react';
-import './Navbar.css'; // 필요한 경우 스타일을 정의합니다.
+import './Navbar.css'; 
+import logo from '../assets/images/logo_bear.jpg';
 
 const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-content">
-        <p>챌린지</p>
+        <div className="navbar-title">
+          <img src={logo} alt="Logo" />
+          <p>ECO FARMING</p>
+        </div>
         <ul className="navbar-menu">
           <li><a href="/">♡</a></li>
           <li><a href="/">+</a></li>
