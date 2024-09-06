@@ -1,5 +1,6 @@
 package com.a101.ecofarming.challengeCategory.entity;
 
+import com.a101.ecofarming.global.audit.Auditable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class ChallengeCategory {
+public class ChallengeCategory extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
