@@ -20,8 +20,8 @@ import java.time.LocalDate;
 @Service
 public class ProofService {
 
-    //@Value("${file.upload-dir}")
-    //private String uploadDir; // 파일 업로드 경로
+    @Value("${file.upload-dir}")
+    private String uploadDir; // 파일 업로드 경로
 
     @Autowired
     private ProofRepository proofRepository;
@@ -41,7 +41,7 @@ public class ProofService {
         }
 
         String fileName = String.format("%s_%d%s", LocalDate.now(), userId, extension);
-        String directoryPath = String.format("ProofPhotos/%d", challengeId);
+        String directoryPath = uploadDir + "/ProofPhotos/" + challengeId; // uploadDir을 포함
         File directory = new File(directoryPath);
 
         if (!directory.exists()) {
@@ -49,7 +49,6 @@ public class ProofService {
         }
 
         String filePath = directoryPath + "/" + fileName;
-        //System.out.println(filePath);
         try {
             photo.transferTo(new File(filePath));
         } catch (IOException e) {
@@ -65,9 +64,9 @@ public class ProofService {
                 .createdAt(LocalDate.now())
                 .build();
 
-        Proof savedProof = proofRepository.save(proof);
+        proofRepository.save(proof);
 
-        return new ProofUploadResponseDto(savedProof.getProofId(), 100, "파일이 성공적으로 업로드되었습니다.");
+        return new ProofUploadResponseDto(proof.getProofId(), 100, "파일이 성공적으로 업로드되었습니다.");
 
     }
 }
