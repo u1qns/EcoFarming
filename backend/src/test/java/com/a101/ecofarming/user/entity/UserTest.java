@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.*;
 
-@DataJpaTest
+@SpringBootTest
 class UserTest {
 
     @Autowired
@@ -27,18 +27,15 @@ class UserTest {
         assertThat(user.getName()).isEqualTo("abc");
         assertThat(user.getMoney()).isEqualTo(0);
         assertThat(user.getPrizeMoney()).isEqualTo(0);
-        System.out.println("created " + user.getCreatedAt());
-        System.out.println("updated " + user.getUpdatedAt());
-        System.out.println("userId " + user.getId());
         Thread.sleep(1000);
 
         // 기존 유저 조회 후 새로운 객체로 변경 (builder 사용)
         User updatedUser = User.builder()
-                .id(user.getId()) // 기존 ID 유지
-                .name("def")      // 이름 변경
-                .email(user.getEmail()) // 기존 이메일 유지
-                .money(user.getMoney()) // 기존 money 유지
-                .prizeMoney(user.getPrizeMoney())// 기존 prizeMoney 유지
+                .id(user.getId())
+                .name("def")
+                .email(user.getEmail())
+                .money(user.getMoney())
+                .prizeMoney(user.getPrizeMoney())
                 .build();
 
         // 변경된 유저 저장
@@ -46,8 +43,7 @@ class UserTest {
 
         // 업데이트된 유저 정보 출력
         User savedUpdatedUser = userRepository.findById(user.getId()).orElseThrow();
-        System.out.println("created " + savedUpdatedUser.getCreatedAt());
-        System.out.println("updated " + savedUpdatedUser.getUpdatedAt());
+        assertThat(savedUpdatedUser.getUpdatedAt()).isNotEqualTo(savedUpdatedUser.getCreatedAt());
     }
 
 }
