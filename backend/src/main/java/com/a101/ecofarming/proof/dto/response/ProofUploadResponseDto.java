@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProofGuideResponseDto {
-    private String guideText;
-    private String rightGuidePhotoUrl;
-    private String wrongGuidePhotoUrl;
+public class ProofUploadResponseDto {
+    private Integer proofId;
+    private Integer progress;
+    private String message;
 }
