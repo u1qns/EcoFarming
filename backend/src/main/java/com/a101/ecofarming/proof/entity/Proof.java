@@ -1,6 +1,8 @@
 package com.a101.ecofarming.proof.entity;
 
+import com.a101.ecofarming.challenge.entity.Challenge;
 import com.a101.ecofarming.global.audit.Auditable;
+import com.a101.ecofarming.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,11 +18,13 @@ public class Proof extends Auditable {
     @Column(name = "proof_id", nullable = false, length = 255)
     private Integer proofId;
 
-    @Column(name = "challenge_id", nullable = false)
-    private Integer challengeId;
+    @ManyToOne
+    @JoinColumn(name = "challenge_id", nullable = false)
+    private Challenge challenge;
 
-    @Column(name = "user_id", nullable = false)
-    private Integer userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(name = "photo_url", nullable = false, length = 255)
     private String photoUrl;
