@@ -3,6 +3,7 @@ package com.a101.ecofarming.proof.controller;
 import com.a101.ecofarming.challengeCategory.service.ChallengeCategoryService;
 import com.a101.ecofarming.proof.dto.request.ProofUploadRequestDto;
 import com.a101.ecofarming.proof.dto.response.ProofGuideResponseDto;
+import com.a101.ecofarming.proof.dto.response.ProofInfoResponseDto;
 import com.a101.ecofarming.proof.dto.response.ProofUploadResponseDto;
 import com.a101.ecofarming.proof.service.ProofService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,11 @@ public class ProofController {
     public ResponseEntity<ProofUploadResponseDto> uploadProof(@ModelAttribute ProofUploadRequestDto requestDto) {
         ProofUploadResponseDto response = proofService.uploadProof(requestDto);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{challengeId}")
+    public ProofInfoResponseDto getProofsByChallengeId(@PathVariable("challengeId") Integer challengeId) {
+        return proofService.getProofsByChallengeId(challengeId);
     }
 
 }
