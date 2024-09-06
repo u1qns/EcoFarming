@@ -1,5 +1,6 @@
 package com.a101.ecofarming.complaint.entity;
 
+import com.a101.ecofarming.global.audit.Auditable;
 import com.a101.ecofarming.proof.entity.Proof;
 import com.a101.ecofarming.user.entity.User;
 import jakarta.persistence.*;
@@ -11,11 +12,11 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Complaint {
+public class Complaint extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "complaint_id")
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "proof_id", nullable = false)

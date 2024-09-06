@@ -1,20 +1,18 @@
 package com.a101.ecofarming.challengeUser.entity;
 
 import com.a101.ecofarming.challenge.entity.Challenge;
+import com.a101.ecofarming.global.audit.Auditable;
 import com.a101.ecofarming.user.entity.User;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.*;
 
 @Entity
 @Table(name = "challenge_user")
-@Data
-@NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class ChallengeUser {
+public class ChallengeUser extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,16 +27,16 @@ public class ChallengeUser {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "bet_amount")
+    @Column(name = "bet_amount", nullable = false)
     private Integer betAmount;
 
-    @Column(name = "balance_game_pick")
-    private Boolean balanceGamePick;
+    @Column(name = "balance_game_pick", nullable = false)
+    private Byte balanceGamePick;
 
-    @Column(name = "return_amount")
+    @Column(name = "return_amount", nullable = false)
     private Integer returnAmount;
 
     @Column(name = "success_rate", nullable = false)
-    private Boolean successRate;
+    private Byte successRate;
 
 }

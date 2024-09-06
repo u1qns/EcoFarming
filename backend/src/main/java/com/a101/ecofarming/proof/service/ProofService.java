@@ -62,7 +62,6 @@ public class ProofService {
                 .userId(userId)
                 .photoUrl(filePath)
                 .isValid(1)
-                .createdAt(LocalDate.now())
                 .build();
 
         Proof savedProof = proofRepository.save(proof);
