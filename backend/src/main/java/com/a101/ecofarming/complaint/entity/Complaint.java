@@ -5,6 +5,8 @@ import com.a101.ecofarming.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "complaint")
 @Getter
@@ -22,17 +24,33 @@ public class Complaint {
     private Proof proof;
 
     @ManyToOne
-    @JoinColumn(name = "complainer_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column
     private String description;
 
-    @Column
-    private boolean aiPass;
+    @Column(name = "ai_pass")
+    private Boolean aiPass;
 
-    @Column
-    private boolean adminPass;
+    @Column(name = "admin_pass")
+    private Boolean adminPass;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }
 
