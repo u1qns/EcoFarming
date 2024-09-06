@@ -1,19 +1,16 @@
 package com.a101.ecofarming.balanceGame.entity;
 
+import com.a101.ecofarming.global.audit.Auditable;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import java.time.LocalDateTime;
+import lombok.*;
 
 @Entity
 @Table(name = "balance_game")
-@Data
-@NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class BalanceGame {
+public class BalanceGame extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +22,4 @@ public class BalanceGame {
 
     @Column(name = "option2_description", nullable = false)
     private String option2Description;
-
 }

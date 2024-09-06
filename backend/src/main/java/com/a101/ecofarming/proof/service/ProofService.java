@@ -60,8 +60,7 @@ public class ProofService {
                 .challengeId(challengeId)
                 .userId(userId)
                 .photoUrl(filePath)
-                .isValid(1)
-                .createdAt(LocalDate.now())
+                .isValid(true)
                 .build();
 
         proofRepository.save(proof);
