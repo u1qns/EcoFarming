@@ -1,17 +1,18 @@
 spring:
   application:
-    name: ECOFARMING
-  datasource:
-    url: jdbc:mysql://localhost:3306/ecofarming?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    name: ecofarming
+
+  profiles:
+    active: local  # 기본 프로파일 설정
 
   jpa:
-    hibernate:
-      ddl-auto: update
-      dialect: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+    hibernate:
+      ddl-auto: update  # 기본값, 필요시 변경 가능
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB

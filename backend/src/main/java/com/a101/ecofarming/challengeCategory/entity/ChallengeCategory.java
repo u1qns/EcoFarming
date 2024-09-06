@@ -21,14 +21,14 @@ public class ChallengeCategory {
     private String description;
 
     @Column(nullable = false)
-    private String thumbPhoto;
+    private String thumbPhotoUrl;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String guideText;
 
-    @Column(nullable = false, name = "guide_photo_o")
-    private String guidePhotoO;
+    @Column(nullable = false, name = "right_guide_photo_url")
+    private String rightGuidePhotoUrl;
 
-    @Column(nullable = false, name = "guide_photo_x")
-    private String guidePhotoX;
+    @Column(nullable = false, name = "wrong_guide_photo_url")
+    private String wrongGuidePhotoUrl;
 }
