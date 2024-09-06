@@ -27,5 +27,5 @@ public class Proof extends Auditable {
 
     @Column(name = "is_valid", nullable = false)
     @Builder.Default
-    private Integer isValid = 1;
+    private Boolean isValid = true;
 }

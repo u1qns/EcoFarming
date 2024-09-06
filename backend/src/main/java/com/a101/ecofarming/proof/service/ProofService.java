@@ -61,7 +61,7 @@ public class ProofService {
                 .challengeId(challengeId)
                 .userId(userId)
                 .photoUrl(filePath)
-                .isValid(1)
+                .isValid(true)
                 .build();
 
         Proof savedProof = proofRepository.save(proof);

@@ -31,7 +31,7 @@ public class ChallengeUser extends Auditable {
     private Integer betAmount;
 
     @Column(name = "balance_game_pick", nullable = false)
-    private Boolean balanceGamePick;
+    private Byte balanceGamePick;
 
     @Column(name = "return_amount", nullable = false)
     private Integer returnAmount;
