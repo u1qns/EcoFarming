@@ -22,7 +22,8 @@ public class ChallengeCategoryService {
             return new ProofGuideResponseDto(
                     category.get().getGuideText(),
                     category.get().getRightGuidePhotoUrl(),
-                    category.get().getWrongGuidePhotoUrl()
+                    category.get().getWrongGuidePhotoUrl(),
+                    "200"
             );
         }
 
