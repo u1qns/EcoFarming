@@ -19,14 +19,14 @@ class UserTest {
         User user = User.builder()
                 .name("abc")
                 .email("abc@gmail.com")
-                .money(0)
-                .prizeMoney(0)
+                .amount(0)
+                .prizeAmount(0)
                 .build();
 
         userRepository.save(user);
         assertThat(user.getName()).isEqualTo("abc");
-        assertThat(user.getMoney()).isEqualTo(0);
-        assertThat(user.getPrizeMoney()).isEqualTo(0);
+        assertThat(user.getAmount()).isEqualTo(0);
+        assertThat(user.getPrizeAmount()).isEqualTo(0);
         Thread.sleep(1000);
 
         // 기존 유저 조회 후 새로운 객체로 변경 (builder 사용)
@@ -34,8 +34,8 @@ class UserTest {
                 .id(user.getId())
                 .name("def")
                 .email(user.getEmail())
-                .money(user.getMoney())
-                .prizeMoney(user.getPrizeMoney())
+                .amount(user.getAmount())
+                .prizeAmount(user.getPrizeAmount())
                 .build();
 
         // 변경된 유저 저장

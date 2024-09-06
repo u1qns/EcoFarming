@@ -14,7 +14,7 @@ public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int id;
+    private Integer id;
 
     @Column(nullable = false, length = 100)
     private String name;
@@ -23,8 +23,10 @@ public class User extends Auditable {
     private String email;
 
     @Column(nullable = false)
-    private int money;
+    @Builder.Default
+    private Integer amount = 0;
 
     @Column(nullable = false)
-    private int prizeMoney;
+    @Builder.Default
+    private Integer prizeAmount = 0;
 }
