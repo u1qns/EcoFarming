@@ -2,7 +2,7 @@ package com.a101.ecofarming.challenge.entity;
 
 import com.a101.ecofarming.balanceGame.entity.BalanceGame;
 import com.a101.ecofarming.challengeCategory.entity.ChallengeCategory;
-import com.a101.ecofarming.global.audit.Auditable;
+import com.a101.ecofarming.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Challenge extends Auditable {
+public class Challenge extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "challenge_id")
