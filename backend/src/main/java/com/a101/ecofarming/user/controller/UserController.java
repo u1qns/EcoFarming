@@ -17,7 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{userId}/my-page")
-    public ResponseEntity<?> findUserMyPage(@PathVariable Integer userId){
+    public ResponseEntity<?> findUserMyPage(@PathVariable("userId") Integer userId){
         AmountResponseDto response = userService.findUserMyPage(userId);
 
         return ResponseEntity.ok(response);
