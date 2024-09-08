@@ -17,6 +17,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    @Transactional(readOnly = true)
     public AmountResponseDto findUserMyPage(Integer userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
