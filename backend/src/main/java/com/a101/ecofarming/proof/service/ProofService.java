@@ -66,8 +66,8 @@ public class ProofService {
         }
 
         Proof proof = Proof.builder()
-                .challengeId(challengeId)
-                .userId(userId)
+//                .challengeId(challengeId)
+//                .userId(userId)
                 .photoUrl(filePath)
                 .isValid(true)
                 .build();
