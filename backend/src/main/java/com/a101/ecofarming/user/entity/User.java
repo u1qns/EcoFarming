@@ -1,6 +1,6 @@
 package com.a101.ecofarming.user.entity;
 
-import com.a101.ecofarming.global.audit.Auditable;
+import com.a101.ecofarming.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,8 +10,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class User extends Auditable {
-
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")

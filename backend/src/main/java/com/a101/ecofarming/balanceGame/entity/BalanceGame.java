@@ -1,6 +1,6 @@
 package com.a101.ecofarming.balanceGame.entity;
 
-import com.a101.ecofarming.global.audit.Auditable;
+import com.a101.ecofarming.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class BalanceGame extends Auditable {
+public class BalanceGame extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
