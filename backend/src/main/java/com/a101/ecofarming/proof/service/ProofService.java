@@ -1,25 +1,21 @@
 package com.a101.ecofarming.proof.service;
 
-import com.a101.ecofarming.challengeCategory.service.ChallengeCategoryService;
+
+import com.a101.ecofarming.global.exception.CustomException;
 import com.a101.ecofarming.proof.dto.request.ProofUploadRequestDto;
 import com.a101.ecofarming.proof.dto.response.ProofDetailDto;
 import com.a101.ecofarming.proof.dto.response.ProofInfoResponseDto;
 import com.a101.ecofarming.proof.dto.response.ProofUploadResponseDto;
 import com.a101.ecofarming.proof.entity.Proof;
 import com.a101.ecofarming.proof.repository.ProofRepository;
-import com.a101.ecofarming.user.entity.User;
-import com.a101.ecofarming.user.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,8 +74,8 @@ public class ProofService {
 
     }
 
-    public ProofInfoResponseDto getProofsByChallengeId(Integer challengeId) {
-        List<Proof> proofs = proofRepository.findByChallengeId(challengeId);
+    public ProofInfoResponseDto getProofsByChallengeId(Integer challengeId, Pageable pageable) {
+        Page<Proof> proofs = proofRepository.findByChallengeId(challengeId, pageable);
 
         List<ProofDetailDto> proofDetails = proofs.stream()
                 .map(proof -> new ProofDetailDto(
@@ -92,5 +88,4 @@ public class ProofService {
 
         return new ProofInfoResponseDto(proofDetails);
     }
-
 }
