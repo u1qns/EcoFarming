@@ -12,6 +12,7 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: update  # 기본값, 필요시 변경 가능
+
   servlet:
     multipart:
       max-file-size: 10MB
