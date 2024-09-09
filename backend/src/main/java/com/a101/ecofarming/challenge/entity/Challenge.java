@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class Challenge extends Auditable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "challenge_id")
@@ -38,11 +39,11 @@ public class Challenge extends Auditable {
     @Builder.Default
     private Integer totalBetAmountOption2 = 0;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "balance_id", nullable = false)
     private BalanceGame balanceGame;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private ChallengeCategory challengeCategory;
 }
