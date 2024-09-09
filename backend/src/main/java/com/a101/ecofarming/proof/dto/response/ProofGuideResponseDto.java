@@ -11,5 +11,4 @@ public class ProofGuideResponseDto {
     private String guideText;
     private String rightGuidePhotoUrl;
     private String wrongGuidePhotoUrl;
-    private String message;
 }

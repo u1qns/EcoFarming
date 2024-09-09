@@ -27,7 +27,6 @@ public class ProofController {
 
     @GetMapping("/{challengeId}/guide")
     public ResponseEntity<ProofGuideResponseDto> getGuide(@PathVariable("challengeId") Integer challengeId) {
-        //System.out.println("challengeId = " + challengeId);
         ProofGuideResponseDto response = challengeCategoryService.getGuideInfo(challengeId);
         if (response == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

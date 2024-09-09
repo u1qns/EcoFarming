@@ -39,7 +39,6 @@ public class ProofService {
     @Autowired
     private UserRepository userRepository;
 
-
     public ProofUploadResponseDto uploadProof(ProofUploadRequestDto requestDto) {
 
         Challenge challenge = challengeRepository.findById(requestDto.getChallengeId())
@@ -68,7 +67,7 @@ public class ProofService {
         try {
             photo.transferTo(new File(filePath));
         } catch (IOException e) {
-            return new ProofUploadResponseDto(null, 0, "파일 저장에 실패했습니다.");
+            return new ProofUploadResponseDto(null, 0);
         }
 
         Proof proof = Proof.builder()
@@ -80,7 +79,7 @@ public class ProofService {
 
         proofRepository.save(proof);
 
-        return new ProofUploadResponseDto(proof.getProofId(), 100, "파일이 성공적으로 업로드되었습니다.");
+        return new ProofUploadResponseDto(proof.getProofId(), 100);
 
     }
 

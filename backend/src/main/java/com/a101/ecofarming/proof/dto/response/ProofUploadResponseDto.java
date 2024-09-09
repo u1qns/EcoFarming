@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class ProofUploadResponseDto {
     private Integer proofId;
     private Integer progress;
-    private String message;
 }
