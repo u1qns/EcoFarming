@@ -1,5 +1,7 @@
 package com.a101.ecofarming.proof.service;
 
+import com.a101.ecofarming.challenge.entity.Challenge;
+import com.a101.ecofarming.challenge.repository.ChallengeRepository;
 import com.a101.ecofarming.challengeCategory.service.ChallengeCategoryService;
 import com.a101.ecofarming.proof.dto.request.ProofUploadRequestDto;
 import com.a101.ecofarming.proof.dto.response.ProofDetailDto;
@@ -32,12 +34,18 @@ public class ProofService {
 
     @Autowired
     private ProofRepository proofRepository;
+    @Autowired
+    private ChallengeRepository challengeRepository;
+    @Autowired
+    private UserRepository userRepository;
 
 
     public ProofUploadResponseDto uploadProof(ProofUploadRequestDto requestDto) {
 
-        Integer challengeId = requestDto.getChallengeId();
-        Integer userId = requestDto.getUserId();
+        Challenge challenge = challengeRepository.findById(requestDto.getChallengeId())
+                .orElseThrow(() -> new RuntimeException("ChallengeId not found"));
+        User user = userRepository.getById(requestDto.getUserId());
+
         MultipartFile photo = requestDto.getPhoto();
         Integer duration = requestDto.getDuration();
 
@@ -48,8 +56,8 @@ public class ProofService {
             extension = originalFilename.substring(originalFilename.lastIndexOf("."));
         }
 
-        String fileName = String.format("%s_%d%s", LocalDate.now(), userId, extension);
-        String directoryPath = uploadDir + "/ProofPhotos/" + challengeId; // uploadDir을 포함
+        String fileName = String.format("%s_%d%s", LocalDate.now(), user.getId(), extension);
+        String directoryPath = uploadDir + "/ProofPhotos/" + challenge.getId(); // uploadDir을 포함
         File directory = new File(directoryPath);
 
         if (!directory.exists()) {
@@ -60,13 +68,12 @@ public class ProofService {
         try {
             photo.transferTo(new File(filePath));
         } catch (IOException e) {
-            System.out.println(e.getMessage());
             return new ProofUploadResponseDto(null, 0, "파일 저장에 실패했습니다.");
         }
 
         Proof proof = Proof.builder()
-                .challengeId(challengeId)
-                .userId(userId)
+                .challenge(challenge)
+                .user(user)
                 .photoUrl(filePath)
                 .isValid(true)
                 .build();
