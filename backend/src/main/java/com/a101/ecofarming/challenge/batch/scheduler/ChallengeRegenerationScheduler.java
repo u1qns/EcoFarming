@@ -1,5 +1,7 @@
-package com.a101.ecofarming.challenge.scheduler;
+package com.a101.ecofarming.challenge.batch.scheduler;
 
+import com.a101.ecofarming.challenge.entity.Challenge;
+import com.a101.ecofarming.challenge.repository.ChallengeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -8,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import java.time.LocalDate;
+import java.util.List;
 
 @Configuration
 @EnableScheduling
@@ -15,13 +18,23 @@ import java.time.LocalDate;
 public class ChallengeRegenerationScheduler {
 
     private final JobLauncher jobLauncher;
+
     private final Job challengeRegenerationJob;
+
+    private final ChallengeRepository challengeRepository;
 
     // 일요일 자정에 챌린지 재생성
     @Scheduled(cron = "0 0 0 * * SUN")
     public void regenerateChallenges() throws Exception {
+        LocalDate today = LocalDate.now();
+        List<Challenge> endingChallenges = challengeRepository.findChallengesEndingByDate(today);
+
+        if(endingChallenges.isEmpty()){
+            return;
+        }
+
         jobLauncher.run(challengeRegenerationJob, new JobParametersBuilder()
-                .addLocalDate("today", LocalDate.now())
+                .addLocalDate("today", today)
                 .toJobParameters());
     }
 }

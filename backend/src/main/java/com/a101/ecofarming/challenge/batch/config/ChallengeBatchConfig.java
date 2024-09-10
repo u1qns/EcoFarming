@@ -1,4 +1,4 @@
-package com.a101.ecofarming.challenge.batch;
+package com.a101.ecofarming.challenge.batch.config;
 
 import com.a101.ecofarming.challenge.batch.tasklet.ChallengeRegenerationTasklet;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class ChallengeBatchConfig {
 
     private final JobRepository jobRepository;
+
     private final PlatformTransactionManager transactionManager;
+
     private final ChallengeRegenerationTasklet challengeRegenerationTasklet;
 
     @Bean
