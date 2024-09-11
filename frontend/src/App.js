@@ -1,17 +1,11 @@
-import './App.css';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import './index.css';
+import "./App.css";
+import "./index.css";
+import MainPage from "./components/MainPage";
 
 function App() {
   return (
     <div className="App">
-      <Navbar />
-      <div className="content">
-        하츄핑피리핑핑핑
-        {/* 여기에 페이지 컨텐츠를 추가합니다. */}
-       </div>
-      <Footer />
+      <MainPage />
     </div>
   );
 }

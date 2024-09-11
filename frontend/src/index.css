@@ -1,12 +1,14 @@
 /* 모든 요소에 box-sizing 적용 */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 /* 모바일 뷰를 위한 전역 스타일 */
 body {
   /* 모바일 기기의 일반적인 너비 */
-  max-width: 450px;
+  max-width: 400px;
   /* 화면 중앙에 콘텐츠 배치 */
   margin: 0 auto;
   /* 기본 폰트 크기 설정 */
@@ -23,5 +25,3 @@ body {
   max-width: 100%;
   height: auto;
 } */
-
-

@@ -1,13 +1,12 @@
 .App {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh; */
   /* text-align: center; */
 }
 
-
 .content {
-  flex: 1; 
+  flex: 1;
   background-color: #02ff0a4d;
   /* min-height: 100vh; */
   /* display: flex;
