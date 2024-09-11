@@ -10,7 +10,7 @@ function App() {
       <div className="content">
         하츄핑피리핑핑핑
         {/* 여기에 페이지 컨텐츠를 추가합니다. */}
-      </div>
+       </div>
       <Footer />
     </div>
   );
