@@ -3,3 +3,18 @@
   flex-direction: column;
   min-height: 100vh;
 }
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 400px;
+  margin: 0 auto; /* 가운데 정렬 */
+}
+
+.card {
+  width: 50%; /* 가로로 2개씩 배치되도록 너비 설정 (2% 간격) */
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+}
