@@ -4,7 +4,6 @@ import com.a101.ecofarming.challenge.dto.response.ChallengeResponseDto;
 import com.a101.ecofarming.challenge.dto.response.NoParticipantChallengeResponseDto;
 import com.a101.ecofarming.challenge.dto.response.ParticipantChallengeResponseDto;
 import com.a101.ecofarming.challenge.service.ChallengeService;
-import com.a101.ecofarming.challengeUser.controller.ChallengeUserController;
 import com.a101.ecofarming.challengeUser.service.ChallengeUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
