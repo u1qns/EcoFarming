@@ -1,7 +1,6 @@
 package com.a101.ecofarming.challenge.dto.response;
 
 import com.a101.ecofarming.proof.dto.response.ProofDetailDto;
-import com.a101.ecofarming.proof.entity.Proof;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -24,7 +23,10 @@ public class ParticipantChallengeResponseDto {
     private Byte successRate;
     private Integer balanceId;
     private Byte balanceGamePick;
-
     private List<ProofDetailDto> proofs;
+
+    private Integer totalBetAmountOption1;
+    private Integer totalBetAmountOption2;
+    private Integer prizeAmount;
 
 }
