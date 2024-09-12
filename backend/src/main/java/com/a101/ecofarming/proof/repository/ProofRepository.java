@@ -19,6 +19,6 @@ public interface ProofRepository extends JpaRepository<Proof, Integer> {
 
     List<Proof> findByChallengeAndUser(Challenge challenge, User user);
 
-    Long countByChallengeAndUser(Challenge challengeId, User userId);
+    Long countByChallengeAndUserAndIsValidTrue(Challenge challengeId, User userId);
 }
 
