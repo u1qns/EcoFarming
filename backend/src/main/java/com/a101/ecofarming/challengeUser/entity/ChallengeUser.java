@@ -9,6 +9,7 @@ import lombok.*;
 @Entity
 @Table(name = "challenge_user")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder

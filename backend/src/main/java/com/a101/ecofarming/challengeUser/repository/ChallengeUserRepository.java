@@ -48,4 +48,6 @@ public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, In
             "AND c.endDate < CURRENT_DATE " +
             "GROUP BY cu.id, cc.title, c.startDate, c.endDate, c.frequency, c.duration, cu.successRate")
     List<ChallengeUserResponseDto> findCompletedChallengesByUserId(@Param("userId") Integer userId);
+
+    ChallengeUser findByUserIdAndChallengeId(Integer id, Integer id1);
 }

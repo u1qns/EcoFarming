@@ -1,5 +1,8 @@
 package com.a101.ecofarming.proof.service;
 
+import com.a101.ecofarming.challengeUser.entity.ChallengeUser;
+import com.a101.ecofarming.challengeUser.repository.ChallengeUserRepository;
+import com.a101.ecofarming.global.exception.CustomException;
 import com.a101.ecofarming.challenge.entity.Challenge;
 import com.a101.ecofarming.challenge.repository.ChallengeRepository;
 import com.a101.ecofarming.global.exception.CustomException;
@@ -16,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,16 +40,18 @@ public class ProofService {
     private final String uploadDir;
     private final ProofRepository proofRepository;
     private final ChallengeRepository challengeRepository;
+    private final ChallengeUserRepository challengeUserRepository;
     private final UserRepository userRepository;
 
     @Autowired
     public ProofService(@Value("${file.upload-dir}") String uploadDir,
                         ProofRepository proofRepository,
-                        ChallengeRepository challengeRepository,
+                        ChallengeRepository challengeRepository, ChallengeUserRepository challengeUserRepository,
                         UserRepository userRepository) {
         this.uploadDir = uploadDir;
         this.proofRepository = proofRepository;
         this.challengeRepository = challengeRepository;
+        this.challengeUserRepository = challengeUserRepository;
         this.userRepository = userRepository;
     }
 
@@ -53,21 +60,29 @@ public class ProofService {
                 .orElseThrow(() -> new RuntimeException("ChallengeId not found"));
         User user = userRepository.getById(requestDto.getUserId());
 
-        Integer proofId = saveProofFile(requestDto, challenge, user);
-        Byte successRate = calculateSuccessRate(challenge, user);
+        String filePath = saveProofFile(requestDto, user, challenge);
+        Proof proof = Proof.builder()
+                .user(user)
+                .challenge(challenge)
+                .photoUrl(filePath)
+                .isValid(true)
+                .build();
+        proofRepository.save(proof);
 
-        log.info("Proof uploaded successfully. Proof ID: {}, Success Rate: {}", proofId, successRate);
+        Byte successRate = calculateSuccessRate(user, challenge);
+        ChallengeUser challengeUser = challengeUserRepository.findByUserIdAndChallengeId(user.getId(), challenge.getId());
+        challengeUser.setSuccessRate(successRate);
+        challengeUserRepository.save(challengeUser);
 
-        return new ProofUploadResponseDto(proofId, successRate);
+        log.info("Proof uploaded successfully. Proof ID: {}, Success Rate: {}", proof.getId(), successRate);
+        return new ProofUploadResponseDto(proof.getId(), successRate);
     }
 
-    private Integer saveProofFile(ProofUploadRequestDto requestDto, Challenge challenge, User user)
+    private String saveProofFile(ProofUploadRequestDto requestDto, User user, Challenge challenge)
             throws CustomException {
         MultipartFile photo = requestDto.getPhoto();
         String originalFilename = Optional.ofNullable(photo.getOriginalFilename())
-                .orElseThrow(() -> {
-                    return new CustomException(ErrorCode.FILE_NAME_NULL);
-                });
+                .orElseThrow(() -> new CustomException(ErrorCode.FILE_NAME_NULL));
 
         String extension = originalFilename.contains(".") ? originalFilename.substring(originalFilename.lastIndexOf(".")) : "";
         String fileName = String.format("%s_%d%s", LocalDate.now(), user.getId(), extension);
@@ -86,19 +101,10 @@ public class ProofService {
             throw new CustomException(ErrorCode.FILE_UPLOAD_FAILED);
         }
 
-        Proof proof = Proof.builder()
-                .challenge(challenge)
-                .user(user)
-                .photoUrl(filePath)
-                .isValid(true)
-                .build();
-
-        proofRepository.save(proof);
-
-        return proof.getId();
+        return filePath;
     }
 
-    private Byte calculateSuccessRate(Challenge challenge, User user) {
+    private Byte calculateSuccessRate(User user, Challenge challenge) {
         Long proofCount = proofRepository.countByChallengeAndUser(challenge, user);
         log.info("Proof count: {}", proofCount);
 
