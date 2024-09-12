@@ -7,7 +7,7 @@ import com.a101.ecofarming.challenge.repository.ChallengeRepository;
 import com.a101.ecofarming.challengeUser.dto.response.ChallengeUserResponseDto;
 import com.a101.ecofarming.challengeUser.entity.ChallengeUser;
 import com.a101.ecofarming.challengeUser.repository.ChallengeUserRepository;
-import com.a101.ecofarming.proof.entity.Proof;
+import com.a101.ecofarming.global.exception.CustomException;
 import com.a101.ecofarming.proof.dto.response.ProofDetailDto;
 import com.a101.ecofarming.proof.repository.ProofRepository;
 import com.a101.ecofarming.user.entity.User;
@@ -18,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.a101.ecofarming.global.exception.ErrorCode.CHALLENGE_NOT_FOUND;
+import static com.a101.ecofarming.global.exception.ErrorCode.USER_NOT_FOUND;
 
 @Service
 @Transactional
@@ -42,13 +45,14 @@ public class ChallengeUserService {
     public Object getChallengeDetailsByUser(Integer challengeId, Integer userId) {
     // 챌린지와 유저 존재 확인
         Challenge challenge = challengeRepository.findById(challengeId)
-                .orElseThrow(() -> new IllegalArgumentException("Challenge not found with ID: " + challengeId));
+                .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         // 유저가 해당 챌린지에 참여 중인지 확인
         ChallengeUser challengeUser = challengeUserRepository.findByChallengeAndUser(challenge, user).orElse(null);
+
 
         // 유저가 참가 중인 경우
         if (challengeUser != null) {
@@ -62,6 +66,7 @@ public class ChallengeUserService {
                             .build())
                     .collect(Collectors.toList());
 
+
             // 빌더 패턴으로 참여자 정보 객체를 생성하고 반환
             return ParticipantChallengeResponseDto.builder()
                     .id(challenge.getId())
@@ -71,7 +76,7 @@ public class ChallengeUserService {
                     .endDate(challenge.getEndDate())
                     .frequency(challenge.getFrequency())
                     .duration(challenge.getDuration())
-                    .userCount(1L) // 이 부분은 로직에 따라 유저 카운트 계산 필요
+                    .userCount(challengeUserRepository.countUserByChallengeId(challengeId))
                     .guideText(challenge.getChallengeCategory().getGuideText())
                     .balanceId(challenge.getBalanceGame().getBalanceId())
                     .balanceGamePick(challengeUser.getBalanceGamePick())
@@ -88,7 +93,7 @@ public class ChallengeUserService {
                     .endDate(challenge.getEndDate())
                     .frequency(challenge.getFrequency())
                     .duration(challenge.getDuration())
-                    .userCount(1L) // 이 부분은 로직에 따라 유저 카운트 계산 필요
+                    .userCount(challengeUserRepository.countUserByChallengeId(challengeId))
                     .guideText(challenge.getChallengeCategory().getGuideText())
                     .balanceId(challenge.getBalanceGame().getBalanceId())
                     .option1Description(challenge.getBalanceGame().getOption1Description())

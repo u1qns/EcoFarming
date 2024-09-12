@@ -54,4 +54,8 @@ public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, In
 
     Optional<ChallengeUser> findByChallengeAndUser(Challenge challenge, User user);
 
+    @Query("SELECT COUNT(cu) FROM ChallengeUser cu WHERE cu.challenge.id = :challengeId")
+    Long countUserByChallengeId(@Param("challengeId") Integer challengeId);
+
+
 }
