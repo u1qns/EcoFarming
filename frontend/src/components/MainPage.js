@@ -2,7 +2,9 @@ import "./MainPage.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Card from "./Card";
-import tiniping from "../assets/images/tiniping.jpg";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 function MainPage() {
   const cardData = [
@@ -72,12 +74,38 @@ function MainPage() {
     },
   ];
 
+  const carouselImages = [
+    require("../assets/images/tiniping.jpg"),
+    require("../assets/images/tiniping2.jpg"),
+    require("../assets/images/tiniping3.jpg"),
+    require("../assets/images/tiniping4.jpg"),
+  ];
+  const settings = {
+    dots: true, // 아래에 점을 표시해 이미지 순서를 알려줌
+    infinite: true, // 무한 반복
+    speed: 500, // 슬라이드 전환 속도
+    slidesToShow: 1, // 한 번에 표시할 슬라이드 수
+    slidesToScroll: 1, // 한 번에 스크롤될 슬라이드 수
+    autoplay: true, // 자동 재생
+    autoplaySpeed: 2500, // 자동 재생 속도 (3초)
+  };
+
   return (
     <div className="MainPage">
       <Navbar />
       <div className="content">
         <div className="carousel">
-          <img src={tiniping} alt="img" />
+          <Slider {...settings}>
+            {carouselImages.map((image, index) => (
+              <div key={index}>
+                <img
+                  src={image}
+                  alt={`Slide ${index}`}
+                  className="carousel-image"
+                />
+              </div>
+            ))}
+          </Slider>
           <p>나는야 에코핑!</p>
           <h3>에코파밍 챌린지로 환경을 지켜chu~💕</h3>
         </div>
