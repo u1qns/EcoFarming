@@ -82,7 +82,8 @@ public class ProofService {
                         proof.getProofId(),
                         proof.getPhotoUrl(),
                         proof.getUser().getName(),
-                        proof.getIsValid()
+                        proof.getIsValid(),
+                        proof.getCreatedAt()
                 ))
                 .collect(Collectors.toList());
 
