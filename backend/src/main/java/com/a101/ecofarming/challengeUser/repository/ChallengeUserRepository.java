@@ -52,7 +52,6 @@ public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, In
             "GROUP BY cu.id, cc.title, c.startDate, c.endDate, c.frequency, c.duration, cu.successRate")
     List<ChallengeUserResponseDto> findCompletedChallengesByUserId(@Param("userId") Integer userId);
 
-    ChallengeUser findByUserIdAndChallengeId(Integer id, Integer id1);
     Optional<ChallengeUser> findByChallengeAndUser(Challenge challenge, User user);
 
     @Query("SELECT COUNT(cu) FROM ChallengeUser cu WHERE cu.challenge.id = :challengeId")

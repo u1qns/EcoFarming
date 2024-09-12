@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.a101.ecofarming.global.exception.ErrorCode.CHALLEGE_USER_NOT_FOUND;
+
 @Slf4j
 @Service
 public class ProofService {
@@ -69,7 +71,8 @@ public class ProofService {
         proofRepository.save(proof);
 
         Byte successRate = calculateSuccessRate(user, challenge);
-        ChallengeUser challengeUser = challengeUserRepository.findByUserIdAndChallengeId(user.getId(), challenge.getId());
+        ChallengeUser challengeUser = challengeUserRepository.findByChallengeAndUser(challenge, user)
+                .orElseThrow(()-> new CustomException(CHALLEGE_USER_NOT_FOUND));
         challengeUser.setSuccessRate(successRate);
         challengeUserRepository.save(challengeUser);
 
