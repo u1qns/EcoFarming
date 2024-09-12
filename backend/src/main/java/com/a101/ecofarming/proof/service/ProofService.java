@@ -2,6 +2,8 @@ package com.a101.ecofarming.proof.service;
 
 import com.a101.ecofarming.challenge.entity.Challenge;
 import com.a101.ecofarming.challenge.repository.ChallengeRepository;
+import com.a101.ecofarming.global.exception.CustomException;
+import com.a101.ecofarming.global.exception.ErrorCode;
 import com.a101.ecofarming.proof.dto.request.ProofUploadRequestDto;
 import com.a101.ecofarming.proof.dto.response.ProofDetailDto;
 import com.a101.ecofarming.proof.dto.response.ProofInfoResponseDto;
@@ -21,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -45,8 +48,7 @@ public class ProofService {
         this.userRepository = userRepository;
     }
 
-    public ProofUploadResponseDto uploadProof(ProofUploadRequestDto requestDto)
-            throws FileUploadException {
+    public ProofUploadResponseDto uploadProof(ProofUploadRequestDto requestDto) {
         Challenge challenge = challengeRepository.findById(requestDto.getChallengeId())
                 .orElseThrow(() -> new RuntimeException("ChallengeId not found"));
         User user = userRepository.getById(requestDto.getUserId());
@@ -60,14 +62,12 @@ public class ProofService {
     }
 
     private Integer saveProofFile(ProofUploadRequestDto requestDto, Challenge challenge, User user)
-            throws FileUploadException {
+            throws CustomException {
         MultipartFile photo = requestDto.getPhoto();
-        String originalFilename = photo.getOriginalFilename();
-
-        if (originalFilename == null) {
-            log.error("File name is null");
-            throw new IllegalArgumentException("File name cannot be null");
-        }
+        String originalFilename = Optional.ofNullable(photo.getOriginalFilename())
+                .orElseThrow(() -> {
+                    return new CustomException(ErrorCode.FILE_NAME_NULL);
+                });
 
         String extension = originalFilename.contains(".") ? originalFilename.substring(originalFilename.lastIndexOf(".")) : "";
         String fileName = String.format("%s_%d%s", LocalDate.now(), user.getId(), extension);
@@ -82,7 +82,8 @@ public class ProofService {
         try {
             photo.transferTo(new File(filePath));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("File upload failed: {}", e.getMessage());
+            throw new CustomException(ErrorCode.FILE_UPLOAD_FAILED);
         }
 
         Proof proof = Proof.builder()
