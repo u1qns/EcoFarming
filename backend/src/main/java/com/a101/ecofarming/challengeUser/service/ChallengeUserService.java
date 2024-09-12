@@ -52,16 +52,16 @@ public class ChallengeUserService {
 
         // 유저가 참가 중인 경우
         if (challengeUser != null) {
-//            List<ProofDetailDto> proofs = proofRepository.findByChallengeAndUser(challenge, user)
-//                    .stream()
-//                    .map(proof -> new ProofDetailDto().builder()
-//                            .proofId(proof.getProofId())
-//                            .isValid(proof.getIsValid())
-//                            .photoUrl(proof.getPhotoUrl())
-//                            .createdAt(proof.getCreatedAt().toString()) // createdAt 필드에 직접 접근
-//                            .build())
-//                    .collect(Collectors.toList());
-//
+            List<ProofDetailDto> proofs = proofRepository.findByChallengeAndUser(challenge, user)
+                    .stream()
+                    .map(proof -> new ProofDetailDto().builder()
+                            .proofId(proof.getId())
+                            .isValid(proof.getIsValid())
+                            .photoUrl(proof.getPhotoUrl())
+                            .createdAt(proof.getCreatedAt())
+                            .build())
+                    .collect(Collectors.toList());
+
             // 빌더 패턴으로 참여자 정보 객체를 생성하고 반환
             return ParticipantChallengeResponseDto.builder()
                     .id(challenge.getId())
@@ -75,7 +75,7 @@ public class ChallengeUserService {
                     .guideText(challenge.getChallengeCategory().getGuideText())
                     .balanceId(challenge.getBalanceGame().getBalanceId())
                     .balanceGamePick(challengeUser.getBalanceGamePick())
-//                    .proofs(proofs)
+                    .proofs(proofs)
                     .build();
 
         } else {
