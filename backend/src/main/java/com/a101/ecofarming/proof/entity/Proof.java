@@ -16,7 +16,7 @@ public class Proof extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "proof_id", nullable = false, length = 255)
-    private Integer proofId;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "challenge_id", nullable = false)

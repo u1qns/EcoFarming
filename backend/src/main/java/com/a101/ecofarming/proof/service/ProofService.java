@@ -94,7 +94,7 @@ public class ProofService {
 
         proofRepository.save(proof);
 
-        return proof.getProofId();
+        return proof.getId();
     }
 
     private Byte calculateSuccessRate(Challenge challenge, User user) {
@@ -117,7 +117,7 @@ public class ProofService {
 
         List<ProofDetailDto> proofDetails = proofs.stream()
                 .map(proof -> new ProofDetailDto(
-                        proof.getProofId(),
+                        proof.getId(),
                         proof.getPhotoUrl(),
                         proof.getUser().getName(),
                         proof.getIsValid()
