@@ -49,7 +49,8 @@ public class ProofService {
     @Autowired
     public ProofService(@Value("${file.upload-dir}") String uploadDir,
                         ProofRepository proofRepository,
-                        ChallengeRepository challengeRepository, ChallengeUserRepository challengeUserRepository,
+                        ChallengeRepository challengeRepository,
+                        ChallengeUserRepository challengeUserRepository,
                         UserRepository userRepository) {
         this.uploadDir = uploadDir;
         this.proofRepository = proofRepository;
