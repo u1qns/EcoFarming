@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
     // 해당 형식으로 추가하면 사용 가능
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 유저입니다.")
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 유저입니다."),
+    PROOF_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 인증입니다.")
     ;
 
     private final HttpStatus httpStatus;
