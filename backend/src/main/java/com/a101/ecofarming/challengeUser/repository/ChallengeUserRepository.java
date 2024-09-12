@@ -1,12 +1,15 @@
 package com.a101.ecofarming.challengeUser.repository;
 
+import com.a101.ecofarming.challenge.entity.Challenge;
 import com.a101.ecofarming.challengeUser.dto.response.ChallengeUserResponseDto;
 import com.a101.ecofarming.challengeUser.entity.ChallengeUser;
+import com.a101.ecofarming.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, Integer> {
 
@@ -50,4 +53,11 @@ public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, In
     List<ChallengeUserResponseDto> findCompletedChallengesByUserId(@Param("userId") Integer userId);
 
     ChallengeUser findByUserIdAndChallengeId(Integer id, Integer id1);
+    Optional<ChallengeUser> findByChallengeAndUser(Challenge challenge, User user);
+
+    @Query("SELECT COUNT(cu) FROM ChallengeUser cu WHERE cu.challenge.id = :challengeId")
+    Long countUserByChallengeId(@Param("challengeId") Integer challengeId);
+
+
+>>>>>>> backend/src/main/java/com/a101/ecofarming/challengeUser/repository/ChallengeUserRepository.java
 }

@@ -1,10 +1,9 @@
 package com.a101.ecofarming.proof.service;
 
-import com.a101.ecofarming.challengeUser.entity.ChallengeUser;
-import com.a101.ecofarming.challengeUser.repository.ChallengeUserRepository;
-import com.a101.ecofarming.global.exception.CustomException;
 import com.a101.ecofarming.challenge.entity.Challenge;
 import com.a101.ecofarming.challenge.repository.ChallengeRepository;
+import com.a101.ecofarming.challengeUser.entity.ChallengeUser;
+import com.a101.ecofarming.challengeUser.repository.ChallengeUserRepository;
 import com.a101.ecofarming.global.exception.CustomException;
 import com.a101.ecofarming.global.exception.ErrorCode;
 import com.a101.ecofarming.proof.dto.request.ProofUploadRequestDto;
@@ -119,15 +118,16 @@ public class ProofService {
         return (byte) (((double) proofCount / frequency) * 100);
     }
 
-    public ProofInfoResponseDto getProofsByChallengeId(Integer challengeId) {
-        List<Proof> proofs = proofRepository.findByChallengeId(challengeId);
+    public ProofInfoResponseDto getProofsByChallengeId(Integer challengeId, Pageable pageable) {
+        Page<Proof> proofs = proofRepository.findByChallengeIdOrderByCreatedAtDesc(challengeId, pageable);
 
         List<ProofDetailDto> proofDetails = proofs.stream()
                 .map(proof -> new ProofDetailDto(
                         proof.getId(),
                         proof.getPhotoUrl(),
                         proof.getUser().getName(),
-                        proof.getIsValid()
+                        proof.getIsValid(),
+                        proof.getCreatedAt()
                 ))
                 .collect(Collectors.toList());
 
