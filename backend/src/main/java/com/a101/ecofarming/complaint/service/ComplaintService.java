@@ -48,7 +48,7 @@ public class ComplaintService {
                 .description(savedComplaint.getDescription())
                 .aiPass(savedComplaint.getAiPass())
                 .adminPass(savedComplaint.getAdminPass())
-                .proofId(savedComplaint.getProof().getProofId())
+                .proofId(savedComplaint.getProof().getId())
                 .userId(savedComplaint.getUser().getId())
                 .build();
     }
