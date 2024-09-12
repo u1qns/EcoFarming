@@ -30,7 +30,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.a101.ecofarming.global.exception.ErrorCode.*;
 import static com.a101.ecofarming.global.exception.ErrorCode.CHALLEGE_USER_NOT_FOUND;
+import static com.a101.ecofarming.global.exception.ErrorCode.CHALLENGE_NOT_FOUND;
 
 @Slf4j
 @Service
@@ -58,7 +60,7 @@ public class ProofService {
 
     public ProofUploadResponseDto uploadProof(ProofUploadRequestDto requestDto) {
         Challenge challenge = challengeRepository.findById(requestDto.getChallengeId())
-                .orElseThrow(() -> new RuntimeException("ChallengeId not found"));
+                .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
         User user = userRepository.getById(requestDto.getUserId());
 
         String filePath = saveProofFile(requestDto, user, challenge);
@@ -84,7 +86,7 @@ public class ProofService {
             throws CustomException {
         MultipartFile photo = requestDto.getPhoto();
         String originalFilename = Optional.ofNullable(photo.getOriginalFilename())
-                .orElseThrow(() -> new CustomException(ErrorCode.FILE_NAME_NULL));
+                .orElseThrow(() -> new CustomException(FILE_NAME_NULL));
 
         String extension = originalFilename.contains(".") ? originalFilename.substring(originalFilename.lastIndexOf(".")) : "";
         String fileName = String.format("%s_%d%s", LocalDate.now(), user.getId(), extension);
@@ -100,7 +102,7 @@ public class ProofService {
             photo.transferTo(new File(filePath));
         } catch (IOException e) {
             log.error("File upload failed: {}", e.getMessage());
-            throw new CustomException(ErrorCode.FILE_UPLOAD_FAILED);
+            throw new CustomException(FILE_UPLOAD_FAILED);
         }
 
         return filePath;
