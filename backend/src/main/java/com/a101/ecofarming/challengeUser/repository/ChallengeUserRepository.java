@@ -57,7 +57,4 @@ public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, In
 
     @Query("SELECT COUNT(cu) FROM ChallengeUser cu WHERE cu.challenge.id = :challengeId")
     Long countUserByChallengeId(@Param("challengeId") Integer challengeId);
-
-
->>>>>>> backend/src/main/java/com/a101/ecofarming/challengeUser/repository/ChallengeUserRepository.java
 }
