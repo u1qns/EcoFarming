@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ProofRepository extends JpaRepository<Proof, Integer> {
-    Page<Proof> findByChallengeId(Integer challengeId, Pageable pageable);
+    Page<Proof> findByChallengeIdOrderByCreatedAtDesc(Integer challengeId, Pageable pageable);
 }
 

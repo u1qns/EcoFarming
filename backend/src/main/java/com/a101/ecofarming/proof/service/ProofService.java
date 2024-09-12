@@ -75,7 +75,7 @@ public class ProofService {
     }
 
     public ProofInfoResponseDto getProofsByChallengeId(Integer challengeId, Pageable pageable) {
-        Page<Proof> proofs = proofRepository.findByChallengeId(challengeId, pageable);
+        Page<Proof> proofs = proofRepository.findByChallengeIdOrderByCreatedAtDesc(challengeId, pageable);
 
         List<ProofDetailDto> proofDetails = proofs.stream()
                 .map(proof -> new ProofDetailDto(
