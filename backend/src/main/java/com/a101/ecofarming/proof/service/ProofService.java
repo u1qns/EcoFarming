@@ -1,5 +1,6 @@
 package com.a101.ecofarming.proof.service;
 
+import com.a101.ecofarming.global.exception.CustomException;
 import com.a101.ecofarming.challenge.entity.Challenge;
 import com.a101.ecofarming.challenge.repository.ChallengeRepository;
 import com.a101.ecofarming.proof.dto.request.ProofUploadRequestDto;
@@ -13,7 +14,8 @@ import com.a101.ecofarming.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -112,15 +114,16 @@ public class ProofService {
         return (byte) (((double) proofCount / frequency) * 100);
     }
 
-    public ProofInfoResponseDto getProofsByChallengeId(Integer challengeId) {
-        List<Proof> proofs = proofRepository.findByChallengeId(challengeId);
+    public ProofInfoResponseDto getProofsByChallengeId(Integer challengeId, Pageable pageable) {
+        Page<Proof> proofs = proofRepository.findByChallengeIdOrderByCreatedAtDesc(challengeId, pageable);
 
         List<ProofDetailDto> proofDetails = proofs.stream()
                 .map(proof -> new ProofDetailDto(
                         proof.getProofId(),
                         proof.getPhotoUrl(),
                         proof.getUser().getName(),
-                        proof.getIsValid()
+                        proof.getIsValid(),
+                        proof.getCreatedAt()
                 ))
                 .collect(Collectors.toList());
 
