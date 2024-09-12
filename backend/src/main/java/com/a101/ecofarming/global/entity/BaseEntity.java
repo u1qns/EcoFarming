@@ -1,4 +1,4 @@
-package com.a101.ecofarming.global.audit;
+package com.a101.ecofarming.global.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 @Getter
-public class Auditable {
+public class BaseEntity {
     @CreatedDate
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;

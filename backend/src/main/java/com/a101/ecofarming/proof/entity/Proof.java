@@ -1,7 +1,7 @@
 package com.a101.ecofarming.proof.entity;
 
 import com.a101.ecofarming.challenge.entity.Challenge;
-import com.a101.ecofarming.global.audit.Auditable;
+import com.a101.ecofarming.global.entity.BaseEntity;
 import com.a101.ecofarming.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +12,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Proof extends Auditable {
+public class Proof extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "proof_id", nullable = false, length = 255)
