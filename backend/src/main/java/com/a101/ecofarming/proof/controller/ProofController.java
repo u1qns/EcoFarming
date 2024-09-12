@@ -6,6 +6,7 @@ import com.a101.ecofarming.proof.dto.response.ProofGuideResponseDto;
 import com.a101.ecofarming.proof.dto.response.ProofInfoResponseDto;
 import com.a101.ecofarming.proof.dto.response.ProofUploadResponseDto;
 import com.a101.ecofarming.proof.service.ProofService;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +29,12 @@ public class ProofController {
     @GetMapping("/{challengeId}/guide")
     public ResponseEntity<ProofGuideResponseDto> getGuide(@PathVariable("challengeId") Integer challengeId) {
         ProofGuideResponseDto response = challengeCategoryService.getGuideInfo(challengeId);
-        if (response == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<ProofUploadResponseDto> uploadProof(@ModelAttribute ProofUploadRequestDto requestDto) {
+    public ResponseEntity<ProofUploadResponseDto> uploadProof(@ModelAttribute ProofUploadRequestDto requestDto)
+            throws FileUploadException {
         ProofUploadResponseDto response = proofService.uploadProof(requestDto);
         return ResponseEntity.ok(response);
     }

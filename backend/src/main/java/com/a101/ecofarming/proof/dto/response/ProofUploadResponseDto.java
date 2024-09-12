@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProofUploadResponseDto {
     private Integer proofId;
-    private Integer progress;
+    private Byte progress;
 }
