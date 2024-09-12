@@ -104,7 +104,7 @@ public class ProofService {
     }
 
     private Byte calculateSuccessRate(User user, Challenge challenge) {
-        Long proofCount = proofRepository.countByChallengeAndUser(challenge, user);
+        Long proofCount = proofRepository.countByChallengeAndUserAndIsValidTrue(challenge, user);
         log.info("Proof count: {}", proofCount);
 
         int frequency = challengeRepository.findFrequencyById(challenge.getId());
