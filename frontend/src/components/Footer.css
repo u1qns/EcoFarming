@@ -1,0 +1,31 @@
+.footer {
+  bottom: 0;
+  width: 100%;
+  background-color: #ffffff1a;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 15px;
+  font-size: 14px;
+  box-sizing: border-box; /* 추가 */
+}
+
+.footer-content img {
+  width: 25px;
+}
+
+.footer-content p {
+  color: #000000;
+  margin: 5px 0px;
+  width: 70px;
+  font-size: 13px;
+}

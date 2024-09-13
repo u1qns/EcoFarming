@@ -1,8 +1,11 @@
 package com.a101.ecofarming.proof.service;
 
-import com.a101.ecofarming.global.exception.CustomException;
 import com.a101.ecofarming.challenge.entity.Challenge;
 import com.a101.ecofarming.challenge.repository.ChallengeRepository;
+import com.a101.ecofarming.challengeUser.entity.ChallengeUser;
+import com.a101.ecofarming.challengeUser.repository.ChallengeUserRepository;
+import com.a101.ecofarming.global.exception.CustomException;
+import com.a101.ecofarming.global.exception.ErrorCode;
 import com.a101.ecofarming.proof.dto.request.ProofUploadRequestDto;
 import com.a101.ecofarming.proof.dto.response.ProofDetailDto;
 import com.a101.ecofarming.proof.dto.response.ProofInfoResponseDto;
@@ -14,6 +17,7 @@ import com.a101.ecofarming.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,7 +27,12 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.a101.ecofarming.global.exception.ErrorCode.*;
+import static com.a101.ecofarming.global.exception.ErrorCode.CHALLENGE_USER_NOT_FOUND;
+import static com.a101.ecofarming.global.exception.ErrorCode.CHALLENGE_NOT_FOUND;
 
 @Slf4j
 @Service
@@ -34,42 +43,51 @@ public class ProofService {
     private final String uploadDir;
     private final ProofRepository proofRepository;
     private final ChallengeRepository challengeRepository;
+    private final ChallengeUserRepository challengeUserRepository;
     private final UserRepository userRepository;
 
     @Autowired
     public ProofService(@Value("${file.upload-dir}") String uploadDir,
                         ProofRepository proofRepository,
                         ChallengeRepository challengeRepository,
+                        ChallengeUserRepository challengeUserRepository,
                         UserRepository userRepository) {
         this.uploadDir = uploadDir;
         this.proofRepository = proofRepository;
         this.challengeRepository = challengeRepository;
+        this.challengeUserRepository = challengeUserRepository;
         this.userRepository = userRepository;
     }
 
-    public ProofUploadResponseDto uploadProof(ProofUploadRequestDto requestDto)
-            throws FileUploadException {
+    public ProofUploadResponseDto uploadProof(ProofUploadRequestDto requestDto) {
         Challenge challenge = challengeRepository.findById(requestDto.getChallengeId())
-                .orElseThrow(() -> new RuntimeException("ChallengeId not found"));
+                .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
         User user = userRepository.getById(requestDto.getUserId());
 
-        Integer proofId = saveProofFile(requestDto, challenge, user);
-        Byte successRate = calculateSuccessRate(challenge, user);
+        String filePath = saveProofFile(requestDto, user, challenge);
+        Proof proof = Proof.builder()
+                .user(user)
+                .challenge(challenge)
+                .photoUrl(filePath)
+                .isValid(true)
+                .build();
+        proofRepository.save(proof);
 
-        log.info("Proof uploaded successfully. Proof ID: {}, Success Rate: {}", proofId, successRate);
+        Byte successRate = calculateSuccessRate(user, challenge);
+        ChallengeUser challengeUser = challengeUserRepository.findByChallengeAndUser(challenge, user)
+                .orElseThrow(()-> new CustomException(CHALLENGE_USER_NOT_FOUND));
+        challengeUser.setSuccessRate(successRate);
+        challengeUserRepository.save(challengeUser);
 
-        return new ProofUploadResponseDto(proofId, successRate);
+        log.info("Proof uploaded successfully. Proof ID: {}, Success Rate: {}", proof.getId(), successRate);
+        return new ProofUploadResponseDto(proof.getId(), successRate);
     }
 
-    private Integer saveProofFile(ProofUploadRequestDto requestDto, Challenge challenge, User user)
-            throws FileUploadException {
+    private String saveProofFile(ProofUploadRequestDto requestDto, User user, Challenge challenge)
+            throws CustomException {
         MultipartFile photo = requestDto.getPhoto();
-        String originalFilename = photo.getOriginalFilename();
-
-        if (originalFilename == null) {
-            log.error("File name is null");
-            throw new IllegalArgumentException("File name cannot be null");
-        }
+        String originalFilename = Optional.ofNullable(photo.getOriginalFilename())
+                .orElseThrow(() -> new CustomException(FILE_NAME_NULL));
 
         String extension = originalFilename.contains(".") ? originalFilename.substring(originalFilename.lastIndexOf(".")) : "";
         String fileName = String.format("%s_%d%s", LocalDate.now(), user.getId(), extension);
@@ -84,23 +102,15 @@ public class ProofService {
         try {
             photo.transferTo(new File(filePath));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("File upload failed: {}", e.getMessage());
+            throw new CustomException(FILE_UPLOAD_FAILED);
         }
 
-        Proof proof = Proof.builder()
-                .challenge(challenge)
-                .user(user)
-                .photoUrl(filePath)
-                .isValid(true)
-                .build();
-
-        proofRepository.save(proof);
-
-        return proof.getProofId();
+        return filePath;
     }
 
-    private Byte calculateSuccessRate(Challenge challenge, User user) {
-        Long proofCount = proofRepository.countByChallengeAndUser(challenge, user);
+    private Byte calculateSuccessRate(User user, Challenge challenge) {
+        Long proofCount = proofRepository.countByChallengeAndUserAndIsValidTrue(challenge, user);
         log.info("Proof count: {}", proofCount);
 
         int frequency = challengeRepository.findFrequencyById(challenge.getId());
@@ -119,7 +129,7 @@ public class ProofService {
 
         List<ProofDetailDto> proofDetails = proofs.stream()
                 .map(proof -> new ProofDetailDto(
-                        proof.getProofId(),
+                        proof.getId(),
                         proof.getPhotoUrl(),
                         proof.getUser().getName(),
                         proof.getIsValid(),

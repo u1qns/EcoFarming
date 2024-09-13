@@ -35,8 +35,7 @@ public class ProofController {
     }
 
     @PostMapping
-    public ResponseEntity<ProofUploadResponseDto> uploadProof(@ModelAttribute ProofUploadRequestDto requestDto)
-            throws FileUploadException {
+    public ResponseEntity<ProofUploadResponseDto> uploadProof(@ModelAttribute ProofUploadRequestDto requestDto) {
         ProofUploadResponseDto response = proofService.uploadProof(requestDto);
         return ResponseEntity.ok(response);
     }

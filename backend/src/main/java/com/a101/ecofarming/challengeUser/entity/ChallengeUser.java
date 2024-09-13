@@ -39,4 +39,7 @@ public class ChallengeUser extends BaseEntity {
     @Column(name = "success_rate", nullable = false)
     private Byte successRate;
 
+    public void setSuccessRate(Byte successRate) {
+        this.successRate = successRate;
+    }
 }
