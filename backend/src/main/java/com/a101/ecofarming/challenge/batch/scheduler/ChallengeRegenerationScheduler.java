@@ -24,7 +24,7 @@ public class ChallengeRegenerationScheduler {
     private final ChallengeRepository challengeRepository;
 
     // 일요일 자정에 챌린지 재생성
-    @Scheduled(cron = "0 0 0 * * SUN")
+    @Scheduled(cron = "0 0 0 * * *")
     public void regenerateChallenges() throws Exception {
         LocalDate today = LocalDate.now();
         List<Challenge> endingChallenges = challengeRepository.findChallengesEndingByDate(today);
