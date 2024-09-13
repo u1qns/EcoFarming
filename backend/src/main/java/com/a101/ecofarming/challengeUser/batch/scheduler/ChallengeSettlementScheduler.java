@@ -23,8 +23,8 @@ public class ChallengeSettlementScheduler {
 
     private final ChallengeRepository challengeRepository;
 
-    // 일요일 자정에 챌린지 재생성
-    @Scheduled(cron = "0 0 0 * * MON")
+    // 챌린지 정산
+    @Scheduled(cron = "0 0 0 * * *")
     public void settlementChallenges() throws Exception {
         LocalDate today = LocalDate.now();
         List<Challenge> endingChallenges = challengeRepository.findChallengesEndingByDate(today.minusDays(1));

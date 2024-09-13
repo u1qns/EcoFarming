@@ -6,6 +6,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,7 +16,7 @@ public class ChallengeSettlementProcessor {
 
     @Bean
     @StepScope
-    public ItemProcessor<ChallengeUserDao, ChallengeUserDao> failureUserProcessor(StepExecution stepExecution) {
+    public ItemProcessor<ChallengeUserDao, ChallengeUserDao> failureUserProcessor(@Value("#{stepExecution}") StepExecution stepExecution) {
         // StepExecution에서 JobExecutionContext를 가져옴
         ExecutionContext jobContext = stepExecution.getJobExecution().getExecutionContext();
 
@@ -35,7 +36,7 @@ public class ChallengeSettlementProcessor {
 
     @Bean
     @StepScope
-    public ItemProcessor<ChallengeUserDao, ChallengeUserDao> successUserProcessor(StepExecution stepExecution) {
+    public ItemProcessor<ChallengeUserDao, ChallengeUserDao> successUserProcessor(@Value("#{stepExecution}") StepExecution stepExecution) {
         ExecutionContext jobContext = stepExecution.getJobExecution().getExecutionContext();
 
         return ChallengeUserDao -> {
