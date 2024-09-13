@@ -1,19 +1,20 @@
 package com.a101.ecofarming.user.entity;
 
+import com.a101.ecofarming.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "`user`")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class User {
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int id;
+    private Integer id;
 
     @Column(nullable = false, length = 100)
     private String name;
@@ -22,8 +23,10 @@ public class User {
     private String email;
 
     @Column(nullable = false)
-    private int money;
+    @Builder.Default
+    private Integer amount = 0;
 
     @Column(nullable = false)
-    private int prizeMoney;
+    @Builder.Default
+    private Integer prizeAmount = 0;
 }
