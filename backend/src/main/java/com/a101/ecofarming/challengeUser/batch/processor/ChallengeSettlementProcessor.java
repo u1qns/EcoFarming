@@ -22,7 +22,8 @@ public class ChallengeSettlementProcessor {
 
         return ChallengeUserDao -> {
             // 성공률에 따른 반환금 계산 및 업데이트
-            int returnAmount = ChallengeUserDao.getBetAmount() * ChallengeUserDao.getSuccessRate() / 100;
+            int returnAmount = calculateReturnAmount(ChallengeUserDao);
+
             ChallengeUserDao.updateReturnAmount(returnAmount);
 
             // JobExecutionContext에서 총 상금액을 가져와서 갱신
@@ -55,5 +56,13 @@ public class ChallengeSettlementProcessor {
 
             return ChallengeUserDao;
         };
+    }
+
+    private int calculateReturnAmount(ChallengeUserDao challengeUser) {
+        if (challengeUser.getSuccessRate() >= 85) {
+            return challengeUser.getBetAmount(); // 성공률이 85% 이상이면 전액 반환
+        } else {
+            return challengeUser.getBetAmount() * challengeUser.getSuccessRate() / 100; // 비율에 따른 반환금
+        }
     }
 }
