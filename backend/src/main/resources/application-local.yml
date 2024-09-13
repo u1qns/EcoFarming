@@ -8,3 +8,7 @@ spring:
       ddl-auto: update
 file:
   upload-dir: C:\Users\SSAFY\Desktop
+
+mattermost:
+  webhook:
+    url: https://meeting.ssafy.com/hooks/cmxabk41mbgjjd6n9dbhypy67y
