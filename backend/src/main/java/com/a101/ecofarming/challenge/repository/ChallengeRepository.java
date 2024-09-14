@@ -1,11 +1,8 @@
 package com.a101.ecofarming.challenge.repository;
 
 import com.a101.ecofarming.challenge.dto.response.ChallengeDto;
-import com.a101.ecofarming.challenge.dto.response.ChallengeDto;
 import com.a101.ecofarming.challenge.entity.Challenge;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
