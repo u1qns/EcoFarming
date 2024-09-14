@@ -6,7 +6,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ChallengeResponseDto {
-    private List<ChallengeDto> upcomingChallenge;
-    private List<ChallengeDto> ongoingChallenge;
+public class TotalChallengesResponseDto {
+    private List<TotalChallengeDto> upcomingChallenge;
+    private List<TotalChallengeDto> ongoingChallenge;
 }
