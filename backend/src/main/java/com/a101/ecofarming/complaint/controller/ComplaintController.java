@@ -30,4 +30,16 @@ public class ComplaintController {
         List<ComplaintResponseDto> complaints = complaintService.getAllComplaints();
         return ResponseEntity.ok(complaints);
     }
+
+    // TEST ----------------------------------------------------------------------------------------------
+    @GetMapping("/test-report")
+    public void sendComplaintNotification() {
+        complaintService.testComplaintNotification();
+    }
+
+    @GetMapping("/test-error")
+    public void sendErrorNotification() {
+        throw new RuntimeException("Test Exception"); // 의도적으로 예외 발생
+    }
+
 }
