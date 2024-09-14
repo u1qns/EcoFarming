@@ -1,7 +1,7 @@
 package com.a101.ecofarming.challenge.service;
 
-import com.a101.ecofarming.challenge.dto.response.ChallengeDto;
-import com.a101.ecofarming.challenge.dto.response.ChallengeResponseDto;
+import com.a101.ecofarming.challenge.dto.response.TotalChallengeDto;
+import com.a101.ecofarming.challenge.dto.response.TotalChallengesResponseDto;
 import com.a101.ecofarming.challenge.repository.ChallengeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,10 +16,10 @@ public class ChallengeService {
     private final ChallengeRepository challengeRepository;
 
     @Transactional(readOnly = true)
-    public ChallengeResponseDto findAllChallenge(){
-        List<ChallengeDto> upcomingChallenges = challengeRepository.findUpcomingChallenge();
-        List<ChallengeDto> ongoingChallenges = challengeRepository.findOngoingChallenge();
+    public TotalChallengesResponseDto findAllChallenge(){
+        List<TotalChallengeDto> upcomingChallenges = challengeRepository.findUpcomingChallenge();
+        List<TotalChallengeDto> ongoingChallenges = challengeRepository.findOngoingChallenge();
 
-        return new ChallengeResponseDto(upcomingChallenges, ongoingChallenges);
+        return new TotalChallengesResponseDto(upcomingChallenges, ongoingChallenges);
     }
 }
