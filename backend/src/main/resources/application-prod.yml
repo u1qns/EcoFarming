@@ -1,8 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:mysql://prod-db-host:3306/ecofarming  # 프로덕션 DB URL
-    username: root
-    password: root
-  jpa:
-    hibernate:
-      ddl-auto: none
