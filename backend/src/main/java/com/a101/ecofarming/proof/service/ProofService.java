@@ -5,7 +5,6 @@ import com.a101.ecofarming.challenge.repository.ChallengeRepository;
 import com.a101.ecofarming.challengeUser.entity.ChallengeUser;
 import com.a101.ecofarming.challengeUser.repository.ChallengeUserRepository;
 import com.a101.ecofarming.global.exception.CustomException;
-import com.a101.ecofarming.global.exception.ErrorCode;
 import com.a101.ecofarming.proof.dto.request.ProofUploadRequestDto;
 import com.a101.ecofarming.proof.dto.response.ProofDetailDto;
 import com.a101.ecofarming.proof.dto.response.ProofInfoResponseDto;
@@ -14,25 +13,21 @@ import com.a101.ecofarming.proof.entity.Proof;
 import com.a101.ecofarming.proof.repository.ProofRepository;
 import com.a101.ecofarming.user.entity.User;
 import com.a101.ecofarming.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import static com.a101.ecofarming.global.exception.ErrorCode.*;
-import static com.a101.ecofarming.global.exception.ErrorCode.CHALLENGE_USER_NOT_FOUND;
-import static com.a101.ecofarming.global.exception.ErrorCode.CHALLENGE_NOT_FOUND;
 
 @Slf4j
 @Service
@@ -59,11 +54,19 @@ public class ProofService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public ProofUploadResponseDto uploadProof(ProofUploadRequestDto requestDto) {
+        log.info("Proof upload request received for userId: {} and challengeId: {}",
+                requestDto.getUserId(),
+                requestDto.getChallengeId());
+
+        // 챌린지 및 사용자 조회
         Challenge challenge = challengeRepository.findById(requestDto.getChallengeId())
                 .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
-        User user = userRepository.getById(requestDto.getUserId());
+        User user = userRepository.findById(requestDto.getUserId())
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
+        // 챌린지 인증 저장
         String filePath = saveProofFile(requestDto, user, challenge);
         Proof proof = Proof.builder()
                 .user(user)
@@ -73,9 +76,10 @@ public class ProofService {
                 .build();
         proofRepository.save(proof);
 
-        Byte successRate = calculateSuccessRate(user, challenge);
+        // 챌린지 사용자 조회 및 성공률 계산
         ChallengeUser challengeUser = challengeUserRepository.findByChallengeAndUser(challenge, user)
                 .orElseThrow(()-> new CustomException(CHALLENGE_USER_NOT_FOUND));
+        Byte successRate = calculateSuccessRate(user, challenge);
         challengeUser.setSuccessRate(successRate);
         challengeUserRepository.save(challengeUser);
 

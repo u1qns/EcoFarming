@@ -1,12 +1,10 @@
 package com.a101.ecofarming.complaint.controller;
 
 import com.a101.ecofarming.complaint.dto.ComplaintResponseDto;
-import com.a101.ecofarming.complaint.entity.Complaint;
 import com.a101.ecofarming.complaint.service.ComplaintService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
