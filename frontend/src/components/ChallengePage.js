@@ -69,26 +69,30 @@ const ChallengePage = () => {
         </div>
 
         <div style={{ padding: 15 }}>
-          <div className="cards-container">
+          <div className="ballance-container">
             <div>
-              <div className="card">
-                <p className="card-text">{`${card1.title}`}</p>
+              <div className="ballance-card">
+                <p className="ballance-card-text">{`${card1.title}`}</p>
                 <div
-                  className="fill-bar"
+                  className="ballance-fill-bar"
                   style={{ height: getFillHeight(card1.amount, card2.amount) }}
                 ></div>
               </div>
-              <div className="amount">{card1.amount.toLocaleString()}원</div>
+              <div className="ballance-amount">
+                {card1.amount.toLocaleString()}원
+              </div>
             </div>
             <div>
-              <div className="card">
-                <p className="card-text">{`${card2.title}`}</p>
+              <div className="ballance-card">
+                <p className="ballance-card-text">{`${card2.title}`}</p>
                 <div
-                  className="fill-bar"
+                  className="ballance-fill-bar"
                   style={{ height: getFillHeight(card2.amount, card1.amount) }}
                 ></div>
               </div>
-              <div className="amount">{card2.amount.toLocaleString()}원</div>
+              <div className="ballance-amount">
+                {card2.amount.toLocaleString()}원
+              </div>
             </div>
           </div>
         </div>
