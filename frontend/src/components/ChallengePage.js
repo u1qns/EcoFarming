@@ -22,6 +22,14 @@ const ChallengePage = () => {
     { deposit: 0, refund: 100, reward: 10 }, // 100% 환급 + 10% 상금
   ];
 
+  const card1 = { title: "100억 부자 유병재", amount: 120000 };
+  const card2 = { title: "무일푼 거지 차은우", amount: 185000 };
+
+  const getFillHeight = (amount1, amount2) => {
+    if (amount1 === amount2) return "50%";
+    return amount1 > amount2 ? "60%" : "40%";
+  };
+
   return (
     <div className="ChallengePage">
       <div className="content">
@@ -60,6 +68,30 @@ const ChallengePage = () => {
           </div>
         </div>
 
+        <div style={{ padding: 15 }}>
+          <div className="cards-container">
+            <div>
+              <div className="card">
+                <p className="card-text">{`${card1.title}`}</p>
+                <div
+                  className="fill-bar"
+                  style={{ height: getFillHeight(card1.amount, card2.amount) }}
+                ></div>
+              </div>
+              <div className="amount">{card1.amount.toLocaleString()}원</div>
+            </div>
+            <div>
+              <div className="card">
+                <p className="card-text">{`${card2.title}`}</p>
+                <div
+                  className="fill-bar"
+                  style={{ height: getFillHeight(card2.amount, card1.amount) }}
+                ></div>
+              </div>
+              <div className="amount">{card2.amount.toLocaleString()}원</div>
+            </div>
+          </div>
+        </div>
         <hr />
         <div style={{ padding: 15 }}>
           <h2>돈을 걸면 무조건 하게 됩니다</h2>
