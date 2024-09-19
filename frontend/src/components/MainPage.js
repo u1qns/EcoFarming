@@ -9,6 +9,7 @@ import Slider from "react-slick";
 function MainPage() {
   const cardData = [
     {
+      id: 1,
       thumbnail: require("../assets/images/c1.jpg"),
       title: "안 쓰는 가전제품 콘센트 빼기",
       duration: "2주 동안",
@@ -17,6 +18,7 @@ function MainPage() {
       participants: 26,
     },
     {
+      id: 2,
       thumbnail: require("../assets/images/c2.jpg"),
       title: "제로 웨이스트 실천하기",
       duration: "2주 동안",
@@ -25,6 +27,7 @@ function MainPage() {
       participants: 7,
     },
     {
+      id: 3,
       thumbnail: require("../assets/images/c3.jpg"),
       title: "카페에서 텀블러 쓰기",
       duration: "2주 동안",
@@ -33,6 +36,7 @@ function MainPage() {
       participants: 7,
     },
     {
+      id: 4,
       thumbnail: require("../assets/images/c4.jpg"),
       title: "오늘하루 | 쓰레기 줍기 실천하기",
       duration: "2주 동안",
@@ -41,6 +45,7 @@ function MainPage() {
       participants: 7,
     },
     {
+      id: 5,
       thumbnail: require("../assets/images/c5.jpg"),
       title: "일회용 빨대 사용 줄이기",
       duration: "4주 동안",
@@ -49,6 +54,7 @@ function MainPage() {
       participants: 14,
     },
     {
+      id: 6,
       thumbnail: require("../assets/images/c6.jpg"),
       title: "용기내 챌린지",
       duration: "3주 동안",
@@ -57,6 +63,7 @@ function MainPage() {
       participants: 18,
     },
     {
+      id: 7,
       thumbnail: require("../assets/images/c7.jpg"),
       title: "재활용 분리배출 정확히 하기",
       duration: "1주 동안",
@@ -65,6 +72,7 @@ function MainPage() {
       participants: 12,
     },
     {
+      id: 8,
       thumbnail: require("../assets/images/c8.jpg"),
       title: "기후 위기/환경 기사 읽기",
       duration: "2주 동안",
@@ -113,6 +121,7 @@ function MainPage() {
           {cardData.map((card, index) => (
             <Card
               key={index}
+              id={card.id}
               thumbnail={card.thumbnail}
               title={card.title}
               duration={card.duration}
