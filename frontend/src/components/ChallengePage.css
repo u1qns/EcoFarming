@@ -62,9 +62,9 @@
   object-fit: cover;
 }
 
-/* .content {
-  padding: 20px;
-} */
+.content {
+  padding: 15px;
+}
 
 .challenge-type {
   font-size: 14px;
@@ -100,4 +100,125 @@
   border-radius: 5px;
   font-size: 14px;
   color: #666;
+}
+
+hr {
+  border: 6px solid #ececec;
+}
+
+.challenge-content {
+  background-color: white;
+  border-radius: 10px;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 20px;
+  margin-top: 0px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+.refund-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.refund-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.graph {
+  padding: 20px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.progress-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 150px;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  width: 40px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.deposit,
+.success,
+.bonus {
+  width: 80%;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.deposit {
+  background-color: #e0e0e0;
+}
+
+.success {
+  background-color: #ff4b4b;
+}
+
+.bonus {
+  background-color: #ffd700;
+  height: 8%;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+.legend {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.legend div {
+  display: flex;
+  align-items: center;
+}
+
+.legend span {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border-radius: 2px;
+  border-radius: 4px;
+}
+
+.deposit-color {
+  background-color: #e0e0e0;
+}
+
+.success-color {
+  background-color: #ff4b4b;
+}
+
+.bonus-color {
+  background-color: #ffd700;
 }
