@@ -1,6 +1,7 @@
 import "./ProofPage.css";
 import ProofNavbar from "./ProofNavbar";
 import OngoingChallenge from "./OngoingChallenge";
+import UpcomingChallenge from "./UpcomingChallenge";
 import Footer from "./Footer";
 
 function ProofPage() {
@@ -15,6 +16,8 @@ function ProofPage() {
         </div>
         <div style={{ padding: 15, paddingTop: 0 }}>
           <h3>시작 전 챌린지</h3>
+          <UpcomingChallenge />
+          <UpcomingChallenge />
         </div>
       </div>
       <Footer />
