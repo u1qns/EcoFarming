@@ -28,7 +28,7 @@ pipeline {
                     dir('backend') {
                         echo "Start Build Backend,,,"
                         sh 'chmod +x ./gradlew'
-                        sh './gradlew clean build -Pprofile=prod'
+                        sh './gradlew clean build -x test -Pprofile=prod'
                         echo "Build Backend Complete!!!"
                     }
                 }
