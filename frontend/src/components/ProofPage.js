@@ -15,7 +15,7 @@ function ProofPage() {
           <OngoingChallenge />
         </div>
         <div style={{ padding: 15, paddingTop: 0 }}>
-          <h3>시작 전 챌린지</h3>
+          <h3 style={{ marginTop: 5 }}>시작 전 챌린지</h3>
           <UpcomingChallenge />
           <UpcomingChallenge />
         </div>
