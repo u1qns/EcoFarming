@@ -14,7 +14,9 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
+                    echo "Start Clone Repository,,,"
                     git credentialsId: "${GITLAB_CREDENTIALS_ID}", branch: "${BRANCH}", url: "${GITLAB_REPO}"
+                    echo "Clone Repository Complete!!!"
                 }
             }
         }
@@ -24,8 +26,10 @@ pipeline {
             steps {
                 script {
                     dir('backend') {
+                        echo "Start Build Backend,,,"
                         sh 'chmod +x ./gradlew'
                         sh './gradlew clean build -Pprofile=prod'
+                        echo "Build Backend Complete!!!"
                     }
                 }
             }
