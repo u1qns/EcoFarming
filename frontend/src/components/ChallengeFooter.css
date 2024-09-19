@@ -42,7 +42,7 @@
 }
 
 .start-button {
-  background-color: #007bff;
+  background-color: #2edd97;
   color: white;
   border: none;
   border-radius: 10px;
@@ -53,5 +53,5 @@
 }
 
 .start-button:hover {
-  background-color: #0056b3;
+  background-color: #27b37b;
 }
