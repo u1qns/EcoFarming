@@ -6,7 +6,7 @@ pipeline {
         DOCKERHUB_BACKEND_REPO = 'chanmin314/ecofarmingback'
         DOCKERHUB_FRONTEND_REPO = 'chanmin314/ecofarmingfront'
         GITLAB_REPO = 'https://lab.ssafy.com/s11-ai-image-sub1/S11P21A101.git'
-        BRANCH = 'develop'
+        BRANCH = 'develops'
         USER_SERVER_IP = 'j11a101.p.ssafy.io'
         SPRING_PROFILE = 'prod'
     }
