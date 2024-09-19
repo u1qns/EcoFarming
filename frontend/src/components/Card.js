@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Card.css";
 import { FaHeart, FaUser } from "react-icons/fa";
 
@@ -9,9 +10,16 @@ function Card({
   frequency,
   startDate,
   participants,
+  id,
 }) {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/challenge/${id}`); // ID를 사용하여 Challenge 페이지로 이동
+  };
+
   return (
-    <div className="card">
+    <div className="card" onClick={handleCardClick}>
       <div className="card-thumbnail-container">
         <img src={thumbnail} alt={title} className="card-thumbnail" />
         <FaHeart className="card-heart-icon" />
