@@ -4,6 +4,7 @@ import "./App.css";
 import "./index.css";
 import MainPage from "./components/MainPage";
 import ChallengePage from "./components/ChallengePage";
+import ProofPage from "./components/ProofPage";
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/challenge/:id" element={<ChallengePage />} />
+          <Route path="/challenge-user" element={<ProofPage />} />
+          {/* <Route path="/users" element={<MyPage />} /> */}
         </Routes>
       </Router>
     </div>

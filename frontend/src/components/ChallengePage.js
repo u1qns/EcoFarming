@@ -72,7 +72,7 @@ const ChallengePage = () => {
           <div className="ballance-container">
             <div>
               <div className="ballance-card">
-                <p className="ballance-card-text">{`${card1.title}`}</p>
+                <p className="ballance-card-text ">{`${card1.title}`}</p>
                 <div
                   className="ballance-fill-bar"
                   style={{ height: getFillHeight(card1.amount, card2.amount) }}
@@ -84,7 +84,7 @@ const ChallengePage = () => {
             </div>
             <div>
               <div className="ballance-card">
-                <p className="ballance-card-text">{`${card2.title}`}</p>
+                <p className="ballance-card-text ">{`${card2.title}`}</p>
                 <div
                   className="ballance-fill-bar"
                   style={{ height: getFillHeight(card2.amount, card1.amount) }}
@@ -99,7 +99,7 @@ const ChallengePage = () => {
         <hr />
         <div style={{ padding: 15 }}>
           <h2>돈을 걸면 무조건 하게 됩니다</h2>
-          <p style={{ lineHeight: "1.5" }}>
+          <p className="description" style={{ lineHeight: "1.5" }}>
             나를 움직이는 강력한 알람, 돈!
             <br />
             챌린지 시작 전 예치금을 걸어두세요.
@@ -180,7 +180,7 @@ const ChallengePage = () => {
         <hr />
         <div style={{ padding: 15 }} className="proof">
           <h2>이렇게 인증해주세요</h2>
-          <p style={{ lineHeight: "1.5" }}>
+          <p className="description" style={{ lineHeight: "1.5" }}>
             안 쓰는 가전제품의&nbsp;
             <span style={{ fontWeight: "bold" }}>콘센트를 뽑은 후</span>의
             사진을 찍어 인증해주세요!
@@ -207,12 +207,14 @@ const ChallengePage = () => {
         <hr />
         <div style={{ padding: 15 }}>
           <h2>챌린지 진행 시 꼭 알아주세요!</h2>
-          <p>
+          <p className="description">
             ✔&nbsp; 00시 00분 ~ 23시 59분 사이에 인증 하셔야
             <br /> &nbsp; &nbsp; 합니다.
           </p>
-          <p>✔&nbsp; 사진첩을 사용하실 수 없습니다.</p>
-          <p>✔&nbsp; 인증샷이 참가자에게만 공개됩니다.</p>
+          <p className="description">✔&nbsp; 사진첩을 사용하실 수 없습니다.</p>
+          <p className="description">
+            ✔&nbsp; 인증샷이 참가자에게만 공개됩니다.
+          </p>
         </div>
       </div>
       <ChallengeFooter />
