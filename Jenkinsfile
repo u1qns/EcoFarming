@@ -16,6 +16,7 @@ pipeline {
                 script {
                     echo "Start Clone Repository,,,"
                     git credentialsId: "${GITLAB_CREDENTIALS_ID}", branch: "${BRANCH}", url: "${GITLAB_REPO}"
+                    sh 'git checkout develop'
                     echo "Clone Repository Complete!!!"
                 }
             }
