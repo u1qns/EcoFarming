@@ -2,11 +2,11 @@ pipeline {
     agent any
     environment {
         DOCKER_CREDENTIALS_ID = 'dockerhub-access-chanmin'
-        GITLAB_CREDENTIALS_ID = 'gitlab-access-chanmin'
+        GITLAB_CREDENTIALS_ID = 'gitlab-access-chanmin2'
         DOCKERHUB_BACKEND_REPO = 'chanmin314/ecofarmingback'
         DOCKERHUB_FRONTEND_REPO = 'chanmin314/ecofarmingfront'
         GITLAB_REPO = 'https://lab.ssafy.com/s11-ai-image-sub1/S11P21A101.git'
-        BRANCH = 'develops'
+        BRANCH = 'develop'
         USER_SERVER_IP = 'j11a101.p.ssafy.io'
         SPRING_PROFILE = 'prod'
     }
