@@ -16,7 +16,6 @@ pipeline {
                 script {
                     echo "Start Clone Repository,,,"
                     git credentialsId: "${GITLAB_CREDENTIALS_ID}", branch: "${BRANCH}", url: "${GITLAB_REPO}"
-                    sh 'git checkout develop'
                     echo "Clone Repository Complete!!!"
                 }
             }
@@ -77,8 +76,10 @@ EOF
             steps {
                 script {
                     dir('frontend') {
+                        echo "Start Build Frontend,,,"
                         sh 'npm install'
                         sh 'npm run build'
+                        echo "Build Frontend Complete!!!"
                     }
                 }
             }
