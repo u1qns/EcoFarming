@@ -4,6 +4,7 @@ import com.a101.ecofarming.complaint.dto.ComplaintResponseDto;
 import com.a101.ecofarming.complaint.entity.Complaint;
 import com.a101.ecofarming.complaint.repository.ComplaintRepository;
 import com.a101.ecofarming.global.exception.CustomException;
+import com.a101.ecofarming.global.notification.NotificationManager;
 import com.a101.ecofarming.proof.entity.Proof;
 import com.a101.ecofarming.proof.repository.ProofRepository;
 import com.a101.ecofarming.user.entity.User;
@@ -15,8 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.a101.ecofarming.global.exception.ErrorCode.PROOF_NOT_FOUND;
-import static com.a101.ecofarming.global.exception.ErrorCode.USER_NOT_FOUND;
+import static com.a101.ecofarming.global.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +24,7 @@ public class ComplaintService {
     private final ComplaintRepository complaintRepository;
     private final ProofRepository proofRepository;
     private final UserRepository userRepository;
+    private final NotificationManager notificationManager;
 
     @Transactional
     public ComplaintResponseDto createComplaint(Integer proofId, Integer userId, String description) {
@@ -65,5 +66,12 @@ public class ComplaintService {
                         .userId(complaint.getUser().getId())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    // TEST
+    public void testComplaintNotification() {
+        Complaint complaint = complaintRepository.findById(11).orElseThrow(
+                () -> new CustomException(CHALLENGE_NOT_FOUND));
+        notificationManager.sendNotification(complaint);
     }
 }
