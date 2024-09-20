@@ -6,3 +6,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+  file:
+    upload-dir: /home/ubuntu/uploads
