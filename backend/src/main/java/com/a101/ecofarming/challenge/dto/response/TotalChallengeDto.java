@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -14,4 +16,5 @@ public class TotalChallengeDto {
     private Byte duration;
     private Byte frequency;
     private Integer userCount;
+    private LocalDate startDate;
 }
