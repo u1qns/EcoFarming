@@ -22,4 +22,6 @@ public class ChallengeService {
 
         return new ChallengeResponseDto(upcomingChallenges, ongoingChallenges);
     }
+
+
 }

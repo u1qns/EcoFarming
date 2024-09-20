@@ -1,18 +1,12 @@
 package com.a101.ecofarming.challenge.controller;
 
-import com.a101.ecofarming.challenge.dto.response.ChallengeResponseDto;
-import com.a101.ecofarming.challenge.dto.response.NoParticipantChallengeResponseDto;
-import com.a101.ecofarming.challenge.dto.response.ParticipantChallengeResponseDto;
+import com.a101.ecofarming.challenge.dto.response.*;
 import com.a101.ecofarming.challenge.service.ChallengeService;
-import com.a101.ecofarming.challengeUser.controller.ChallengeUserController;
 import com.a101.ecofarming.challengeUser.service.ChallengeUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/challenges")
@@ -42,4 +36,28 @@ public class ChallengeController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No data found");
         }
     }
+    @GetMapping("{challengeId}/{userId}/payment")
+    public ResponseEntity<PaymentResponseDto> goToPayment(@PathVariable("challengeId") Integer challengeId, @PathVariable("userId") Integer userId){
+        Object response = challengeUserService.getChallengeDetailsByUser(challengeId, userId);
+
+        PaymentResponseDto responseDto = challengeUserService.goToPayment(challengeId, userId);
+        if(responseDto != null){
+            return ResponseEntity.ok(responseDto);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+//    @PostMapping("{challengeId}/{userId}/payment")
+//    public ResponseEntity<?> submitPayment(@PathVariable("challengeId") Integer challengeId, @PathVariable("userId") Integer userId, @RequestBody PaymentRequestDto paymentRequestDto) {
+//
+//
+//        try {
+//            challengeUserService.submitPayment(challengeId, userId, paymentRequestDto);
+//            return ResponseEntity.ok().build();
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        }
+//
+//    }
+
 }
