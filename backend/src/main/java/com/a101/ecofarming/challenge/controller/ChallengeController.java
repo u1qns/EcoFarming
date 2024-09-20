@@ -50,17 +50,17 @@ public class ChallengeController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-//    @PostMapping("{challengeId}/{userId}/payment")
-//    public ResponseEntity<?> submitPayment(@PathVariable("challengeId") Integer challengeId, @PathVariable("userId") Integer userId, @RequestBody PaymentRequestDto paymentRequestDto) {
-//
-//
-//        try {
-//            challengeUserService.submitPayment(challengeId, userId, paymentRequestDto);
-//            return ResponseEntity.ok().build();
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//        }
-//
-//    }
+    @PostMapping("{challengeId}/{userId}/payment")
+    public ResponseEntity<?> submitPayment(@PathVariable("challengeId") Integer challengeId, @PathVariable("userId") Integer userId, @RequestBody PaymentRequestDto paymentRequestDto) {
+
+
+        try {
+            challengeUserService.submitPayment(challengeId, userId, paymentRequestDto);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
+    }
 
 }

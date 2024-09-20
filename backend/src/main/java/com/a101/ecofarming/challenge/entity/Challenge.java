@@ -32,14 +32,17 @@ public class Challenge extends BaseEntity {
 
     @Column(nullable = false)
     @Builder.Default
+    @Setter
     private Integer totalBetAmountOption1 = 0;
 
     @Column(nullable = false)
     @Builder.Default
+    @Setter
     private Integer totalBetAmountOption2 = 0;
 
     @Column
     @Builder.Default
+    @Setter
     private Integer userCount = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)

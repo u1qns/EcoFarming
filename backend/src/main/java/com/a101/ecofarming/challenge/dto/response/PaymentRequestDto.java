@@ -10,8 +10,7 @@ public class PaymentRequestDto {
     private Integer challengeId;
     private Integer userId;
     private Integer balanceId;
-    private Integer balanceGamePick;
+    private Byte balanceGamePick;
     private Integer amount;
-    private Integer chargingAmount;
     private Integer betAmount;
 }
