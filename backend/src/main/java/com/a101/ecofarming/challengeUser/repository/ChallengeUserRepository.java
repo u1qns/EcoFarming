@@ -56,4 +56,25 @@ public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, In
 
     @Query("SELECT COUNT(cu) FROM ChallengeUser cu WHERE cu.challenge.id = :challengeId")
     Long countUserByChallengeId(@Param("challengeId") Integer challengeId);
+
+    // 해당 유저의 시작 전 챌린지 개수 조회
+    @Query("SELECT COUNT(cu) " +
+            "FROM ChallengeUser cu " +
+            "JOIN cu.challenge c " +
+            "WHERE cu.user.id = :userId AND c.startDate > CURRENT_DATE")
+    long countUpcomingChallengeByUserId(@Param("userId") Integer userId);
+
+    // 해당 유저의 진행 중 챌린지 개수 조회
+    @Query("SELECT COUNT(cu) " +
+            "FROM ChallengeUser cu " +
+            "JOIN cu.challenge c " +
+            "WHERE cu.user.id = :userId AND c.startDate <= CURRENT_DATE AND CURRENT_DATE <= c.endDate")
+    long countOngoingChallengeByUserId(@Param("userId") Integer userId);
+
+    // 해당 유저의 종료된 챌린지 개수 조회
+    @Query("SELECT COUNT(cu) " +
+            "FROM ChallengeUser cu " +
+            "JOIN cu.challenge c " +
+            "WHERE cu.user.id = :userId AND c.endDate < CURRENT_DATE")
+    long countCompletedChallengeByUserId(@Param("userId") Integer userId);
 }

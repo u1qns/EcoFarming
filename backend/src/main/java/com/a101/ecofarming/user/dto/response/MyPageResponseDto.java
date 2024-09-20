@@ -8,7 +8,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class AmountResponseDto {
+public class MyPageResponseDto {
     private Integer amount;
     private Integer prizeAmount;
+    private Long upcomingChallengeCount;
+    private Long ongoingChallengeCount;
+    private Long completedChallengeCount;
 }
