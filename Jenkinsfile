@@ -78,7 +78,7 @@ EOF
                     dir('frontend') {
                         echo "Start Build Frontend,,,"
                         sh 'npm install'
-                        sh 'npm run build'
+                        sh 'CI=false npm run build'
                         echo "Build Frontend Complete!!!"
                     }
                 }
