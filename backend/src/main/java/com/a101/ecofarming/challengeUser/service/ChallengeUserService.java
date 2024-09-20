@@ -14,7 +14,6 @@ import com.a101.ecofarming.proof.dto.response.ProofDetailDto;
 import com.a101.ecofarming.proof.repository.ProofRepository;
 import com.a101.ecofarming.user.entity.User;
 import com.a101.ecofarming.user.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +46,7 @@ public class ChallengeUserService {
 
     @Transactional(readOnly = true)
     public Object getChallengeDetailsByUser(Integer challengeId, Integer userId) {
-    // 챌린지와 유저 존재 확인
+        // 챌린지와 유저 존재 확인
         Challenge challenge = challengeRepository.findById(challengeId)
                 .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
 
@@ -80,7 +79,6 @@ public class ChallengeUserService {
                             .createdAt(proof.getCreatedAt())
                             .build())
                     .collect(Collectors.toList());
-
 
 
             // 빌더 패턴으로 참여자 정보 객체를 생성하고 반환
@@ -125,11 +123,11 @@ public class ChallengeUserService {
 
     public PaymentResponseDto goToPayment(Integer challengeId, Integer userId) {
 
-        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
+        Challenge challenge = challengeRepository.findById(challengeId)
+                .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
 
-
-        User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
-
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         return PaymentResponseDto.builder().
                 id(challengeId)
