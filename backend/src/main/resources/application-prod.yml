@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://prod-db-host:3306/ecofarming  # 도메인 넣어야함
+    url: jdbc:mysql://mysql-container:3306/ecofarming  # 도메인 넣어야함
     username: root
     password: root
   jpa:
