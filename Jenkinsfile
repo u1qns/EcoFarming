@@ -62,7 +62,7 @@ pipeline {
                         docker pull ${DOCKERHUB_BACKEND_REPO}:latest
                         docker stop backend || true
                         docker rm backend || true
-                        docker run -d --name backend -p 8085:8085 ${DOCKERHUB_BACKEND_REPO}:latest --spring.profiles.active=${SPRING_PROFILE}
+                        docker run -d --name backend -p 8085:8085 -v /home/ubuntu/uploads:/home/ubuntu/uploads ${DOCKERHUB_BACKEND_REPO}:latest --spring.profiles.active=${SPRING_PROFILE}
                         docker logout
 EOF
                         """
