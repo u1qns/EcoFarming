@@ -27,6 +27,7 @@ public class User extends BaseEntity {
 
     @Column(nullable = false)
     @Builder.Default
+    @Setter
     private Integer amount = 0;
 
     @Column(nullable = false)

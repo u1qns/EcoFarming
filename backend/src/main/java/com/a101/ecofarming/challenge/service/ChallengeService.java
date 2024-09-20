@@ -22,4 +22,6 @@ public class ChallengeService {
 
         return new TotalChallengesResponseDto(upcomingChallenges, ongoingChallenges);
     }
+
+
 }

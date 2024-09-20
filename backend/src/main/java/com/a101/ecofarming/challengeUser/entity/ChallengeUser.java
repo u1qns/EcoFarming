@@ -33,11 +33,13 @@ public class ChallengeUser extends BaseEntity {
     @Column(name = "balance_game_pick", nullable = false)
     private Byte balanceGamePick;
 
+    @Builder.Default
     @Column(name = "return_amount", nullable = false)
-    private Integer returnAmount;
+    private Integer returnAmount =0;
 
+    @Builder.Default
     @Column(name = "success_rate", nullable = false)
-    private Byte successRate;
+    private Byte successRate =0;
 
     public void setSuccessRate(Byte successRate) {
         this.successRate = successRate;
