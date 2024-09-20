@@ -1,7 +1,8 @@
 import React from "react";
 import "./Navbar.css";
+import { ChevronRight, Bell, Settings } from "lucide-react";
 
-const Navbar = () => {
+const ProofNavbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-content">
@@ -10,10 +11,10 @@ const Navbar = () => {
         </div>
         <ul className="navbar-menu">
           <li>
-            <a href="/">♡</a>
+            <Bell size={24} />
           </li>
           <li>
-            <a href="/">+</a>
+            <Settings size={24} />
           </li>
         </ul>
       </div>
@@ -21,4 +22,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default ProofNavbar;

@@ -10,10 +10,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-content">
-        <div
-          onClick={() => navigate("/challenge-user")}
-          style={{ cursor: "pointer" }}
-        >
+        <div onClick={() => navigate("/proof")} style={{ cursor: "pointer" }}>
           <img src={proofpageLogo} alt="Logo" />
           <p>인증</p>
         </div>
