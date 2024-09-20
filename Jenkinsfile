@@ -112,7 +112,7 @@ EOF
                         docker pull ${DOCKERHUB_FRONTEND_REPO}:latest
                         docker stop frontend || true
                         docker rm frontend || true
-                        docker run -d --name frontend -p 80:80 ${DOCKERHUB_FRONTEND_REPO}:latest
+                        docker run -d --name frontend -p 3000:80 ${DOCKERHUB_FRONTEND_REPO}:latest
                         docker logout
 EOF
                         """
