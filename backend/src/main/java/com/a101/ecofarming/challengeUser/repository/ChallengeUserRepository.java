@@ -1,6 +1,7 @@
 package com.a101.ecofarming.challengeUser.repository;
 
 import com.a101.ecofarming.challenge.entity.Challenge;
+import com.a101.ecofarming.challengeUser.dto.response.ChallengeCountsDto;
 import com.a101.ecofarming.challengeUser.dto.response.ChallengeUserResponseDto;
 import com.a101.ecofarming.challengeUser.entity.ChallengeUser;
 import com.a101.ecofarming.user.entity.User;
@@ -57,5 +58,13 @@ public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, In
     @Query("SELECT COUNT(cu) FROM ChallengeUser cu WHERE cu.challenge.id = :challengeId")
     Long countUserByChallengeId(@Param("challengeId") Integer challengeId);
 
-    List<ChallengeUser> findByUserId(Integer userId);
+    @Query("SELECT new com.a101.ecofarming.challengeUser.dto.response.ChallengeCountsDto( " +
+            "SUM(CASE WHEN c.startDate > CURRENT_DATE THEN 1 ELSE 0 END), " +
+            "SUM(CASE WHEN c.startDate <= CURRENT_DATE AND CURRENT_DATE <= c.endDate THEN 1 ELSE 0 END), " +
+            "SUM(CASE WHEN c.endDate < CURRENT_DATE THEN 1 ELSE 0 END)) " +
+            "FROM ChallengeUser cu " +
+            "JOIN cu.challenge c " +
+            "WHERE cu.user.id = :userId")
+    ChallengeCountsDto countChallengesByUserId(@Param("userId") Integer userId);
+
 }

@@ -1,14 +1,14 @@
-package com.a101.ecofarming.user.dto.response;
+package com.a101.ecofarming.challengeUser.dto.response;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
-public class MyPageResponseDto {
-    private Integer amount;
-    private Integer prizeAmount;
+public class ChallengeCountsDto {
     private Long upcomingChallengeCount;
     private Long ongoingChallengeCount;
     private Long completedChallengeCount;
