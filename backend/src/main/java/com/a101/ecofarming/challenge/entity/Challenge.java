@@ -38,6 +38,10 @@ public class Challenge extends BaseEntity {
     @Builder.Default
     private Integer totalBetAmountOption2 = 0;
 
+    @Column
+    @Builder.Default
+    private Integer userCount = 0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "balance_id", nullable = false)
     private BalanceGame balanceGame;

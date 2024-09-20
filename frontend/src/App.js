@@ -1,14 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "./App.css";
+import "./index.css";
+import MainPage from "./components/MainPage";
+import ChallengePage from "./components/ChallengePage";
+import ProofPage from "./components/ProofPage";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-      </header>
+      <Router>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/challenge/:id" element={<ChallengePage />} />
+          <Route path="/challenge-user" element={<ProofPage />} />
+          {/* <Route path="/users" element={<MyPage />} /> */}
+        </Routes>
+      </Router>
     </div>
   );
 }

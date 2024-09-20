@@ -1,12 +1,10 @@
 package com.a101.ecofarming.complaint.controller;
 
 import com.a101.ecofarming.complaint.dto.ComplaintResponseDto;
-import com.a101.ecofarming.complaint.entity.Complaint;
 import com.a101.ecofarming.complaint.service.ComplaintService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -30,4 +28,16 @@ public class ComplaintController {
         List<ComplaintResponseDto> complaints = complaintService.getAllComplaints();
         return ResponseEntity.ok(complaints);
     }
+
+    // TEST ----------------------------------------------------------------------------------------------
+    @GetMapping("/test-report")
+    public void sendComplaintNotification() {
+        complaintService.testComplaintNotification();
+    }
+
+    @GetMapping("/test-error")
+    public void sendErrorNotification() {
+        throw new RuntimeException("Test Exception"); // 의도적으로 예외 발생
+    }
+
 }

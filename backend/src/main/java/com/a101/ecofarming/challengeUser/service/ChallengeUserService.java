@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,6 +60,17 @@ public class ChallengeUserService {
 
         // 유저가 참가 중인 경우
         if (challengeUser != null) {
+
+            Integer prizeAmount = null;
+            Integer totalBetAmountOption1 = null;
+            Integer totalBetAmountOption2 = null;
+            if (isChallengeCompleted(challengeUser)) {
+                prizeAmount = challengeUser.getReturnAmount() - challengeUser.getBetAmount();
+                totalBetAmountOption1 = challenge.getTotalBetAmountOption1();
+                totalBetAmountOption2 = challenge.getTotalBetAmountOption2();
+            }
+
+
             List<ProofDetailDto> proofs = proofRepository.findByChallengeAndUser(challenge, user)
                     .stream()
                     .map(proof -> new ProofDetailDto().builder()
@@ -68,6 +80,7 @@ public class ChallengeUserService {
                             .createdAt(proof.getCreatedAt())
                             .build())
                     .collect(Collectors.toList());
+
 
 
             // 빌더 패턴으로 참여자 정보 객체를 생성하고 반환
@@ -84,6 +97,9 @@ public class ChallengeUserService {
                     .balanceId(challenge.getBalanceGame().getBalanceId())
                     .balanceGamePick(challengeUser.getBalanceGamePick())
                     .proofs(proofs)
+                    .totalBetAmountOption1(totalBetAmountOption1)
+                    .totalBetAmountOption2(totalBetAmountOption2)
+                    .prizeAmount(prizeAmount)
                     .build();
 
         } else {
@@ -160,4 +176,9 @@ public class ChallengeUserService {
 //         유저 - 보유금액빼고,
 //    }
 
+
+    //종료된 챌린지인지 확인
+    private boolean isChallengeCompleted(ChallengeUser challengeUser) {
+        return challengeUser.getChallenge().getEndDate().isBefore(LocalDate.now());
+    }
 }
