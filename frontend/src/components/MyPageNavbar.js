@@ -1,15 +1,13 @@
 import React from "react";
 import "./Navbar.css";
-import logo from "../assets/images/logo_bear.jpg";
 import { ChevronRight, Bell, Settings } from "lucide-react";
 
-const Navbar = () => {
+const MyPageNavbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-content">
         <div className="navbar-title">
-          <img src={logo} alt="Logo" />
-          <p>ECO FARMING</p>
+          <p>마이페이지</p>
         </div>
         <ul className="navbar-menu">
           <li>
@@ -24,4 +22,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default MyPageNavbar;
