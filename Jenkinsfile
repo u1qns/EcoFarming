@@ -79,15 +79,14 @@ pipeline {
                             def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
                             echo "Deploying to ${environmentName} Environment (Port: ${newPort})..."
                             sh """
-                            ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} << EOF
-                            docker image prune -f
-                            echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
-                            docker pull ${BACKEND_DOCKER_REPO}:latest
-                            docker stop backend_${newPort} || true
-                            docker rm backend_${newPort} || true
-                            docker run -d --name backend_${newPort} -p ${newPort}:8080 -v /home/ubuntu/uploads:/home/ubuntu/uploads ${BACKEND_DOCKER_REPO}:latest --spring.profiles.active=${SPRING_PROFILE} --file.upload-dir=/home/ubuntu/uploads
-                            docker logout
-                            EOF
+                            ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} \\
+                                'docker image prune -f && \\
+                                echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin && \\
+                                docker pull ${BACKEND_DOCKER_REPO}:latest && \\
+                                docker stop backend_${newPort} || true && \\
+                                docker rm backend_${newPort} || true && \\
+                                docker run -d --name backend_${newPort} -p ${newPort}:8080 -v /home/ubuntu/uploads:/home/ubuntu/uploads ${BACKEND_DOCKER_REPO}:latest --spring.profiles.active=${SPRING_PROFILE} --file.upload-dir=/home/ubuntu/uploads && \\
+                                docker logout'
                             """
                             echo "Deployment to ${environmentName} Environment Complete!"
                         }
