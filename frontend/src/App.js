@@ -20,6 +20,7 @@ function App() {
             element={<OngoingChallengePage />}
           />
           <Route path="/proof" element={<ProofPage />} />
+          <Route path="/proof/ongoing" element={<OngoingChallengePage />} />
           <Route path="/users" element={<MyPage />} />
         </Routes>
       </Router>
