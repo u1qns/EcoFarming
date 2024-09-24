@@ -15,7 +15,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    def newPort = (CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
+                    def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
                     def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
                     echo "Start Cloning Repository for ${environmentName} Environment..."
                     git credentialsId: "${GITLAB_CREDENTIALS_ID}", branch: 'develop', url: 'https://lab.ssafy.com/s11-ai-image-sub1/S11P21A101.git'
@@ -28,7 +28,7 @@ pipeline {
         stage('Build Backend') {
             steps {
                 script {
-                    def newPort = (CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
+                    def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
                     def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
                     dir('backend') {
                         echo "Start Building Backend for ${environmentName} Environment..."
@@ -43,7 +43,7 @@ pipeline {
         stage('Build Backend Docker Image') {
             steps {
                 script {
-                    def newPort = (CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
+                    def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
                     def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
                     dir('backend') {
                         echo "Start Building Docker Image for ${environmentName} Environment..."
@@ -58,7 +58,7 @@ pipeline {
         stage('Push Backend Docker Image to Docker Hub') {
             steps {
                 script {
-                    def newPort = (CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
+                    def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
                     def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
                     echo "Pushing Docker Image to Docker Hub for ${environmentName} Environment..."
                     docker.withRegistry('', DOCKER_HUB_CREDENTIALS_ID) {
@@ -75,7 +75,7 @@ pipeline {
                 sshagent(['ssafy-ec2-ssh']) {
                     withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         script {
-                            def newPort = (CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
+                            def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
                             def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
                             echo "Deploying to ${environmentName} Environment (Port: ${newPort})..."
                             sh """
@@ -99,7 +99,7 @@ pipeline {
         stage('Health Check on Green Environment') {
             steps {
                 script {
-                    def newPort = (CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
+                    def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
                     def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
                     echo "Performing Health Check on ${environmentName} Environment (Port: ${newPort})..."
 
@@ -119,20 +119,19 @@ pipeline {
             }
         }
 
-
         // 6. Nginx 설정 변경하여 Green 환경으로 트래픽 전환
         stage('Switch Traffic to Green') {
             steps {
                 script {
-                    def newPort = (CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
+                    def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
                     def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
                     echo "Switching Traffic to ${environmentName} Environment (Port: ${newPort})..."
                     sshagent(['ssafy-ec2-ssh']) {
                         sh """
                             ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} \
-                            "sudo sed -i 's/${CURRENT_ACTIVE_PORT}/${newPort}/g' /etc/nginx/sites-enabled/j11a101.p.ssafy.io && sudo nginx -s reload"
+                            "sudo sed -i 's/${env.CURRENT_ACTIVE_PORT}/${newPort}/g' /etc/nginx/sites-enabled/j11a101.p.ssafy.io && sudo nginx -s reload"
                         """
-                        CURRENT_ACTIVE_PORT = newPort  // Nginx가 Green을 바라보도록 전환 완료
+                        env.CURRENT_ACTIVE_PORT = newPort  // Nginx가 Green을 바라보도록 전환 완료
                     }
                     echo "Traffic Successfully Switched to ${environmentName} Environment!"
                 }
