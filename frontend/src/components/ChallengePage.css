@@ -7,28 +7,28 @@
   flex-direction: column;
   height: 100vh;
 }
-.content {
+.ChallengePage .content {
   /* flex: 1; 남은 공간을 차지하도록 설정 */
   overflow-y: auto; /* content 내부에 수직 스크롤 생성 */
 }
-.content::-webkit-scrollbar {
+.ChallengePage .content::-webkit-scrollbar {
   display: none; /* 스크롤바를 보이지 않게 설정 */
 }
 
-.image-container {
+.ChallengePage .image-container {
   position: relative;
   width: 100%;
   height: 300px;
   overflow: hidden;
 }
 
-.challenge-image {
+.ChallengePage .challenge-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.header {
+.ChallengePage .header {
   position: absolute;
   top: 0;
   left: 0;
@@ -39,7 +39,7 @@
   padding: 10px;
 }
 
-.icon-background {
+.ChallengePage .icon-background {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,62 +50,62 @@
   cursor: pointer;
 }
 
-.back-button,
-.share-button,
-.heart-button {
+.ChallengePage .back-button,
+.ChallengePage .share-button,
+.ChallengePage .heart-button {
   cursor: pointer;
 }
 
-.action-buttons {
+.ChallengePage .action-buttons {
   display: flex;
   gap: 15px;
 }
 
-.image-container {
+.ChallengePage .image-container {
   width: 100%;
   height: 300px;
   overflow: hidden;
 }
 
-.challenge-image {
+.ChallengePage .challenge-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.challenge-content {
+.ChallengePage .challenge-content {
   padding: 15px;
 }
 
-.challenge-type {
+.ChallengePage .challenge-type {
   font-size: 14px;
   color: #666;
   margin-bottom: 10px;
 }
 
-.challenge-title {
+.ChallengePage .challenge-title {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.challenge-stats {
+.ChallengePage .challenge-stats {
   font-size: 14px;
   color: #333;
   margin-bottom: 10px;
 }
 
-.rating {
+.ChallengePage .rating {
   color: #f8ce0b;
 }
 
-.challenge-duration {
+.ChallengePage .challenge-duration {
   display: flex;
   gap: 10px;
   margin-top: 15px;
 }
 
-.duration-item {
+.ChallengePage .duration-item {
   background-color: #f0f0f0;
   padding: 5px 10px;
   border-radius: 5px;
@@ -113,13 +113,13 @@
   color: #666;
 }
 
-.ballance-container {
+.ChallengePage .ballance-container {
   display: flex;
   justify-content: center;
   gap: 35px;
 }
 
-.ballance-card {
+.ChallengePage .ballance-card {
   width: 165px;
   height: 200px;
   background-color: #f0f0f0;
@@ -131,7 +131,7 @@
   flex-direction: column;
 }
 
-.ballance-card-text {
+.ChallengePage .ballance-card-text {
   position: absolute;
   top: 30%;
   left: 15px;
@@ -144,7 +144,7 @@
   text-align: center;
 }
 
-.ballance-fill-bar {
+.ChallengePage .ballance-fill-bar {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -153,7 +153,7 @@
   z-index: 0;
 }
 
-.ballance-amount {
+.ChallengePage .ballance-amount {
   margin-top: auto;
   padding: 5px 15px 15px 15px;
   font-size: 18px;
@@ -164,36 +164,36 @@
   position: relative;
 }
 
-hr {
+.ChallengePage hr {
   border: 6px solid #ececec;
 }
 
-h1 {
+.ChallengePage h1 {
   font-size: 24px;
   margin-bottom: 20px;
 }
 
-h2 {
+.ChallengePage h2 {
   font-size: 20px;
   margin-top: 0px;
 }
 
-.description {
+.ChallengePage .description {
   margin-bottom: 10px;
 }
 
-.refund-table {
+.ChallengePage .refund-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
 }
 
-.refund-table td {
+.ChallengePage .refund-table td {
   padding: 10px;
   border-bottom: 1px solid #eee;
 }
 
-.graph {
+.ChallengePage .graph {
   padding: 20px;
   padding-top: 5px;
   padding-bottom: 10px;
@@ -202,7 +202,7 @@ h2 {
   margin: 0 auto;
 }
 
-.progress-chart {
+.ChallengePage .progress-chart {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -210,34 +210,34 @@ h2 {
   margin-bottom: 10px;
 }
 
-.progress-bar {
+.ChallengePage .progress-bar {
   width: 40px;
   display: flex;
   flex-direction: column-reverse;
 }
 
-.deposit,
-.success,
-.bonus {
+.ChallengePage .deposit,
+.ChallengePage .success,
+.ChallengePage .bonus {
   width: 80%;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
 
-.deposit {
+.ChallengePage .deposit {
   background-color: #e0e0e0;
 }
 
-.success {
+.ChallengePage .success {
   background-color: #ff4b4b;
 }
 
-.bonus {
+.ChallengePage .bonus {
   background-color: #ffd700;
   height: 8%;
 }
 
-.progress-labels {
+.ChallengePage .progress-labels {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
@@ -245,7 +245,7 @@ h2 {
   color: #333;
 }
 
-.legend {
+.ChallengePage .legend {
   display: flex;
   justify-content: space-between;
   gap: 5px;
@@ -253,12 +253,12 @@ h2 {
   color: #333;
 }
 
-.legend div {
+.ChallengePage .legend div {
   display: flex;
   align-items: center;
 }
 
-.legend span {
+.ChallengePage .legend span {
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -267,45 +267,45 @@ h2 {
   border-radius: 4px;
 }
 
-.deposit-color {
+.ChallengePage .deposit-color {
   background-color: #e0e0e0;
 }
 
-.success-color {
+.ChallengePage .success-color {
   background-color: #ff4b4b;
 }
 
-.bonus-color {
+.ChallengePage .bonus-color {
   background-color: #ffd700;
 }
 
-.proof p {
+.ChallengePage .proof p {
   background-color: #3b3b3b;
   border-radius: 10px;
   padding: 20px;
   color: white;
 }
 
-.proof-container {
+.ChallengePage .proof-container {
   display: flex;
   justify-content: center;
   align-items: center;
   justify-content: space-between;
 }
 
-.image-wrapper {
+.ChallengePage .image-wrapper {
   width: 48%;
   position: relative;
 }
 
-.proof-image {
+.ChallengePage .proof-image {
   width: 100%;
   height: 200px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.green-bar {
+.ChallengePage .green-bar {
   color: white;
   font-size: 20px;
   position: absolute;
@@ -320,7 +320,7 @@ h2 {
   justify-content: center;
   align-items: center;
 }
-.red-bar {
+.ChallengePage .red-bar {
   color: white;
   font-size: 20px;
   position: absolute;
