@@ -7,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class MyPageResponseDto {
+    private String username;
     private Integer amount;
     private Integer prizeAmount;
     private Long upcomingChallengeCount;
