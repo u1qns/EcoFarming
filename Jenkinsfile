@@ -15,10 +15,12 @@ pipeline {
         // 현재 활성화된 포트 읽기
         stage('Read Current Active Port') {
             steps {
-                script {
-                    def currentPort = sh(script: "ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} 'cat ${PORT_FILE} || echo ${BLUE_PORT}'", returnStdout: true).trim()
-                    env.CURRENT_ACTIVE_PORT = currentPort
-                    echo "Current Active Port is: ${currentPort}"
+                sshagent(['ssafy-ec2-ssh']) {
+                    script {
+                        def currentPort = sh(script: "ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} 'cat ${PORT_FILE} || echo ${BLUE_PORT}'", returnStdout: true).trim()
+                        env.CURRENT_ACTIVE_PORT = currentPort
+                        echo "Current Active Port is: ${currentPort}"
+                    }
                 }
             }
         }
