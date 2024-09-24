@@ -5,7 +5,6 @@ pipeline {
         GITLAB_CREDENTIALS_ID = 'gitlab-access-chanmin2'
         BACKEND_DOCKER_REPO = 'chanmin314/ecofarmingback'
         DOCKERHUB_FRONTEND_REPO = 'chanmin314/ecofarmingfront'
-        DOCKER_CREDENTIALS_ID = 'dockerhub-access-frontend'
         USER_SERVER_IP = 'j11a101.p.ssafy.io'
         SPRING_PROFILE = 'prod'
         BLUE_PORT = '8085'
@@ -153,7 +152,7 @@ pipeline {
         stage('Push Frontend to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('', DOCKER_CREDENTIALS_ID) {
+                    docker.withRegistry('', DOCKER_HUB_CREDENTIALS_ID) {
                         docker.image("${DOCKERHUB_FRONTEND_REPO}:latest").push()
                     }
                 }
@@ -162,7 +161,7 @@ pipeline {
         stage('Deploy Frontend') {
             steps {
                 sshagent(['ssafy-ec2-ssh']) {
-                    withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh """
                         ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} << EOF
                         echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
