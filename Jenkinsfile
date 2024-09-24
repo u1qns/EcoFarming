@@ -102,15 +102,19 @@ pipeline {
                     def newPort = (CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
                     def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
                     echo "Performing Health Check on ${environmentName} Environment (Port: ${newPort})..."
-                    def response = sh(
-                        script: "curl --silent --fail http://${USER_SERVER_IP}:${newPort}/api/actuator/health",
-                        returnStatus: true
-                    )
-                    if (response != 0) {
-                        error("Health Check Failed for ${environmentName} Environment (Port: ${newPort}), stopping deployment.")
-                    } else {
-                        echo "Health Check Passed for ${environmentName} Environment (Port: ${newPort})."
+
+                    retry(3) {  // 최대 3번 재시도
+                        sleep(time: 5, unit: "SECONDS")  // 5초 대기
+                        def response = sh(
+                            script: "curl --silent --fail http://${USER_SERVER_IP}:${newPort}/api/actuator/health",
+                            returnStatus: true
+                        )
+                        if (response != 0) {
+                            error("Health Check Failed for ${environmentName} Environment (Port: ${newPort}), stopping deployment.")
+                        }
                     }
+
+                    echo "Health Check Passed for ${environmentName} Environment (Port: ${newPort})."
                 }
             }
         }
