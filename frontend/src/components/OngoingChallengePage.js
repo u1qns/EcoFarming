@@ -40,7 +40,7 @@ const OngoingChallengePage = () => {
           </div>
         </div>
         <div className="challenge-content">
-          <div className="challenge-type">공식 챌린지</div>
+          <button>상세페이지로 이동 </button>
           <h1 className="challenge-title">안 쓰는 가전제품 콘센트 뽑기</h1>
           <div className="challenge-stats">
             <span className="rating">⭐ 4.8</span>
