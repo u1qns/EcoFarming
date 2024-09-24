@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.Getter;
 
 @Data
-@Getter
 @Builder
 public class ComplaintRequestDto {
     private Integer proofId;
