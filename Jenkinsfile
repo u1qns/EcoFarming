@@ -103,7 +103,7 @@ pipeline {
                     def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
                     echo "Performing Health Check on ${environmentName} Environment (Port: ${newPort})..."
                     def response = sh(
-                        script: "curl --silent --fail http://${USER_SERVER_IP}:${newPort}/api/health",
+                        script: "curl --silent --fail http://${USER_SERVER_IP}:${newPort}/actuator/health",
                         returnStatus: true
                     )
                     if (response != 0) {
