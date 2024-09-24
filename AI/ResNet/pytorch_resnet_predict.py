@@ -57,7 +57,7 @@ def print_imagenet_classes():
 # 전체 실행 (이미지 경로 입력받아 예측)
 if __name__ == "__main__":
     model = load_resnet50_model()
-    image_tensor = preprocess_image("./images/food_start1.jpg")  # 예측할 이미지 경로
+    image_tensor = preprocess_image("./images/image4.jpg")  # 예측할 이미지 경로
     predicted_class_idx = predict_image(model, image_tensor)
     predicted_class_label = get_class_label(predicted_class_idx)
     
@@ -65,4 +65,4 @@ if __name__ == "__main__":
     print(f"Predicted class label: {predicted_class_label}")
 
     # ImageNet 클래스 출력
-    # imagenet_classes = print_imagenet_classes()
+    imagenet_classes = print_imagenet_classes()
