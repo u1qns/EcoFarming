@@ -1,5 +1,6 @@
 package com.a101.ecofarming.complaint.service;
 
+import com.a101.ecofarming.complaint.dto.ComplaintRequestDto;
 import com.a101.ecofarming.complaint.dto.ComplaintResponseDto;
 import com.a101.ecofarming.complaint.entity.Complaint;
 import com.a101.ecofarming.complaint.repository.ComplaintRepository;
@@ -11,6 +12,7 @@ import com.a101.ecofarming.user.entity.User;
 import com.a101.ecofarming.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 
 import static com.a101.ecofarming.global.exception.ErrorCode.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ComplaintService {
@@ -27,51 +30,49 @@ public class ComplaintService {
     private final NotificationManager notificationManager;
 
     @Transactional
-    public ComplaintResponseDto createComplaint(Integer proofId, Integer userId, String description) {
-
-        Proof proof = proofRepository.findById(proofId)
+    public ComplaintResponseDto createComplaint(ComplaintRequestDto complaintRequestDto) {
+        Proof proof = proofRepository.findById(complaintRequestDto.getProofId())
                 .orElseThrow(() -> new CustomException(PROOF_NOT_FOUND));
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(complaintRequestDto.getUserId())
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         Complaint complaint = Complaint.builder()
                 .proof(proof)
                 .user(user)
-                .description(description)
-                .aiPass(null)
+                .description(complaintRequestDto.getDescription())
+                .aiPass(complaintRequestDto.getAiPass())
                 .adminPass(null)
                 .build();
         Complaint savedComplaint = complaintRepository.save(complaint);
 
+        // AI 검증이 실패했을 때만 요청
+        if (!complaintRequestDto.getAiPass()) {
+            notifyAdmin(savedComplaint);
+        }
 
-        return ComplaintResponseDto.builder()
-                .id(savedComplaint.getId())
-                .description(savedComplaint.getDescription())
-                .aiPass(savedComplaint.getAiPass())
-                .adminPass(savedComplaint.getAdminPass())
-                .proofId(savedComplaint.getProof().getId())
-                .userId(savedComplaint.getUser().getId())
-                .build();
+        return convertToDto(savedComplaint);
     }
 
     public List<ComplaintResponseDto> getAllComplaints() {
         List<Complaint> complaints = complaintRepository.findAll();
         return complaints.stream()
-                .map(complaint -> ComplaintResponseDto.builder()
-                        .id(complaint.getId())
-                        .description(complaint.getDescription())
-                        .aiPass(complaint.getAiPass())
-                        .adminPass(complaint.getAdminPass())
-                        .proofId(complaint.getProof().getId())
-                        .userId(complaint.getUser().getId())
-                        .build())
+                .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
 
-    // TEST
-    public void testComplaintNotification() {
-        Complaint complaint = complaintRepository.findById(11).orElseThrow(
-                () -> new CustomException(CHALLENGE_NOT_FOUND));
+    private ComplaintResponseDto convertToDto(Complaint complaint) {
+        return ComplaintResponseDto.builder()
+                .id(complaint.getId())
+                .description(complaint.getDescription())
+                .aiPass(complaint.getAiPass())
+                .adminPass(complaint.getAdminPass())
+                .proofId(complaint.getProof().getId())
+                .userId(complaint.getUser().getId())
+                .build();
+    }
+
+    // 관리자에게 알림을 전송하는 메서드
+     private void notifyAdmin(Complaint complaint) {
         notificationManager.sendNotification(complaint);
     }
 }
