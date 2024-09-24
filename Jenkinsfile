@@ -58,6 +58,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh """
                         ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} << EOF
+                        docker image prune -f
                         echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
                         docker pull ${DOCKERHUB_BACKEND_REPO}:latest
                         docker stop backend || true
