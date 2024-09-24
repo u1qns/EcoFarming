@@ -55,6 +55,22 @@ const MyProofStatus = () => {
             ))}
         </div>
       </div>
+      <div className="MyProofImage">
+        <h2>나의 인증샷</h2>
+        <div className="image-grid">
+          {Array(7)
+            .fill()
+            .map((_, index) => (
+              <div className="image-wrapper" key={index}>
+                <img
+                  src={require("../assets/images/c1.jpg")}
+                  alt={`인증 이미지 ${index + 1}`}
+                  className="image" // CSS 클래스 추가
+                />
+              </div>
+            ))}
+        </div>
+      </div>
     </div>
   );
 };
