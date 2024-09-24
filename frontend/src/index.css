@@ -1,0 +1,27 @@
+/* 모든 요소에 box-sizing 적용 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 모바일 뷰를 위한 전역 스타일 */
+body {
+  /* 모바일 기기의 일반적인 너비 */
+  max-width: 400px;
+  /* 화면 중앙에 콘텐츠 배치 */
+  margin: 0 auto;
+  /* 기본 폰트 크기 설정 */
+  /* font-size: 16px; */
+  /* 텍스트 가독성을 위한 줄 간격 */
+  /* line-height: 1.5; */
+  /* 내용물이 화면을 벗어나지 않도록 설정 */
+  /* overflow-x: hidden;
+  padding: 0; */
+}
+
+/* 반응형 이미지 */
+/* img {
+  max-width: 100%;
+  height: auto;
+} */

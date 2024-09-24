@@ -1,0 +1,337 @@
+.ChallengePage {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.content {
+  /* flex: 1; 남은 공간을 차지하도록 설정 */
+  overflow-y: auto; /* content 내부에 수직 스크롤 생성 */
+}
+.content::-webkit-scrollbar {
+  display: none; /* 스크롤바를 보이지 않게 설정 */
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.challenge-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.icon-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.back-button,
+.share-button,
+.heart-button {
+  cursor: pointer;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.image-container {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.challenge-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.challenge-content {
+  padding: 15px;
+}
+
+.challenge-type {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.challenge-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.challenge-stats {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.rating {
+  color: #f8ce0b;
+}
+
+.challenge-duration {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.duration-item {
+  background-color: #f0f0f0;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+.ballance-container {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+}
+
+.ballance-card {
+  width: 165px;
+  height: 200px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.ballance-card-text {
+  position: absolute;
+  top: 30%;
+  left: 15px;
+  right: 15px;
+  font-size: 20px;
+  /* font-weight: bold; */
+  padding: 10px;
+  z-index: 2;
+  margin: 0;
+  text-align: center;
+}
+
+.ballance-fill-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #b8f1b0;
+  z-index: 0;
+}
+
+.ballance-amount {
+  margin-top: auto;
+  padding: 5px 15px 15px 15px;
+  font-size: 18px;
+  /* font-weight: bold; */
+  text-align: center;
+  background-color: transparent;
+  z-index: 1;
+  position: relative;
+}
+
+hr {
+  border: 6px solid #ececec;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 20px;
+  margin-top: 0px;
+}
+
+.description {
+  margin-bottom: 10px;
+}
+
+.refund-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.refund-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.graph {
+  padding: 20px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.progress-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 150px;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  width: 40px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.deposit,
+.success,
+.bonus {
+  width: 80%;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.deposit {
+  background-color: #e0e0e0;
+}
+
+.success {
+  background-color: #ff4b4b;
+}
+
+.bonus {
+  background-color: #ffd700;
+  height: 8%;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+.legend {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.legend div {
+  display: flex;
+  align-items: center;
+}
+
+.legend span {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border-radius: 2px;
+  border-radius: 4px;
+}
+
+.deposit-color {
+  background-color: #e0e0e0;
+}
+
+.success-color {
+  background-color: #ff4b4b;
+}
+
+.bonus-color {
+  background-color: #ffd700;
+}
+
+.proof p {
+  background-color: #3b3b3b;
+  border-radius: 10px;
+  padding: 20px;
+  color: white;
+}
+
+.proof-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.image-wrapper {
+  width: 48%;
+  position: relative;
+}
+
+.proof-image {
+  width: 100%;
+  height: 200px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.green-bar {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background-color: #2ae68e;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.red-bar {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background-color: #e62a53;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
