@@ -64,13 +64,13 @@
   margin-right: 1.5rem;
 }
 
-.stat-value {
+.ongoing-challenge-stats .stat-value {
   font-size: 1.125rem;
   font-weight: 700;
   margin: 0px;
 }
 
-.stat-label {
+.ongoing-challenge-stats .stat-label {
   font-size: 0.75rem;
   color: #718096;
   margin: 0px;
