@@ -129,7 +129,7 @@ pipeline {
                     sshagent(['ssafy-ec2-ssh']) {
                         sh """
                         ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} << EOF
-                        sed -i 's/${CURRENT_ACTIVE_PORT}/${newPort}/g' /etc/nginx/sites-enabled/j11a101.p.ssafy.io
+                        sudo sed -i 's/${CURRENT_ACTIVE_PORT}/${newPort}/g' /etc/nginx/sites-enabled/j11a101.p.ssafy.io
                         sudo nginx -s reload
                         EOF
                         """
