@@ -4,6 +4,7 @@ pipeline {
         DOCKER_HUB_CREDENTIALS_ID = 'dockerhub-access-chanmin'
         GITLAB_CREDENTIALS_ID = 'gitlab-access-chanmin2'
         BACKEND_DOCKER_REPO = 'chanmin314/ecofarmingback'
+        DOCKERHUB_FRONTEND_REPO = 'chanmin314/ecofarmingfront'
         USER_SERVER_IP = 'j11a101.p.ssafy.io'
         SPRING_PROFILE = 'prod'
         BLUE_PORT = '8085'
@@ -123,6 +124,55 @@ pipeline {
                         env.CURRENT_ACTIVE_PORT = newPort
                     }
                     echo "Traffic Successfully Switched to ${environmentName} Environment!"
+                }
+            }
+        }
+        // Frontend 빌드, 이미지 생성 및 배포
+        stage('Build Frontend') {
+            steps {
+                script {
+                    dir('frontend') {
+                        echo "Start Build Frontend,,,"
+                        sh 'npm install'
+                        sh 'CI=false npm run build'
+                        echo "Build Frontend Complete!!!"
+                    }
+                }
+            }
+        }
+        stage('Build Frontend Docker Image') {
+            steps {
+                script {
+                    dir('frontend') {
+                        def app = docker.build("${DOCKERHUB_FRONTEND_REPO}:latest")
+                    }
+                }
+            }
+        }
+        stage('Push Frontend to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('', DOCKER_CREDENTIALS_ID) {
+                        docker.image("${DOCKERHUB_FRONTEND_REPO}:latest").push()
+                    }
+                }
+            }
+        }
+        stage('Deploy Frontend') {
+            steps {
+                sshagent(['ssafy-ec2-ssh']) {
+                    withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh """
+                        ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} << EOF
+                        echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
+                        docker pull ${DOCKERHUB_FRONTEND_REPO}:latest
+                        docker stop frontend || true
+                        docker rm frontend || true
+                        docker run -d --name frontend -p 3000:80 ${DOCKERHUB_FRONTEND_REPO}:latest
+                        docker logout
+EOF
+                        """
+                    }
                 }
             }
         }
