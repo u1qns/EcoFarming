@@ -129,10 +129,8 @@ pipeline {
                     echo "Switching Traffic to ${environmentName} Environment (Port: ${newPort})..."
                     sshagent(['ssafy-ec2-ssh']) {
                         sh """
-                            ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} << EOF
-                            sudo sed -i 's/${CURRENT_ACTIVE_PORT}/${newPort}/g' /etc/nginx/sites-enabled/j11a101.p.ssafy.io
-                            sudo nginx -s reload
-                        EOF
+                            ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} \
+                            "sudo sed -i 's/${CURRENT_ACTIVE_PORT}/${newPort}/g' /etc/nginx/sites-enabled/j11a101.p.ssafy.io && sudo nginx -s reload"
                         """
                         CURRENT_ACTIVE_PORT = newPort  // Nginx가 Green을 바라보도록 전환 완료
                     }
