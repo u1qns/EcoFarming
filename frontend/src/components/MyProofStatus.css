@@ -129,20 +129,20 @@
   margin-top: 25px;
 }
 
-.image-grid {
+.MyProofStatus .image-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
 }
 
-.image-wrapper {
+.MyProofStatus .image-wrapper {
   position: relative; /* 이미지 래퍼의 위치를 상대적으로 설정 */
   width: 100%; /* 가로 폭을 100%로 설정 */
   padding-top: 100%; /* 세로를 가로와 동일하게 하기 위해 패딩 설정 */
   overflow: hidden; /* 넘치는 이미지 숨기기 */
 }
 
-.image {
+.MyProofStatus .image {
   position: absolute; /* 절대 위치 설정 */
   top: 0;
   left: 0;
