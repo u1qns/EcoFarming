@@ -17,4 +17,5 @@ public class TotalChallengeDto {
     private Byte frequency;
     private Integer userCount;
     private LocalDate startDate;
+    private String thumbPhotoUrl;
 }
