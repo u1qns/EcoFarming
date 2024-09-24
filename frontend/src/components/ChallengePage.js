@@ -1,12 +1,52 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect }  from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { ChevronLeft, Share2, Heart } from "lucide-react";
 import { FaHeart, FaUser } from "react-icons/fa";
 import "./ChallengePage.css";
 import ChallengeFooter from "./ChallengeFooter";
+import axios from "axios";
 
 const ChallengePage = () => {
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [challengeData, setChallengeData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { challengeId, userId } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchChallengeData = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/challenges/${challengeId}/${userId}`);
+        setChallengeData(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError("챌린지 데이터를 불러오는데 실패했습니다.");
+        setLoading(false);
+      }
+    };
+    fetchChallengeData();
+
+  }, [challengeId, userId]);
+  if (loading) return <div>로딩 중...</div>;
+  if (error) return <div>{error}</div>;
+  if (!challengeData) return null;
+
+  const {
+    title,
+    description,
+    startDate,
+    endDate,
+    frequency,
+    duration,
+    userCount,
+    totalBetAmountOption1,
+    totalBetAmountOption2,
+    guideText,
+    balanceId,
+    option1Description,
+    option2Description
+  } = challengeData;
 
   const handleBackClick = () => {
     navigate("/");
@@ -55,16 +95,16 @@ const ChallengePage = () => {
         </div>
         <div className="challenge-content">
           <div className="challenge-type">공식 챌린지</div>
-          <h1 className="challenge-title">안 쓰는 가전제품 콘센트 뽑기</h1>
+          <h1 className="challenge-title">{title}</h1>
           <div className="challenge-stats">
             <span className="rating">⭐ 4.8</span>
             <span className="participants">
-              • <FaUser /> 현재 26명
+              • <FaUser /> 현재 {userCount}명
             </span>
           </div>
           <div className="challenge-duration">
-            <span className="duration-item">주 2일</span>
-            <span className="duration-item">2주 동안</span>
+            <span className="duration-item">주 {frequency}일</span>
+            <span className="duration-item">{duration}주 동안</span>
           </div>
         </div>
 
