@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import "./MainPage.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -64,7 +63,6 @@ function MainPage() {
         </div>
         <div className="card-container">
           {challenges.upcomingChallenge.map((challenge) => (
-            <Link to={`/challenge/${challenge.challengeId}/1`} key={challenge.challengeId}> {/* userId는 1로 가정 */}
             <Card
               key={challenge.challengeId}
               id={challenge.challengeId}
@@ -75,10 +73,8 @@ function MainPage() {
               startDate={`${new Date(challenge.startDate).toLocaleDateString()} 시작`}
               participants={challenge.userCount}
             />
-            </Link>
           ))}
           {challenges.ongoingChallenge.map((challenge) => (
-            <Link to={`/challenge/${challenge.challengeId}/1`} key={challenge.challengeId}> {/* userId는 1로 가정 */}
             <Card
               key={challenge.challengeId}
               id={challenge.challengeId}
@@ -90,7 +86,6 @@ function MainPage() {
               startDate={"진행 중"}
               participants={challenge.userCount}
             />
-            </Link>
           ))}
         </div>
       </div>

@@ -15,7 +15,7 @@ function Card({
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/challenge/${id}`); // ID를 사용하여 Challenge 페이지로 이동
+    navigate(`/challenge/${id}/1`); //UserId // ID를 사용하여 Challenge 페이지로 이동
   };
 
   return (
