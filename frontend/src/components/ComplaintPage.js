@@ -2,9 +2,26 @@ import React, { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import "./ComplaintPage.css";
 
+const PopupModal = ({ onClose }) => (
+  <div className="popup-overlay">
+    <div className="popup-content">
+      <h2>신고가 접수되었습니다</h2>
+      <p>
+        신고 결과는 '마이페이지 > 인증샷
+        <br />
+        신고 결과'에서 확인 하실 수 있습니다.
+      </p>
+      <button className="popup-button" onClick={onClose}>
+        확인
+      </button>
+    </div>
+  </div>
+);
+
 const ComplaintPage = () => {
   const [selectedReason, setSelectedReason] = useState("");
   const [detailedReason, setDetailedReason] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleReasonSelect = (reason) => {
     setSelectedReason(reason);
@@ -15,6 +32,12 @@ const ComplaintPage = () => {
   };
 
   const isSubmitDisabled = detailedReason.length < 10;
+
+  const handleSubmit = () => {
+    if (!isSubmitDisabled) {
+      setShowPopup(true);
+    }
+  };
 
   return (
     <div className="complaint-page">
@@ -56,10 +79,12 @@ const ComplaintPage = () => {
         <button
           className={`submit-button ${isSubmitDisabled ? "disabled" : ""}`}
           disabled={isSubmitDisabled}
+          onClick={handleSubmit}
         >
           신고하기
         </button>
       </div>
+      {showPopup && <PopupModal onClose={() => setShowPopup(false)} />}
     </div>
   );
 };
