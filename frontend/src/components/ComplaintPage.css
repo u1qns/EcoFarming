@@ -103,7 +103,7 @@
   border: 0px;
 }
 
-.popup-overlay {
+.complaint-page .popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -116,7 +116,7 @@
   z-index: 1000;
 }
 
-.popup-content {
+.complaint-page .popup-content {
   width: 300px;
   padding: 20px;
   background-color: white;
@@ -126,20 +126,20 @@
   font-family: "Arial", sans-serif;
 }
 
-.popup-content h2 {
+.complaint-page .popup-content h2 {
   font-size: 18px;
   margin-bottom: 10px;
   font-weight: normal;
 }
 
-.popup-content p {
+.complaint-page .popup-content p {
   font-size: 14px;
   margin-bottom: 10px;
   line-height: 1.5;
   padding: 10px;
 }
 
-.popup-button {
+.complaint-page .popup-button {
   background-color: #f1f1f1;
   color: #000;
   border: none;
@@ -149,6 +149,6 @@
   border-radius: 5px;
 }
 
-.popup-button:hover {
+.complaint-page .popup-button:hover {
   background-color: #ddd;
 }

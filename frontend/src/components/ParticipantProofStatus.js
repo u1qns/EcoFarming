@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { MoreVertical } from "lucide-react";
 import "./ParticipantProofStatus.css";
+import { useNavigate } from "react-router-dom";
 
 // 참가자 인증 현황 컴포넌트
 const ParticipantProofStatus = () => {
   const [selectedImage, setSelectedImage] = useState(null); // 선택된 이미지 상태
   const [showPopup, setShowPopup] = useState(false); // 팝업 보이기 상태
+  const navigate = useNavigate();
 
   // 이미지 배열
   const images = Array(7)
@@ -22,6 +24,11 @@ const ParticipantProofStatus = () => {
   const handleClosePopup = () => {
     setShowPopup(false); // 팝업 닫기
     setSelectedImage(null);
+  };
+
+  // 신고하기 버튼 클릭 핸들러
+  const handleComplaintClick = () => {
+    navigate("/complaint"); // navigate를 통해 /complaint 경로로 이동
   };
 
   return (
@@ -85,7 +92,13 @@ const ParticipantProofStatus = () => {
               <button className="popup-action-button popup-comment-button">
                 댓글
               </button>
-              <button className="popup-action-button popup-report-button">
+              <button
+                className="popup-action-button popup-report-button"
+                onClick={(e) => {
+                  e.stopPropagation(); // 이벤트 전파 방지
+                  handleComplaintClick();
+                }}
+              >
                 신고하기
               </button>
             </div>

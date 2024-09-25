@@ -8,6 +8,7 @@ import OngoingChallengePage from "./components/OngoingChallengePage";
 import ProofPage from "./components/ProofPage";
 import MyPage from "./components/MyPage";
 import ComplaintPage from "./components/ComplaintPage";
+import ParticipantProofStatus from "./components/ParticipantProofStatus";
 
 function App() {
   return (
