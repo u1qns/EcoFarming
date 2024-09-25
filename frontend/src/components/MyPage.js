@@ -29,9 +29,9 @@ const MenuOption = ({
 );
 
 function MyPage() {
+  // const username = localStorage.getItem('username');
   const apiUrl = process.env.REACT_APP_API_URL;
   const [userData, setUserData] = useState({
-    username: "",
     amount: 0,
     prizeAmount: 0,
     upcomingChallengeCount: 0,
@@ -43,6 +43,7 @@ function MyPage() {
     const fetchUserData = async () => {
       try {
         const userId = 1; // Example user ID -> 나중에 바꾸기
+        // const userId = localStorage.getItem('userId');
         const response = await axios.get(`${apiUrl}/users/${userId}/my-page`);
         setUserData(response.data);
       } catch (error) {
@@ -65,7 +66,8 @@ function MyPage() {
             />
           </div>
           <div className="profile-name">
-            <span>{userData.username}</span>
+            <span>임시</span>
+            {/* <span>{username}</span> */}
             <ChevronRight size={20} className="chevron" />
           </div>
         </div>
