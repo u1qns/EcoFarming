@@ -33,3 +33,13 @@ webhook:
     error:
       url: ${MM_ERROR_URL}
       priority: important
+
+server:
+  servlet:
+    context-path: /api
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
