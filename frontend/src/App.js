@@ -7,6 +7,7 @@ import ChallengePage from "./components/ChallengePage";
 import OngoingChallengePage from "./components/OngoingChallengePage";
 import ProofPage from "./components/ProofPage";
 import MyPage from "./components/MyPage";
+import ComplaintPage from "./components/ComplaintPage";
 
 function App() {
   return (
@@ -18,8 +19,12 @@ function App() {
             path="/challenges/:challengeId/:userId"
             element={<ChallengePage />}
           />
+
           <Route path="/proof" element={<ProofPage />} />
           <Route path="/proof/ongoing" element={<OngoingChallengePage />} />
+
+          <Route path="/complaint" element={<ComplaintPage />} />
+
           <Route path="/users" element={<MyPage />} />
         </Routes>
       </Router>
