@@ -29,7 +29,6 @@ public class UserService {
         ChallengeCountsDto challengeCountsDto = challengeUserRepository.countChallengesByUserId(userId);
 
         return MyPageResponseDto.builder()
-                .username(user.getName())
                 .amount(user.getAmount())
                 .prizeAmount(user.getPrizeAmount())
                 .upcomingChallengeCount(challengeCountsDto.getUpcomingChallengeCount())
