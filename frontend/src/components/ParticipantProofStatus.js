@@ -64,8 +64,8 @@ const ParticipantProofStatus = () => {
                 alt="선택된 이미지"
                 className="popup-image"
               />
-              <button className="popup-more-button">
-                <MoreVertical size={20} />
+              <button className="popup-close-button" onClick={handleClosePopup}>
+                X
               </button>
             </div>
             <div className="popup-details">
