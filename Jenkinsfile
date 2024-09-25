@@ -33,7 +33,7 @@ pipeline {
                     def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
                     def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
                     echo "Start Cloning Repository for ${environmentName} Environment..."
-                    git credentialsId: "${GITLAB_CREDENTIALS_ID}", branch: 'master', url: 'https://lab.ssafy.com/s11-ai-image-sub1/S11P21A101.git'
+                    git credentialsId: "${GITLAB_CREDENTIALS_ID}", branch: 'develop', url: 'https://lab.ssafy.com/s11-ai-image-sub1/S11P21A101.git'
                     echo "Repository Cloning Complete for ${environmentName} Environment!"
                 }
             }
