@@ -62,7 +62,7 @@ const ProofCameraPage = () => {
     }
     return new File([u8arr], filename, { type: mime });
   };
-  
+
   // 인증 완료 페이지로 이동 함수
   const handleCompleteVerification = async () => {
     const userId = 1;
@@ -71,8 +71,8 @@ const ProofCameraPage = () => {
       // 업로드 함수 호출
       // NOTE: 백엔드에서 파일 이름 수정함. 임시로 png 확장자 고정
       const filename ='tmp-image-file.png';
-      await uploadProof(userId, challengeId, dataURLtoFile(capturedImage, filename));
-      navigate("/proof-result"); // 인증 완료 페이지로 이동
+      const response = await uploadProof(userId, challengeId, dataURLtoFile(capturedImage, filename));
+      navigate("/proof-result", { state : { response } }); // 인증 완료 페이지로 이동
     } catch (error) {
       console.error("업로드 실패:", error);
     }
