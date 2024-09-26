@@ -17,8 +17,31 @@ const ProofGuidePage = () => {
         <h1 className="title">인증 방법</h1>
       </div>
       <div className="content">
-        <p>이 챌린지에서는 쓰레기 줍깅을 인증해야 합니다.</p>
-        <p>사진을 찍은 후 인증 완료 버튼을 눌러 도전을 마무리하세요.</p>
+        <div className="proof">
+          <p className="description" style={{ lineHeight: "1.5" }}>
+            안 쓰는 가전제품의&nbsp;
+            <span style={{ fontWeight: "bold" }}>콘센트를 뽑은 후</span>의
+            사진을 찍어 인증해주세요!
+          </p>
+          <div className="proof-container">
+            <div className="image-wrapper">
+              <img
+                src={require("../assets/images/c1.jpg")}
+                alt="Left image"
+                className="proof-image"
+              />
+              <div className="green-bar">O</div>
+            </div>
+            <div className="image-wrapper">
+              <img
+                src={require("../assets/images/c1.jpg")}
+                alt="Right image"
+                className="proof-image"
+              />
+              <div className="red-bar">X</div>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="footer">
         <button className="guide-confirm-button" onClick={handleStartCamera}>
