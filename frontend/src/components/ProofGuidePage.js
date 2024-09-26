@@ -1,6 +1,7 @@
 import React from "react";
+import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-// import "./ProofGuidePage.css";
+import "./ProofGuidePage.css";
 
 const ProofGuidePage = () => {
   const navigate = useNavigate();
@@ -11,12 +12,19 @@ const ProofGuidePage = () => {
 
   return (
     <div className="proof-guide-page">
-      <h1>인증 가이드</h1>
-      <p>이 챌린지에서는 쓰레기 줍깅을 인증해야 합니다.</p>
-      <p>사진을 찍은 후 인증 완료 버튼을 눌러 도전을 마무리하세요.</p>
-      <button className="guide-confirm-button" onClick={handleStartCamera}>
-        확인
-      </button>
+      <div className="header">
+        <ArrowLeft size={24} className="back-arrow" />
+        <h1 className="title">인증 방법</h1>
+      </div>
+      <div className="content">
+        <p>이 챌린지에서는 쓰레기 줍깅을 인증해야 합니다.</p>
+        <p>사진을 찍은 후 인증 완료 버튼을 눌러 도전을 마무리하세요.</p>
+      </div>
+      <div className="footer">
+        <button className="guide-confirm-button" onClick={handleStartCamera}>
+          확인했어요!
+        </button>
+      </div>
     </div>
   );
 };
