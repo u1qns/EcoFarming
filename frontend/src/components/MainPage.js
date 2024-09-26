@@ -28,6 +28,7 @@ function MainPage() {
   }, []);
 
   const carouselImages = [
+    require("../assets/images/subinPing.png"),
     require("../assets/images/tiniping.jpg"),
     require("../assets/images/tiniping2.jpg"),
     require("../assets/images/tiniping3.jpg"),
