@@ -3,6 +3,7 @@ import "./Card.css";
 import { FaHeart, FaUser } from "react-icons/fa";
 
 function Card({
+  id,
   thumbnail,
   title,
   duration,

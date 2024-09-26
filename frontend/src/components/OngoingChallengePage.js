@@ -1,20 +1,41 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { ChevronLeft, Share2, Heart } from "lucide-react";
 import { FaHeart, FaUser } from "react-icons/fa";
 import "./OngoingChallengePage.css";
 import MyProofStatus from "./MyProofStatus";
 import ParticipantProofStatus from "./ParticipantProofStatus";
 import OngoingChallengeFooter from "./OngoingChallengeFooter";
+import axios from "axios";
 
 const OngoingChallengePage = () => {
+  const { challengeId, userId } = useParams(); // URL에서 challengeId와 userId를 가져옴
+  const apiUrl = process.env.REACT_APP_API_URL; // .env 파일의 API URL 사용
+  const [challenge, setChallenge] = useState(null); // 챌린지 정보를 저장할 상태
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("myStatus");
+
+  // 챌린지 정보 가져오기
+  useEffect(() => {
+    const fetchChallenge = async () => {
+      try {
+        const challengeResponse = await axios.get(`${apiUrl}/challenges/${challengeId}/${userId}`); // API 호출 (챌린지 정보)
+        setChallenge(challengeResponse.data); // 챌린지 정보 저장
+      } catch (error) {
+        console.error("Error fetching challenge data:", error);
+      }
+    };
+
+    fetchChallenge();
+  }, [apiUrl, challengeId, userId]);
 
   const handleBackClick = () => {
     navigate("/");
   };
 
-  const [activeTab, setActiveTab] = useState("myStatus");
+  if (!challenge) {
+    return <p>Loading...</p>; // 챌린지 정보가 아직 로드되지 않았을 때
+  }
 
   return (
     <div className="OngoingChallengePage">
@@ -41,16 +62,16 @@ const OngoingChallengePage = () => {
         </div>
         <div className="challenge-content">
           <button>상세페이지로 이동 </button>
-          <h1 className="challenge-title">안 쓰는 가전제품 콘센트 뽑기</h1>
+          <h1 className="challenge-title">{challenge.title}</h1>
           <div className="challenge-stats">
             <span className="rating">⭐ 4.8</span>
             <span className="participants">
-              • <FaUser /> 현재 26명
+              • <FaUser /> 현재 {challenge.userCount}명
             </span>
           </div>
           <div className="challenge-duration">
-            <span className="duration-item">주 2일</span>
-            <span className="duration-item">2주 동안</span>
+            <span className="duration-item">주 {challenge.frequency}일</span>
+            <span className="duration-item">{challenge.duration}일 동안</span>
           </div>
         </div>
 

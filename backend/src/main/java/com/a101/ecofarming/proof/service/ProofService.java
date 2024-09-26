@@ -143,4 +143,20 @@ public class ProofService {
 
         return new ProofInfoResponseDto(proofDetails);
     }
+
+    public ProofInfoResponseDto getProofsByChallengeIdAndUserId(Integer challengeId, Integer userId, Pageable pageable) {
+        Page<Proof> proofs = proofRepository.findByChallengeIdAndUserIdOrderByCreatedAtDesc(challengeId, userId, pageable);
+
+        List<ProofDetailDto> proofDetails = proofs.stream()
+                .map(proof -> new ProofDetailDto(
+                        proof.getId(),
+                        proof.getPhotoUrl(),
+                        proof.getUser().getName(),
+                        proof.getIsValid(),
+                        proof.getCreatedAt()
+                ))
+                .collect(Collectors.toList());
+
+        return new ProofInfoResponseDto(proofDetails);
+    }
 }
