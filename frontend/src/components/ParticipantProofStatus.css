@@ -85,8 +85,8 @@
 }
 
 .ParticipantProofStatus .popup-image {
-  width: 100%;
-  height: auto;
+  width: 380px;
+  height: 235px;
 }
 
 .ParticipantProofStatus .popup-close-button {
