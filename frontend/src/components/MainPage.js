@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "./MainPage.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -11,6 +12,7 @@ import axios from 'axios';
 function MainPage() {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [challenges, setChallenges] = useState({ ongoingChallenge: [], upcomingChallenge: [] });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchChallenges = async () => {
@@ -40,6 +42,29 @@ function MainPage() {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2500,
+  };
+
+  // 클릭 시 해당 챌린지로 이동할지 결정하는 함수
+  const handleCardClick = async (challengeId, userId) => {
+    try {
+      // API 호출 (참가 여부와 상관없이 동일한 API)
+      const response = await axios.get(`${apiUrl}/challenges/${challengeId}/${userId}`);
+      const challengeData = response.data;
+
+      // API 응답 확인 (디버깅용 로그)
+      console.log('Challenge data:', challengeData);
+
+      // 백엔드에서 반환된 데이터 타입을 기반으로 분기 처리
+      if (challengeData.type === "ParticipantChallengeResponseDto") {
+        // 참가 중인 경우 OngoingChallengePage로 이동
+        navigate(`/ongoing-challenge/${challengeId}/${userId}`);
+      } else if (challengeData.type === "NoParticipantChallengeResponseDto") {
+        // 비참가 중인 경우 ChallengePage로 이동
+        navigate(`/challenge/${challengeId}/${userId}`);
+      }
+    } catch (error) {
+      console.error('챌린지 정보를 불러오는 중 오류 발생:', error);
+    }
   };
 
   return (
@@ -72,6 +97,7 @@ function MainPage() {
               frequency={`${challenge.frequency}일`}
               startDate={`${new Date(challenge.startDate).toLocaleDateString()} 시작`}
               participants={challenge.userCount}
+              onClick={() => handleCardClick(challenge.challengeId, 1)} //TODO : userId
             />
           ))}
           {challenges.ongoingChallenge.map((challenge) => (
@@ -85,6 +111,7 @@ function MainPage() {
               //startDate={`${new Date(challenge.startDate).toLocaleDateString()} 시작`}
               startDate={"진행 중"}
               participants={challenge.userCount}
+              onClick={() => handleCardClick(challenge.challengeId, 1)} //TODO : userId
             />
           ))}
         </div>

@@ -16,10 +16,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route
-            path="/challenges/:challengeId/:userId"
-            element={<ChallengePage />}
-          />
+          <Route path="/challenge/:challengeId/:userId" element={<ChallengePage />} />
+          <Route path="/ongoing-challenge/:challengeId/:userId" element={<OngoingChallengePage />} />
 
           <Route path="/proof" element={<ProofPage />} />
           <Route path="/proof/ongoing" element={<OngoingChallengePage />} />
