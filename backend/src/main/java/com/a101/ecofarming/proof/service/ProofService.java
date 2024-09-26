@@ -125,7 +125,12 @@ public class ProofService {
             return 0;
         }
 
-        return (byte) (((double) proofCount / frequency) * 100);
+        double successRate = ((double) proofCount / frequency) * 100;
+        if (successRate > 100) {
+            return 100;
+        }
+
+        return (byte) successRate;
     }
 
     public ProofInfoResponseDto getProofsByChallengeId(Integer challengeId, Pageable pageable) {
