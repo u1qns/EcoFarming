@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { uploadProof } from '../services/proofService';
 import "./ProofCameraPage.css";
 
 const ProofCameraPage = () => {
@@ -49,9 +50,32 @@ const ProofCameraPage = () => {
     }
   };
 
+  // 데이터 URL을 File 객체로 변환하는 함수
+  const dataURLtoFile = (dataURL, filename) => {
+    const arr = dataURL.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  };
+  
   // 인증 완료 페이지로 이동 함수
-  const handleCompleteVerification = () => {
-    navigate("/proof-result"); // 인증 완료 페이지로 이동
+  const handleCompleteVerification = async () => {
+    const userId = 1;
+    const challengeId = 1;
+    try {
+      // 업로드 함수 호출
+      // NOTE: 백엔드에서 파일 이름 수정함. 임시로 png 확장자 고정
+      const filename ='tmp-image-file.png';
+      await uploadProof(userId, challengeId, dataURLtoFile(capturedImage, filename));
+      navigate("/proof-result"); // 인증 완료 페이지로 이동
+    } catch (error) {
+      console.error("업로드 실패:", error);
+    }
   };
 
   return (

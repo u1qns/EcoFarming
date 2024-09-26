@@ -11,3 +11,22 @@ export const fetchProofGuide = async (challengeId) => {
         throw new Error('Failed to fetch proof guide data: ' + error.message);
     }
 };
+
+// 챌린지 증명 사진 업로드
+export const uploadProof = async (userId, challengeId, photo) => {
+    const formData = new FormData();
+    formData.append('userId', userId);
+    formData.append('challengeId', challengeId);
+    formData.append('photo', photo);
+
+    try {
+        const response = await axios.post(`${API_URL}/proof`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return response.data; // 응답 데이터 반환
+    } catch (error) {
+        throw new Error('Failed to upload proof: ' + error.message);
+    }
+};
