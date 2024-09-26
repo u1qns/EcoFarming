@@ -1,14 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchProofGuide } from '../services/proofService';
 import "./ProofGuidePage.css";
 
 const ProofGuidePage = () => {
   const navigate = useNavigate();
+  const { challengeId } = useParams(); // URL에서 challengeId 가져오기
+  const [guideText, setGuideText] = useState('');
+  const [rightGuidePhotoUrl, setRightGuidePhotoUrl] = useState('');
+  const [wrongGuidePhotoUrl, setWrongGuidePhotoUrl] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const handleStartCamera = () => {
     navigate("/proof-camera"); // 카메라가 있는 페이지로 이동
   };
+
+  useEffect(() => {
+    const fetchGuideData = async () => {
+      try {
+        const data = await fetchProofGuide(challengeId);
+        const { guideText, rightGuidePhotoUrl, wrongGuidePhotoUrl } = data;
+
+        setGuideText(guideText);
+        setRightGuidePhotoUrl(rightGuidePhotoUrl);
+        setWrongGuidePhotoUrl(wrongGuidePhotoUrl);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGuideData();
+  }, [challengeId]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="proof-guide-page">
@@ -19,14 +48,12 @@ const ProofGuidePage = () => {
       <div className="content">
         <div className="proof">
           <p className="description" style={{ lineHeight: "1.5" }}>
-            안 쓰는 가전제품의&nbsp;
-            <span style={{ fontWeight: "bold" }}>콘센트를 뽑은 후</span>의
-            사진을 찍어 인증해주세요!
+              {guideText}
           </p>
           <div className="proof-container">
             <div className="image-wrapper">
               <img
-                src={require("../assets/images/c1.jpg")}
+                src={wrongGuidePhotoUrl}
                 alt="Left image"
                 className="proof-image"
               />
@@ -34,7 +61,7 @@ const ProofGuidePage = () => {
             </div>
             <div className="image-wrapper">
               <img
-                src={require("../assets/images/c1.jpg")}
+                src={rightGuidePhotoUrl}
                 alt="Right image"
                 className="proof-image"
               />

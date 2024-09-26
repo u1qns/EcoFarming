@@ -7,8 +7,10 @@ const OngoingChallenge = () => {
   const navigate = useNavigate();
 
   const handleGuideClick = () => {
-    navigate("/proof-guide"); // 인증 가이드 페이지로 이동
+    var challengeId = 1; // test
+    navigate(`/proof/${challengeId}/guide`);
   };
+  
   return (
     <div className="ongoing-challenge-card">
       <div className="ongoing-challenge-content">
