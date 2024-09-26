@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import "./ComplaintPage.css";
+import { submitComplaint } from "../services/complaintService";
 
 const PopupModal = ({ onClose }) => (
   <div className="popup-overlay">
@@ -22,6 +23,12 @@ const ComplaintPage = () => {
   const [selectedReason, setSelectedReason] = useState("");
   const [detailedReason, setDetailedReason] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [error, setError] = useState("");
+
+  // TEST DATA
+  const proofId = 1;
+  const userId = 2;
+  const aiPass = true; // TODO: AI
 
   const handleReasonSelect = (reason) => {
     setSelectedReason(reason);
@@ -33,9 +40,20 @@ const ComplaintPage = () => {
 
   const isSubmitDisabled = detailedReason.length < 10;
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!isSubmitDisabled) {
-      setShowPopup(true);
+      try {
+        const data = await submitComplaint({
+          proofId,
+          userId,
+          aiPass,
+          description: detailedReason,
+        });
+        console.log("응답 데이터:", JSON.stringify(data, null, 2)); // 2는 들여쓰기 레벨
+        setShowPopup(true);
+      } catch (error) {
+        setError('신고 제출 중 오류가 발생했습니다. 다시 시도해주세요.');
+      }
     }
   };
 
@@ -45,6 +63,8 @@ const ComplaintPage = () => {
         <ArrowLeft size={24} className="back-arrow" />
         <h1 className="title">신고하기</h1>
       </div>
+
+      {error && <div className="error-message">{error}</div>}
 
       <div className="content">
         <div className="reason-buttons">
