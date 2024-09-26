@@ -82,7 +82,7 @@ const ProofCameraPage = () => {
               className="finish-button"
               onClick={handleCompleteVerification}
             >
-              인증 완료
+              업로드
             </button>
           </div>
         </div>
