@@ -1,8 +1,14 @@
 import React from "react";
 import { ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import "./OngoingChallenge.css";
 
 const OngoingChallenge = () => {
+  const navigate = useNavigate();
+
+  const handleGuideClick = () => {
+    navigate("/proof-guide"); // 인증 가이드 페이지로 이동
+  };
   return (
     <div className="ongoing-challenge-card">
       <div className="ongoing-challenge-content">
@@ -28,7 +34,12 @@ const OngoingChallenge = () => {
               <p className="stat-label">예상 환급액</p>
             </div>
           </div>
-          <button className="ongoing-challenge-button">인증하기</button>
+          <button
+            className="ongoing-challenge-button"
+            onClick={handleGuideClick}
+          >
+            인증하기
+          </button>
         </div>
       </div>
     </div>
