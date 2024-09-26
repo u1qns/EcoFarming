@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios"; // Axios 추가
+import React from "react";
 import { ChevronRight } from "lucide-react";
 import "./OngoingChallenge.css";
 
 const OngoingChallenge = () => {
+  const navigate = useNavigate();
   const [challenges, setChallenges] = useState([]); // 챌린지 데이터를 저장할 상태
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
+
+  const handleGuideClick = () => {
+    var challengeId = 1; // test
+    navigate(`/proof/${challengeId}/guide`);
+  };
 
   useEffect(() => {
     // 유저 ID에 따라 데이터를 불러옴

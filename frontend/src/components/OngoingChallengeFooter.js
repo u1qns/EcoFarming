@@ -15,7 +15,7 @@ const ChallengeFooter = () => {
   };
 
   return (
-    <footer className="footer">
+    <footer className="ChallengeFooter">
       <div className="footer-content">
         <div className="date-info">
           <span>

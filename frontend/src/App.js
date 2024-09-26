@@ -24,7 +24,7 @@ function App() {
 
           <Route path="/proof" element={<ProofPage />} />
           <Route path="/proof/ongoing" element={<OngoingChallengePage />} />
-          <Route path="/proof-guide" element={<ProofGuidePage />} />
+          <Route path="/proof/:challengeId/guide" element={<ProofGuidePage />} />
           <Route path="/proof-camera" element={<ProofCameraPage />} />
           <Route path="/proof-result" element={<ProofResultPage />} />
 
