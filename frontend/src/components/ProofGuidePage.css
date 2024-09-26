@@ -35,10 +35,8 @@
   padding: 1rem;
   /* border-top: 0.1px solid #f1f1f1; */
   box-shadow: 0 -0.5px 3px rgba(0, 0, 0, 0.1);
-
   height: 75.5px;
 }
-
 .proof-guide-page .guide-confirm-button {
   width: 100%;
   padding: 0.75rem;

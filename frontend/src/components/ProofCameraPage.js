@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
+import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-// import "./ProofCameraPage.css";
+import "./ProofCameraPage.css";
 
 const ProofCameraPage = () => {
   const [capturedImage, setCapturedImage] = useState(null); // 촬영된 이미지 저장
@@ -55,17 +56,35 @@ const ProofCameraPage = () => {
 
   return (
     <div className="proof-camera-page">
-      <h1>카메라 촬영</h1>
+      <div className="header">
+        <ArrowLeft size={24} className="back-arrow" />
+        <h1 className="title">촬영하기</h1>
+      </div>
       {!capturedImage && (
-        <div>
-          <video ref={videoRef} autoPlay playsInline></video>
-          <button onClick={capturePhoto}>촬영</button>
+        <div style={{ display: "contents" }}>
+          <div className="content">
+            <video ref={videoRef} autoPlay playsInline></video>
+          </div>
+          <div className="footer">
+            <button className="camera-button" onClick={capturePhoto}>
+              촬영
+            </button>
+          </div>
         </div>
       )}
       {capturedImage && (
-        <div>
-          <img src={capturedImage} alt="Captured" />
-          <button onClick={handleCompleteVerification}>인증 완료</button>
+        <div style={{ display: "contents" }}>
+          <div className="content">
+            <img src={capturedImage} alt="Captured" />{" "}
+          </div>
+          <div className="footer">
+            <button
+              className="finish-button"
+              onClick={handleCompleteVerification}
+            >
+              인증 완료
+            </button>
+          </div>
         </div>
       )}
       <canvas ref={canvasRef} style={{ display: "none" }}></canvas>

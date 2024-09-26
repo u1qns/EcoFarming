@@ -21,7 +21,7 @@ const ChallengeFooter = () => {
     if (diffDays < 0) return "오늘부터 시작";
   };
   return (
-    <footer className="footer">
+    <footer className="ChallengeFooter">
       <div className="footer-content">
         <div className="date-info">
           <span>
