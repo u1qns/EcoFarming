@@ -13,7 +13,7 @@ import java.util.List;
 public interface ProofRepository extends JpaRepository<Proof, Integer> {
     Page<Proof> findByChallengeIdOrderByCreatedAtDesc(Integer challengeId, Pageable pageable);
 
-    List<Proof> findByChallengeId(Integer challengeId);
+    Page<Proof> findByChallengeIdAndUserIdOrderByCreatedAtDesc(Integer challengeId, Integer userId, Pageable pageable);
 
     List<Proof> findByChallengeAndUser(Challenge challenge, User user);
 

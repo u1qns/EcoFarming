@@ -47,4 +47,13 @@ public class ProofController {
         return proofService.getProofsByChallengeId(challengeId, pageable);
     }
 
+    @GetMapping("/{challengeId}/{userId}")
+    public ProofInfoResponseDto getProofsByChallengeIdAndUserId(
+            @PathVariable("challengeId") Integer challengeId,
+            @PathVariable("userId") Integer userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return proofService.getProofsByChallengeIdAndUserId(challengeId, userId, pageable);
+    }
 }
