@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios"; // Axios 추가
 import { ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import "./OngoingChallenge.css";
 
 const OngoingChallenge = () => {
@@ -72,7 +74,9 @@ const OngoingChallenge = () => {
                     <p className="stat-label">누적 참가 횟수</p>
                   </div>
                 </div>
-                <button className="ongoing-challenge-button">인증하기</button>
+                <button className="ongoing-challenge-button" onClick={handleGuideClick}>
+                  인증하기
+                </button>
               </div>
             </div>
           </div>
