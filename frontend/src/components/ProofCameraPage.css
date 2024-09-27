@@ -11,6 +11,8 @@
   padding: 1rem;
   border-bottom: 1px solid #e5e5e5;
   height: 67px;
+  border-left: 1px solid #f7f7f7;
+  border-right: 1px solid #f7f7f7;
 }
 
 .proof-camera-page .back-arrow {
