@@ -47,8 +47,13 @@ const ParticipantProofStatus = () => {
 
   // 신고하기 버튼 클릭 핸들러
   const handleComplaintClick = () => {
-    navigate("/complaint"); // navigate를 통해 /complaint 경로로 이동
-  };
+    navigate("/complaint", {
+      state: {
+        proof: selectedProof,
+        challenge: challenge
+      }
+    });
+  };  
 
   return (
     <div className="ParticipantProofStatus">

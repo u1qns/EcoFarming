@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import "./ComplaintPage.css";
 import { submitComplaint } from "../services/complaintService";
+import axios from "axios"; // axios import 추가
+import { useLocation, useNavigate } from "react-router-dom"; // state 전달을 받기 위한 useLocation
 
 const PopupModal = ({ onClose }) => (
   <div className="popup-overlay">
@@ -20,15 +22,19 @@ const PopupModal = ({ onClose }) => (
 );
 
 const ComplaintPage = () => {
+  const location = useLocation();
+  const { proof, challenge } = location.state || {};
+  const navigate = useNavigate();
+
   const [selectedReason, setSelectedReason] = useState("");
   const [detailedReason, setDetailedReason] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [error, setError] = useState("");
+  const [aiPass, setAiPass] = useState(false); // AI 검증 결과
 
   // TEST DATA
   const proofId = 1;
-  const userId = 2;
-  const aiPass = true; // TODO: AI
+  const userId = 1;
 
   const handleReasonSelect = (reason) => {
     setSelectedReason(reason);
@@ -40,19 +46,44 @@ const ComplaintPage = () => {
 
   const isSubmitDisabled = detailedReason.length < 10;
 
+  const runPredict = async (photoUrl) => {
+    try {
+      const response = await axios.post("http://localhost:5000/run-predict", {
+        image_url: photoUrl,
+      });
+      const predictedLabel = response.data.aiPass;
+
+      // 카테고리별로 Label값을 체크
+      if (
+        (challenge.title === "카테고리1" && predictedLabel === "water jug") ||
+        (challenge.title === "카테고리2" && predictedLabel === "shopping basket") ||
+        (challenge.title === "카테고리3" && predictedLabel === "handkerchief")
+      ) {
+        setAiPass(true);
+      } else {
+        setAiPass(false);
+      }
+    } catch (error) {
+      console.error("AI 예측 중 오류가 발생했습니다:", error);
+      setAiPass(false); // 오류 시 기본적으로 false 처리
+    }
+  };
+
   const handleSubmit = async () => {
     if (!isSubmitDisabled) {
       try {
+        await runPredict(proof.photoUrl); // AI 예측 실행
+        // 신고 데이터 제출
         const data = await submitComplaint({
-          proofId,
-          userId,
-          aiPass,
+          proofId: proofId,
+          userId: userId,
+          aiPass: aiPass,
           description: detailedReason,
         });
-        console.log("응답 데이터:", JSON.stringify(data, null, 2)); // 2는 들여쓰기 레벨
+        console.log("응답 데이터:", JSON.stringify(data, null, 2));
         setShowPopup(true);
       } catch (error) {
-        setError('신고 제출 중 오류가 발생했습니다. 다시 시도해주세요.');
+        setError("신고 제출 중 오류가 발생했습니다. 다시 시도해주세요.");
       }
     }
   };
@@ -60,26 +91,29 @@ const ComplaintPage = () => {
   return (
     <div className="complaint-page">
       <div className="header">
-        <ArrowLeft size={24} className="back-arrow" />
+        <ArrowLeft size={24} className="back-arrow" onClick={() => navigate(-1)} />
         <h1 className="title">신고하기</h1>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="content">
+        {proof && (
+          <div>
+            <img src={proof.photoUrl} alt="신고할 이미지" />
+            <p>신고할 사용자: {proof.userName}</p>
+            <p>챌린지 제목: {challenge?.title}</p>
+          </div>
+        )}
         <div className="reason-buttons">
           <button
-            className={`reason-button ${
-              selectedReason === "인증샷 무효" ? "selected" : ""
-            }`}
+            className={`reason-button ${selectedReason === "인증샷 무효" ? "selected" : ""}`}
             onClick={() => handleReasonSelect("인증샷 무효")}
           >
             인증샷 무효 신고
           </button>
           <button
-            className={`reason-button ${
-              selectedReason === "악성 유저" ? "selected" : ""
-            }`}
+            className={`reason-button ${selectedReason === "악성 유저" ? "selected" : ""}`}
             onClick={() => handleReasonSelect("악성 유저")}
           >
             악성 유저로 신고

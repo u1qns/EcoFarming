@@ -14,15 +14,14 @@ def load_resnet50_model():
     return model.to(device)
 
 # 2. 이미지 전처리 (ResNet 입력에 맞는 크기와 정규화 적용)
-def preprocess_image(image_path):
+def preprocess_image(image):
     preprocess = transforms.Compose([
         transforms.Resize(256),
         transforms.CenterCrop(224),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
-    img = Image.open(image_path)
-    img_t = preprocess(img)
+    img_t = preprocess(image)  # Image 객체를 바로 처리
     img_t = img_t.unsqueeze(0)  # 배치 차원 추가
     return img_t
 
@@ -62,7 +61,7 @@ if __name__ == "__main__":
     predicted_class_idx = predict_image(model, image_tensor)
     predicted_class_label = get_class_label(predicted_class_idx)
     
-    print(f"Predicted class index: {predicted_class_idx}")
+    # print(f"Predicted class index: {predicted_class_idx}")
     print(f"Predicted class label: {predicted_class_label}")
 
     # ImageNet 클래스 출력
