@@ -3,6 +3,7 @@ import axios from "axios";
 import "./MyPage.css";
 import MyPageNavbar from "./MyPageNavbar";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 import {
   ChevronRight,
   Headphones,
@@ -47,12 +48,23 @@ function MyPage() {
         const response = await axios.get(`${apiUrl}/users/${userId}/my-page`);
         setUserData(response.data);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
     };
 
     fetchUserData();
   }, []);
+
+  const navigate = useNavigate();
+  const handleUpcomingClick = () => {
+    navigate(`/users/upcoming`);
+  };
+  const handleOngoingClick = () => {
+    navigate(`/users/ongoing`);
+  };
+  const handleCompletedClick = () => {
+    navigate(`/users/completed`);
+  };
 
   return (
     <div className="MyPage">
@@ -81,7 +93,9 @@ function MyPage() {
           <div className="wallet-item">
             <img src={require("../assets/images/Reward2.png")} alt="Reward" />
             <div className="label">상금</div>
-            <div className="value">{userData.prizeAmount.toLocaleString()}원</div>
+            <div className="value">
+              {userData.prizeAmount.toLocaleString()}원
+            </div>
           </div>
           <div className="wallet-item">
             <img src={require("../assets/images/Rating2.png")} alt="Rating" />
@@ -96,15 +110,15 @@ function MyPage() {
             <span>챌린지 현황</span>
           </div>
           <div className="challenge-info">
-            <div className="challenge-item">
+            <div className="challenge-item" onClick={handleUpcomingClick}>
               <div className="value">{userData.upcomingChallengeCount}</div>
               <div className="label">시작 전</div>
             </div>
-            <div className="challenge-item">
+            <div className="challenge-item" onClick={handleOngoingClick}>
               <div className="value">{userData.ongoingChallengeCount}</div>
               <div className="label">참가 중</div>
             </div>
-            <div className="challenge-item">
+            <div className="challenge-item" onClick={handleCompletedClick}>
               <div className="value">{userData.completedChallengeCount}</div>
               <div className="label">완료</div>
             </div>
