@@ -41,7 +41,7 @@ const UpcomingChallenge = () => {
             <div className="ongoing-challenge-content">
               <div className="ongoing-challenge-image">
                 <img
-                  src={require("../assets/images/c1.jpg")} // 임시 이미지
+                  src={challenge.thumbPhotoUrl} // API에서 받아온 이미지 경로 사용
                   alt="Challenge icon"
                 />
               </div>
