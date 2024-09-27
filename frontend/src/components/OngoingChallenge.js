@@ -14,6 +14,9 @@ const OngoingChallenge = () => {
     navigate(`/proof/${challengeId}/guide`);
   };
 
+  const handleChallengeClick = (challengeId, userId) => {
+    navigate(`/ongoing-challenge/${challengeId}/${userId}`); // 해당 챌린지 상세 페이지로 이동
+  };
   useEffect(() => {
     // 유저 ID에 따라 데이터를 불러옴
     const fetchOngoingChallenges = async () => {
@@ -44,48 +47,53 @@ const OngoingChallenge = () => {
         <p>참가 중인 챌린지가 없습니다.</p>
       ) : (
         challenges.map((challenge) => (
-          <div key={challenge.challengeId} className="ongoing-challenge-card">
-            <div className="ongoing-challenge-content">
-              <div className="ongoing-challenge-image">
-                <img
-                  src={challenge.thumbPhotoUrl} // 임시 이미지
-                  alt="Challenge icon"
-                />
-              </div>
-              <div className="ongoing-challenge-details">
-                <div className="ongoing-challenge-header">
-                  <h2>{challenge.title}</h2>
-                  <ChevronRight className="chevron-icon" />
+          <div
+            key={challenge.challengeId}
+            className="ongoing-challenge-card"
+            onClick={() => handleChallengeClick(challenge.challengeId, 1)} // 실제 userId를 전달
+            style={{ cursor: "pointer" }}
+            >
+              <div className="ongoing-challenge-content">
+                <div className="ongoing-challenge-image">
+                  <img
+                    src={challenge.thumbPhotoUrl} // 임시 이미지
+                    alt="Challenge icon"
+                  />
                 </div>
-                <p className="ongoing-challenge-date">
-                  {new Date(challenge.startDate).toLocaleDateString()} ~{" "}
-                  {new Date(challenge.endDate).toLocaleDateString()}
-                </p>
-                <p className="ongoing-challenge-time">
-                  인증 빈도: {challenge.frequency}일마다
-                </p>
-                <div className="ongoing-challenge-stats">
-                  <div>
-                    <p className="stat-value">{challenge.successRate}%</p>
-                    <p className="stat-label">예상 달성률</p>
+                <div className="ongoing-challenge-details">
+                  <div className="ongoing-challenge-header">
+                    <h2>{challenge.title}</h2>
+                    <ChevronRight className="chevron-icon" />
                   </div>
-                  <div>
-                    <p className="stat-value">{challenge.totalParticipationCount}번</p>
-                    <p className="stat-label">누적 참가 횟수</p>
+                  <p className="ongoing-challenge-date">
+                    {new Date(challenge.startDate).toLocaleDateString()} ~{" "}
+                    {new Date(challenge.endDate).toLocaleDateString()}
+                  </p>
+                  <p className="ongoing-challenge-time">
+                    인증 빈도: {challenge.frequency}일마다
+                  </p>
+                  <div className="ongoing-challenge-stats">
+                    <div>
+                      <p className="stat-value">{challenge.successRate}%</p>
+                      <p className="stat-label">예상 달성률</p>
+                    </div>
+                    <div>
+                      <p className="stat-value">{challenge.totalParticipationCount}번</p>
+                      <p className="stat-label">누적 참가 횟수</p>
+                    </div>
                   </div>
+                  <button
+                    className="ongoing-challenge-button"
+                    onClick={() => handleGuideClick(challenge.challengeId)}
+                  >
+                    인증하기
+                  </button>
                 </div>
-                <button
-                  className="ongoing-challenge-button"
-                  onClick={() => handleGuideClick(challenge.challengeId)}
-                >
-                  인증하기
-                </button>
               </div>
-            </div>
           </div>
-        ))
+  ))
       )}
-    </div>
+    </div >
   );
 };
 
