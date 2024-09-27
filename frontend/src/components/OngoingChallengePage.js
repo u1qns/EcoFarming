@@ -113,7 +113,7 @@ const OngoingChallengePage = () => {
           </p>
         </div>
       </div>
-      <OngoingChallengeFooter />
+      <OngoingChallengeFooter challengeId={challengeId}/>
     </div>
   );
 };
