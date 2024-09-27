@@ -6,6 +6,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  redis:
+    host: localhost
 
 file:
   upload-dir: C:\Users\SSAFY\Desktop

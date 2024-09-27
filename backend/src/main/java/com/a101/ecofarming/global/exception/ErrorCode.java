@@ -15,7 +15,9 @@ public enum ErrorCode {
     CHALLENGE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 챌린지입니다."),
     PAYMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 결제입니다"),
     CHALLENGE_USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 챌린지유저입니다."),
-    BALANCE_GAME_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 밸런스 게임입니다.")
+    BALANCE_GAME_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 밸런스 게임입니다."),
+    FCM_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "FCM 전송에 실패했습니다"),
+    FCM_TOKEN_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "유저의 FireBase 토큰이 없습니다."),
     ;
 
     private final HttpStatus httpStatus;

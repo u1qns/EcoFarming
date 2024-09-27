@@ -8,3 +8,5 @@ spring:
       ddl-auto: none
   file:
     upload-dir: /home/ubuntu/uploads
+  redis:
+    host: j11a101.p.ssafy.io
