@@ -48,7 +48,7 @@ const OngoingChallenge = () => {
             <div className="ongoing-challenge-content">
               <div className="ongoing-challenge-image">
                 <img
-                  src={require("../assets/images/c1.jpg")} // 임시 이미지
+                  src={challenge.thumbPhotoUrl} // 임시 이미지
                   alt="Challenge icon"
                 />
               </div>
@@ -74,7 +74,10 @@ const OngoingChallenge = () => {
                     <p className="stat-label">누적 참가 횟수</p>
                   </div>
                 </div>
-                <button className="ongoing-challenge-button" onClick={handleGuideClick}>
+                <button
+                  className="ongoing-challenge-button"
+                  onClick={() => handleGuideClick(challenge.challengeId)}
+                >
                   인증하기
                 </button>
               </div>
