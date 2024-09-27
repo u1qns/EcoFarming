@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import "./PaymentPage.css"; // 스타일 파일 추가
 import { FaUser } from "react-icons/fa";
+import PaymentNavbar from "./PaymentNavbar";
 
 const PaymentPage = () => {
   const [selectedAmount, setSelectedAmount] = useState(10000); // 선택된 금액 상태
@@ -14,11 +15,11 @@ const PaymentPage = () => {
   return (
     <div className="payment-page">
       {/* 상단 헤더 */}
-      <div className="header">
+      {/* <div className="header">
         <ChevronLeft className="back-button" />
         <h2>참가하기</h2>
-      </div>
-
+      </div> */}
+      <PaymentNavbar />
       {/* 정보 메시지 */}
       <div className="info-message">
         챌린지를 통해 함께 환경을 지켜요!

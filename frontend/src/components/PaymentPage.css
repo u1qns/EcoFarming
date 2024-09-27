@@ -1,5 +1,4 @@
 .payment-page {
-  padding: 20px;
   padding-bottom: 80px; /* 고정된 footer 높이만큼 여유 공간 추가 */
 }
 
@@ -221,7 +220,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 380px; /* 페이지 다른 컴포넌트와 일관되게 최대 너비 설정 */
+  max-width: 410px; /* 페이지 다른 컴포넌트와 일관되게 최대 너비 설정 */
   margin: 0 auto; /* 중앙 정렬 */
   left: 50%;
   transform: translateX(-50%); /* 화면 중앙으로 배치 */
@@ -236,7 +235,7 @@
   border-radius: 10px;
   cursor: pointer;
   width: 100%;
-  max-width: 360px;
+  max-width: 400px;
   margin-bottom: 20px;
 }
 
