@@ -84,14 +84,21 @@ const ComplaintPage = () => {
         setShowPopup(true);
       } catch (error) {
         setError("신고 제출 중 오류가 발생했습니다. 다시 시도해주세요.");
+        setError("신고 제출 중 오류가 발생했습니다. 다시 시도해주세요.");
       }
     }
+  };
+
+  const navigate = useNavigate();
+  const handleBackClick = () => {
+    navigate(-1); // 이전 페이지로 이동
   };
 
   return (
     <div className="complaint-page">
       <div className="header">
         <ArrowLeft size={24} className="back-arrow" onClick={() => navigate(-1)} />
+        <ArrowLeft size={24} className="back-arrow" onClick={handleBackClick} />
         <h1 className="title">신고하기</h1>
       </div>
 

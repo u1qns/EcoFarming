@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { uploadProof } from '../services/proofService';
+import { uploadProof } from "../services/proofService";
 import "./ProofCameraPage.css";
 
 const ProofCameraPage = () => {
@@ -52,7 +52,7 @@ const ProofCameraPage = () => {
 
   // 데이터 URL을 File 객체로 변환하는 함수
   const dataURLtoFile = (dataURL, filename) => {
-    const arr = dataURL.split(',');
+    const arr = dataURL.split(",");
     const mime = arr[0].match(/:(.*?);/)[1];
     const bstr = atob(arr[1]);
     let n = bstr.length;
@@ -70,18 +70,26 @@ const ProofCameraPage = () => {
     try {
       // 업로드 함수 호출
       // NOTE: 백엔드에서 파일 이름 수정함. 임시로 png 확장자 고정
-      const filename ='tmp-image-file.png';
-      const response = await uploadProof(userId, challengeId, dataURLtoFile(capturedImage, filename));
-      navigate("/proof-result", { state : { response } }); // 인증 완료 페이지로 이동
+      const filename = "tmp-image-file.png";
+      const response = await uploadProof(
+        userId,
+        challengeId,
+        dataURLtoFile(capturedImage, filename)
+      );
+      navigate("/proof-result", { state: { response } }); // 인증 완료 페이지로 이동
     } catch (error) {
       console.error("업로드 실패:", error);
     }
   };
 
+  const handleBackClick = () => {
+    navigate(-1); // 이전 페이지로 이동
+  };
+
   return (
     <div className="proof-camera-page">
       <div className="header">
-        <ArrowLeft size={24} className="back-arrow" />
+        <ArrowLeft size={24} className="back-arrow" onClick={handleBackClick} />
         <h1 className="title">촬영하기</h1>
       </div>
       {!capturedImage && (

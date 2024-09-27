@@ -10,12 +10,13 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class ChallengeUserResponseDto {
-    private Integer challengeUserId;
+    private Integer challengeId;
     private String title;
     private LocalDate startDate;
     private LocalDate endDate;
     private Byte frequency;
     private Byte duration;
     private Byte successRate;
+    private String thumbPhotoUrl;
     private Long totalParticipationCount;
 }

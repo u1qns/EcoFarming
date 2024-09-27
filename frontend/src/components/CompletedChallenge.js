@@ -3,7 +3,7 @@ import axios from "axios"; // Axios 추가
 import { ChevronRight } from "lucide-react";
 import "./OngoingChallenge.css"; // 스타일 파일 재사용
 
-const UpcomingChallenge = () => {
+const CompletedChallenge = () => {
   const [challenges, setChallenges] = useState([]); // 챌린지 데이터를 저장할 상태
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
@@ -63,7 +63,9 @@ const UpcomingChallenge = () => {
                     <p className="stat-label">예상 달성률</p>
                   </div>
                   <div>
-                    <p className="stat-value">{challenge.totalParticipationCount}번</p>
+                    <p className="stat-value">
+                      {challenge.totalParticipationCount}번
+                    </p>
                     <p className="stat-label">누적 참가 횟수</p>
                   </div>
                 </div>
@@ -76,4 +78,4 @@ const UpcomingChallenge = () => {
   );
 };
 
-export default UpcomingChallenge;
+export default CompletedChallenge;

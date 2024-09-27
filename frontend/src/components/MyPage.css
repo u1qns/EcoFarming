@@ -108,6 +108,7 @@
   text-align: center;
   padding: 0 24px;
   width: 100%;
+  cursor: pointer;
 }
 
 .MyPage .challenge-item:not(:last-child) {
