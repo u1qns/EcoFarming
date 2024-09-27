@@ -14,6 +14,7 @@ import ComplaintPage from "./components/ComplaintPage";
 import MyUpcomingChallengePage from "./components/MyUpcomingChallengePage";
 import MyOngoingChallengePage from "./components/MyOngoingChallengePage";
 import MyCompletedChallengePage from "./components/MyCompletedChallengePage";
+import MyComplaintResultPage from "./components/MyComplaintResultPage";
 
 function App() {
   return (
@@ -47,6 +48,10 @@ function App() {
           <Route
             path="/users/completed"
             element={<MyCompletedChallengePage />}
+          />
+          <Route
+            path="/users/complaint-result"
+            element={<MyComplaintResultPage />}
           />
         </Routes>
       </Router>
