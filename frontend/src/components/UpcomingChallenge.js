@@ -40,7 +40,6 @@ const UpcomingChallenge = () => {
           <div key={challenge.challengeId} className="ongoing-challenge-card">
             <div className="ongoing-challenge-content">
               <div className="ongoing-challenge-image">
-                {/* thumbPhotoUrl로 동적으로 이미지를 표시 */}
                 <img
                   src={challenge.thumbPhotoUrl} // API에서 받아온 이미지 경로 사용
                   alt="Challenge icon"
