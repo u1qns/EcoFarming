@@ -59,6 +59,12 @@ function MyPage() {
   const handleUpcomingClick = () => {
     navigate(`/users/upcoming`);
   };
+  const handleOngoingClick = () => {
+    navigate(`/users/ongoing`);
+  };
+  const handleCompletedClick = () => {
+    navigate(`/users/completed`);
+  };
 
   return (
     <div className="MyPage">
@@ -108,11 +114,11 @@ function MyPage() {
               <div className="value">{userData.upcomingChallengeCount}</div>
               <div className="label">시작 전</div>
             </div>
-            <div className="challenge-item">
+            <div className="challenge-item" onClick={handleOngoingClick}>
               <div className="value">{userData.ongoingChallengeCount}</div>
               <div className="label">참가 중</div>
             </div>
-            <div className="challenge-item">
+            <div className="challenge-item" onClick={handleCompletedClick}>
               <div className="value">{userData.completedChallengeCount}</div>
               <div className="label">완료</div>
             </div>
