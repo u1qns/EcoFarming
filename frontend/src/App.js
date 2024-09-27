@@ -12,6 +12,7 @@ import ProofResultPage from "./components/ProofResultPage";
 import MyPage from "./components/MyPage";
 import ComplaintPage from "./components/ComplaintPage";
 import ParticipantProofStatus from "./components/ParticipantProofStatus";
+import PaymentPage from "./components/PaymentPage";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
           <Route path="/proof-result" element={<ProofResultPage />} />
 
           <Route path="/complaint" element={<ComplaintPage />} />
-
+          <Route path="/payment" element={<PaymentPage />} />
           <Route path="/users" element={<MyPage />} />
         </Routes>
       </Router>
