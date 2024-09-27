@@ -19,8 +19,9 @@ const MenuOption = ({
   icon,
   text,
   rightIcon = <ChevronRight className="icon" />,
+  onClick,
 }) => (
-  <div className="menu-option">
+  <div className="menu-option" onClick={onClick}>
     <div className="menu-option-left">
       {React.cloneElement(icon, { className: "icon" })}
       <span className="menu-text">{text}</span>
@@ -64,6 +65,9 @@ function MyPage() {
   };
   const handleCompletedClick = () => {
     navigate(`/users/completed`);
+  };
+  const handleComplaintResultClick = () => {
+    navigate(`/users/complaint-result`);
   };
 
   return (
@@ -127,7 +131,11 @@ function MyPage() {
         <hr className="mypageHr" />
         <div className="menu-container">
           <MenuOption icon={<Headphones />} text="문의하기" />
-          <MenuOption icon={<Siren />} text="인증샷 신고 결과" />
+          <MenuOption
+            icon={<Siren />}
+            text="인증샷 신고 결과"
+            onClick={handleComplaintResultClick}
+          />
           <MenuOption icon={<Award />} text="내 레벨·배지" />
           <MenuOption icon={<BarChart2 />} text="챌린지 리포트" />
           <MenuOption icon={<Gift />} text="친구 초대" />
