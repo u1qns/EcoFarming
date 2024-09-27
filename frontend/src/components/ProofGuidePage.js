@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchProofGuide } from '../services/proofService';
+import { fetchProofGuide } from "../services/proofService";
 import "./ProofGuidePage.css";
 
 const ProofGuidePage = () => {
   const navigate = useNavigate();
   const { challengeId } = useParams(); // URL에서 challengeId 가져오기
-  const [guideText, setGuideText] = useState('');
-  const [rightGuidePhotoUrl, setRightGuidePhotoUrl] = useState('');
-  const [wrongGuidePhotoUrl, setWrongGuidePhotoUrl] = useState('');
+  const [guideText, setGuideText] = useState("");
+  const [rightGuidePhotoUrl, setRightGuidePhotoUrl] = useState("");
+  const [wrongGuidePhotoUrl, setWrongGuidePhotoUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -39,16 +39,20 @@ const ProofGuidePage = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
+  const handleBackClick = () => {
+    navigate(-1); // 이전 페이지로 이동
+  };
+
   return (
     <div className="proof-guide-page">
       <div className="header">
-        <ArrowLeft size={24} className="back-arrow" />
+        <ArrowLeft size={24} className="back-arrow" onClick={handleBackClick} />
         <h1 className="title">인증 방법</h1>
       </div>
       <div className="content">
         <div className="proof">
           <p className="description" style={{ lineHeight: "1.5" }}>
-              {guideText}
+            {guideText}
           </p>
           <div className="proof-container">
             <div className="image-wrapper">
