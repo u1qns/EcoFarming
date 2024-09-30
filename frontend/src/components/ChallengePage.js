@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ChevronLeft, Share2, Heart } from "lucide-react";
 import { FaHeart, FaUser } from "react-icons/fa";
@@ -17,7 +17,9 @@ const ChallengePage = () => {
   useEffect(() => {
     const fetchChallengeData = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/challenges/${challengeId}/${userId}`);
+        const response = await axios.get(
+          `${apiUrl}/challenges/${challengeId}/${userId}`
+        );
         setChallengeData(response.data);
         setLoading(false);
       } catch (err) {
@@ -26,7 +28,6 @@ const ChallengePage = () => {
       }
     };
     fetchChallengeData();
-
   }, [challengeId, userId]);
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>{error}</div>;
@@ -45,7 +46,7 @@ const ChallengePage = () => {
     guideText,
     balanceId,
     option1Description,
-    option2Description
+    option2Description,
   } = challengeData;
 
   const handleBackClick = () => {
@@ -72,6 +73,19 @@ const ChallengePage = () => {
 
   return (
     <div className="ChallengePage">
+      <div className="header">
+        <div className="icon-background" onClick={handleBackClick}>
+          <ChevronLeft className="back-button" />
+        </div>
+        <div className="action-buttons">
+          <div className="icon-background">
+            <Share2 className="share-button" />
+          </div>
+          <div className="icon-background">
+            <Heart className="heart-button" />
+          </div>
+        </div>
+      </div>
       <div className="content">
         <div className="image-container">
           <img
@@ -79,19 +93,6 @@ const ChallengePage = () => {
             alt="Challenge"
             className="challenge-image"
           />
-          <div className="header">
-            <div className="icon-background" onClick={handleBackClick}>
-              <ChevronLeft className="back-button" />
-            </div>
-            <div className="action-buttons">
-              <div className="icon-background">
-                <Share2 className="share-button" />
-              </div>
-              <div className="icon-background">
-                <Heart className="heart-button" />
-              </div>
-            </div>
-          </div>
         </div>
         <div className="challenge-content">
           <div className="challenge-type">공식 챌린지</div>
@@ -104,7 +105,7 @@ const ChallengePage = () => {
           </div>
           <div className="challenge-duration">
             <span className="duration-item">주 {frequency}일</span>
-            <span className="duration-item">{duration/7}주 동안</span>
+            <span className="duration-item">{duration / 7}주 동안</span>
           </div>
         </div>
 
