@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { uploadProof } from "../services/proofService";
 import "./ProofCameraPage.css";
 
@@ -9,6 +9,12 @@ const ProofCameraPage = () => {
   const videoRef = useRef(null); // 비디오 참조
   const canvasRef = useRef(null); // 캔버스 참조
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // 쿼리 스트링에서 challengeId와 userId 가져오기
+  const queryParams = new URLSearchParams(location.search);
+  const challengeId = queryParams.get("challengeId");
+  const userId = queryParams.get("userId");
 
   // 카메라 시작 함수
   const startCamera = async () => {
@@ -65,11 +71,8 @@ const ProofCameraPage = () => {
 
   // 인증 완료 페이지로 이동 함수
   const handleCompleteVerification = async () => {
-    const userId = 1;
-    const challengeId = 1;
     try {
       // 업로드 함수 호출
-      // NOTE: 백엔드에서 파일 이름 수정함. 임시로 png 확장자 고정
       const filename = "tmp-image-file.png";
       const response = await uploadProof(
         userId,

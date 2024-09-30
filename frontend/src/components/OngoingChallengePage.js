@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ChevronLeft, Share2, Heart } from "lucide-react";
-import { FaHeart, FaUser } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import "./OngoingChallengePage.css";
 import MyProofStatus from "./MyProofStatus";
 import ParticipantProofStatus from "./ParticipantProofStatus";
@@ -112,8 +112,8 @@ const OngoingChallengePage = () => {
         </div>
       </div>
 
-      {/* OngoingChallengeFooter에 challenge 데이터 전달 */}
-      <OngoingChallengeFooter challenge={challenge} />
+      {/* OngoingChallengeFooter에 challenge와 userId 데이터를 전달 */}
+      <OngoingChallengeFooter challenge={challenge} userId={userId} />
     </div>
   );
 };
