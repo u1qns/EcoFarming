@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { ChevronLeft, Share2, Heart } from "lucide-react";
 import { FaHeart, FaUser } from "react-icons/fa";
 import "./OngoingChallengePage.css";
@@ -13,6 +13,7 @@ const OngoingChallengePage = () => {
   const apiUrl = process.env.REACT_APP_API_URL; // .env 파일의 API URL 사용
   const [challenge, setChallenge] = useState(null); // 챌린지 정보를 저장할 상태
   const navigate = useNavigate();
+  const { state } = useLocation();
   const [activeTab, setActiveTab] = useState("myStatus");
 
   // 챌린지 정보 가져오기
@@ -42,7 +43,8 @@ const OngoingChallengePage = () => {
       <div className="content">
         <div className="image-container">
           <img
-            src={require("../assets/images/c1.jpg")}
+        // state에서 thumbPhotoUrl을 사용하거나, fallback으로 challenge.thumbPhotoUrl 사용 
+            src={state?.thumbPhotoUrl || challenge.thumbPhotoUrl}
             alt="Challenge"
             className="challenge-image"
           />
