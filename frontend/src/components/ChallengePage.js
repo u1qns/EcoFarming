@@ -11,6 +11,7 @@ const ChallengePage = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const { state } = useLocation();
   const [challengeData, setChallengeData] = useState(null);
+  const [balanceData, setBalanceData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [guideText, setGuideText] = useState("");
@@ -80,8 +81,8 @@ const ChallengePage = () => {
     { deposit: 0, refund: 100, reward: 10 }, // 100% 환급 + 10% 상금
   ];
 
-  const card1 = { title: "100억 부자 유병재", amount: 120000 };
-  const card2 = { title: "무일푼 거지 차은우", amount: 185000 };
+  const card1 = { title: option1Description, amount: totalBetAmountOption1 };
+  const card2 = { title: option2Description, amount: totalBetAmountOption2 };
 
   const getFillHeight = (amount1, amount2) => {
     if (amount1 === amount2) return "50%";
