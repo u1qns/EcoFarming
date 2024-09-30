@@ -3,7 +3,7 @@
   flex-direction: column;
   height: 100vh;
   background-color: white;
-  justify-content: flex-start; /* 상단에 컨텐츠가 붙도록 설정 */
+  justify-content: flex-start;
   position: relative;
 }
 
@@ -30,7 +30,7 @@
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  flex-grow: 1; /* 컨텐츠가 상단에 붙고 남은 공간을 차지하지 않음 */
+  flex-grow: 1;
 }
 
 .auth-page .form-group {
