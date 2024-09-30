@@ -14,6 +14,9 @@ const OngoingChallenge = () => {
     navigate(`/proof/${challengeId}/guide`);
   };
 
+  const handleChallengeClick = (challengeId, userId) => {
+    navigate(`/ongoing-challenge/${challengeId}/${userId}`); // 해당 챌린지 상세 페이지로 이동
+  };
   useEffect(() => {
     // 유저 ID에 따라 데이터를 불러옴
     const fetchOngoingChallenges = async () => {
@@ -44,7 +47,12 @@ const OngoingChallenge = () => {
         <p>참가 중인 챌린지가 없습니다.</p>
       ) : (
         challenges.map((challenge) => (
-          <div key={challenge.challengeId} className="ongoing-challenge-card">
+          <div 
+          key={challenge.challengeId} 
+          className="ongoing-challenge-card"
+          onClick={() => handleChallengeClick(challenge.challengeId, 1)} // 실제 userId를 전달
+          style={{ cursor: "pointer" }}
+          >
             <div className="ongoing-challenge-content">
               <div className="ongoing-challenge-image">
                 <img

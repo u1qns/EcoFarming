@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; 
 import "./ChallengeFooter.css";
 import { CalendarIcon } from "lucide-react";
 
@@ -14,6 +15,9 @@ const OngoingChallengeFooter = ({ challenge }) => {
     const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"][date.getDay()];
     return `${month}. ${day} (${dayOfWeek})`;
   };
+  const handleGuideClick = () => {
+    navigate(`/proof/${challengeId}/guide`); // challengeId를 포함한 경로로 이동
+  };
 
   return (
     <footer className="ChallengeFooter">
@@ -27,7 +31,7 @@ const OngoingChallengeFooter = ({ challenge }) => {
             주 {challenge.frequency}일, {challenge.duration}일 동안
           </span>
         </div>
-        <button className="start-button">인증하기</button>
+        <button className="start-button" onClick={handleGuideClick}>인증하기</button>
       </div>
     </footer>
   );
