@@ -67,8 +67,6 @@ public class UserService {
                 proof.getChallenge().getChallengeCategory().getId()
         );
 
-        Integer id = 0; // NOTE: front에서 Key 요청하길래 임의로 생성함
-
         return MyComplaintsResponseDto.builder()
                 .complaintId(complaint.getId())
                 .title(challengeTitle)
