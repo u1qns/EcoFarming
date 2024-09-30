@@ -14,6 +14,8 @@
   padding: 1rem;
   border-bottom: 1px solid #e5e5e5;
   height: 67px;
+  border-left: 1px solid #f7f7f7; /* 연한 회색 경계선 */
+  border-right: 1px solid #f7f7f7; /* 연한 회색 경계선 */
 }
 
 .auth-page .title {
@@ -31,6 +33,8 @@
   max-width: 600px;
   margin: 0 auto;
   flex-grow: 1;
+  border-left: 1px solid #f7f7f7; /* 연한 회색 경계선 */
+  border-right: 1px solid #f7f7f7; /* 연한 회색 경계선 */
 }
 
 .auth-page .form-group {
