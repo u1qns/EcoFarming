@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import "./OngoingChallenge.css"; // 스타일 파일 재사용
 
-const UpcomingChallenge = () => {
+const UpcomingChallenge = ({ setCount }) => { // setCount prop 추가
   const [challenges, setChallenges] = useState([]); // 챌린지 데이터를 저장할 상태
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const navigate = useNavigate(); // navigate 함수 추가
@@ -14,7 +14,6 @@ const UpcomingChallenge = () => {
   };
 
   useEffect(() => {
-    // 유저 ID에 따라 데이터를 불러옴
     const fetchUpcomingChallenges = async () => {
       try {
         const userId = 1; // 예시로 유저 ID 설정
@@ -22,6 +21,7 @@ const UpcomingChallenge = () => {
           `${process.env.REACT_APP_API_URL}/challenge-user/${userId}/upcoming`
         );
         setChallenges(response.data); // 받아온 데이터를 상태에 저장
+        setCount(response.data.length); // 부모 컴포넌트에 챌린지 개수 전달
       } catch (error) {
         console.error("Error fetching upcoming challenges:", error);
       } finally {
@@ -30,7 +30,7 @@ const UpcomingChallenge = () => {
     };
 
     fetchUpcomingChallenges();
-  }, []); // 컴포넌트가 마운트될 때만 실행
+  }, [setCount]); // setCount가 변경되면 다시 실행
 
   if (loading) {
     return <p>로딩 중...</p>; // 로딩 중일 때 표시

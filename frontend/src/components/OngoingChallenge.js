@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./OngoingChallenge.css";
 
-const OngoingChallenge = () => {
+const OngoingChallenge = ({ setCount }) => { // setCount prop 추가
   const navigate = useNavigate();
   const [challenges, setChallenges] = useState([]); // 챌린지 데이터를 저장할 상태
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
@@ -17,8 +17,8 @@ const OngoingChallenge = () => {
   const handleChallengeClick = (challengeId, userId) => {
     navigate(`/ongoing-challenge/${challengeId}/${userId}`); // 해당 챌린지 상세 페이지로 이동
   };
+
   useEffect(() => {
-    // 유저 ID에 따라 데이터를 불러옴
     const fetchOngoingChallenges = async () => {
       try {
         const userId = 1; // 예시로 유저 ID 설정
@@ -26,6 +26,7 @@ const OngoingChallenge = () => {
           `${process.env.REACT_APP_API_URL}/challenge-user/${userId}/ongoing`
         );
         setChallenges(response.data); // 받아온 데이터를 상태에 저장
+        setCount(response.data.length); // 부모 컴포넌트에 챌린지 개수 전달
       } catch (error) {
         console.error("Error fetching ongoing challenges:", error);
       } finally {
@@ -34,7 +35,7 @@ const OngoingChallenge = () => {
     };
 
     fetchOngoingChallenges();
-  }, []); // 컴포넌트가 마운트될 때만 실행
+  }, [setCount]); // setCount가 변경되면 다시 실행
 
   if (loading) {
     return <p>로딩 중...</p>; // 로딩 중일 때 표시
@@ -48,10 +49,10 @@ const OngoingChallenge = () => {
       ) : (
         challenges.map((challenge) => (
           <div 
-          key={challenge.challengeId} 
-          className="ongoing-challenge-card"
-          onClick={() => handleChallengeClick(challenge.challengeId, 1)} // 실제 userId를 전달
-          style={{ cursor: "pointer" }}
+            key={challenge.challengeId} 
+            className="ongoing-challenge-card"
+            onClick={() => handleChallengeClick(challenge.challengeId, 1)} // 실제 userId를 전달
+            style={{ cursor: "pointer" }}
           >
             <div className="ongoing-challenge-content">
               <div className="ongoing-challenge-image">
