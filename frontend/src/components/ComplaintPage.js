@@ -56,7 +56,8 @@ const ComplaintPage = () => {
       // 카테고리별로 Label값을 체크
       if (
         (challenge.title === "카테고리1" && predictedLabel === "water jug") ||
-        (challenge.title === "카테고리2" && predictedLabel === "shopping basket") ||
+        (challenge.title === "카테고리2" &&
+          predictedLabel === "shopping basket") ||
         (challenge.title === "카테고리3" && predictedLabel === "handkerchief")
       ) {
         setAiPass(true);
@@ -89,7 +90,6 @@ const ComplaintPage = () => {
     }
   };
 
-  const navigate = useNavigate();
   const handleBackClick = () => {
     navigate(-1); // 이전 페이지로 이동
   };
@@ -97,7 +97,11 @@ const ComplaintPage = () => {
   return (
     <div className="complaint-page">
       <div className="header">
-        <ArrowLeft size={24} className="back-arrow" onClick={() => navigate(-1)} />
+        <ArrowLeft
+          size={24}
+          className="back-arrow"
+          onClick={() => navigate(-1)}
+        />
         <ArrowLeft size={24} className="back-arrow" onClick={handleBackClick} />
         <h1 className="title">신고하기</h1>
       </div>
@@ -114,13 +118,17 @@ const ComplaintPage = () => {
         )}
         <div className="reason-buttons">
           <button
-            className={`reason-button ${selectedReason === "인증샷 무효" ? "selected" : ""}`}
+            className={`reason-button ${
+              selectedReason === "인증샷 무효" ? "selected" : ""
+            }`}
             onClick={() => handleReasonSelect("인증샷 무효")}
           >
             인증샷 무효 신고
           </button>
           <button
-            className={`reason-button ${selectedReason === "악성 유저" ? "selected" : ""}`}
+            className={`reason-button ${
+              selectedReason === "악성 유저" ? "selected" : ""
+            }`}
             onClick={() => handleReasonSelect("악성 유저")}
           >
             악성 유저로 신고
