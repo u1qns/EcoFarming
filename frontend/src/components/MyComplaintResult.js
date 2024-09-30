@@ -4,33 +4,33 @@ import { ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./MyComplaintResult.css";
 
-const MyComplaintResult = () => {
-  const complaints = [
-    {
-      complaintId: 1,
-      title: "플라스틱 줄이기",
-      thumbPhotoUrl: "https://via.placeholder.com/150",
-      complaintDate: "2024-09-01",
-      description: "이상한 사진인거가틈",
-      result: "통과",
-    },
-    {
-      complaintId: 2,
-      title: "일회용 컵 사용 안 하기",
-      thumbPhotoUrl: "https://via.placeholder.com/150",
-      complaintDate: "2024-09-05",
-      description: "인증 제대로 안했음",
-      result: "신고 검토 중",
-    },
-    {
-      complaintId: 3,
-      title: "안쓰는 콘센트 뽑기",
-      thumbPhotoUrl: "https://via.placeholder.com/150",
-      complaintDate: "2024-09-25",
-      description: "인증 제대로 안했음!!!",
-      result: "불통",
-    },
-  ];
+const MyComplaintResult = ({ complaints }) => {
+  // const complaints = [
+  //   {
+  //     complaintId: 1,
+  //     title: "플라스틱 줄이기",
+  //     thumbPhotoUrl: "https://via.placeholder.com/150",
+  //     complaintDate: "2024-09-01",
+  //     description: "이상한 사진인거가틈",
+  //     result: "통과",
+  //   },
+  //   {
+  //     complaintId: 2,
+  //     title: "일회용 컵 사용 안 하기",
+  //     thumbPhotoUrl: "https://via.placeholder.com/150",
+  //     complaintDate: "2024-09-05",
+  //     description: "인증 제대로 안했음",
+  //     result: "신고 검토 중",
+  //   },
+  //   {
+  //     complaintId: 3,
+  //     title: "안쓰는 콘센트 뽑기",
+  //     thumbPhotoUrl: "https://via.placeholder.com/150",
+  //     complaintDate: "2024-09-25",
+  //     description: "인증 제대로 안했음!!!",
+  //     result: "불통",
+  //   },
+  // ];
 
   return (
     <div className="MyComplaintResult">
@@ -43,7 +43,7 @@ const MyComplaintResult = () => {
             <div className="complaint-content">
               <div className="image">
                 <img
-                  src={complaint.thumbPhotoUrl} // 임시 이미지
+                  src={complaint.photoUrl} // 임시 이미지
                   alt="Complaint icon"
                 />
               </div>
@@ -62,9 +62,9 @@ const MyComplaintResult = () => {
                   <div>
                     <p
                       className={`stat-value ${
-                        complaint.result === "불통"
+                        complaint.isApproved === false
                           ? "fail"
-                          : complaint.result === "통과"
+                          : complaint.isApproved === true
                           ? "pass"
                           : ""
                       }`}
