@@ -8,6 +8,7 @@ const OngoingChallengeFooter = ({ challenge }) => {
   const startDate = new Date(challenge.startDate);
   const endDate = new Date(challenge.endDate);
   
+  const navigate = useNavigate(); // navigate 변수 선언
 
   const formatDate = (date) => {
     const month = date.getMonth() + 1;
@@ -15,7 +16,9 @@ const OngoingChallengeFooter = ({ challenge }) => {
     const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"][date.getDay()];
     return `${month}. ${day} (${dayOfWeek})`;
   };
+
   const handleGuideClick = () => {
+    const challengeId = challenge.id; // challengeId 정의
     navigate(`/proof/${challengeId}/guide`); // challengeId를 포함한 경로로 이동
   };
 
