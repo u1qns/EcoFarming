@@ -1,14 +1,23 @@
 package com.a101.ecofarming.user.service;
 
+import com.a101.ecofarming.challengeCategory.repository.ChallengeCategoryRepository;
 import com.a101.ecofarming.challengeUser.dto.response.ChallengeCountsDto;
 import com.a101.ecofarming.challengeUser.repository.ChallengeUserRepository;
+import com.a101.ecofarming.complaint.entity.Complaint;
+import com.a101.ecofarming.complaint.repository.ComplaintRepository;
 import com.a101.ecofarming.global.exception.CustomException;
+import com.a101.ecofarming.proof.entity.Proof;
+import com.a101.ecofarming.proof.repository.ProofRepository;
+import com.a101.ecofarming.user.dto.response.MyComplaintsResponseDto;
 import com.a101.ecofarming.user.dto.response.MyPageResponseDto;
 import com.a101.ecofarming.user.entity.User;
 import com.a101.ecofarming.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.a101.ecofarming.global.exception.ErrorCode.*;
 
@@ -18,8 +27,10 @@ import static com.a101.ecofarming.global.exception.ErrorCode.*;
 public class UserService {
 
     private final UserRepository userRepository;
-
     private final ChallengeUserRepository challengeUserRepository;
+    private final ComplaintRepository complaintRepository;
+    private final ProofRepository proofRepository;
+    private final ChallengeCategoryRepository challengeCategoryRepository;
 
     @Transactional(readOnly = true)
     public MyPageResponseDto findUserMyPage(Integer userId) {
@@ -34,6 +45,37 @@ public class UserService {
                 .upcomingChallengeCount(challengeCountsDto.getUpcomingChallengeCount())
                 .ongoingChallengeCount(challengeCountsDto.getOngoingChallengeCount())
                 .completedChallengeCount(challengeCountsDto.getCompletedChallengeCount())
+                .build();
+    }
+
+    public List<MyComplaintsResponseDto> getMyComplaints(Integer userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+
+        List<Complaint> complaints = complaintRepository.findByUserId(user.getId());
+
+        return complaints.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    private MyComplaintsResponseDto convertToDto(Complaint complaint) {
+        Proof proof = proofRepository.findById(complaint.getProof().getId())
+                .orElseThrow(() -> new CustomException(PROOF_NOT_FOUND));
+
+        String challengeTitle = challengeCategoryRepository.findTitleById(
+                proof.getChallenge().getChallengeCategory().getId()
+        );
+
+        Integer id = 0; // NOTE: front에서 Key 요청하길래 임의로 생성함
+
+        return MyComplaintsResponseDto.builder()
+                .complaintId(complaint.getId())
+                .title(challengeTitle)
+                .description(complaint.getDescription())
+                .photoUrl(proof.getPhotoUrl())
+                .isApproved(proof.getIsValid())
+                .complaintDate(proof.getCreatedAt())
                 .build();
     }
 }
