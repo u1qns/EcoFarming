@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { fetchProofGuide } from "../services/proofService";
 import "./ProofGuidePage.css";
 
 const ProofGuidePage = () => {
   const navigate = useNavigate();
   const { challengeId } = useParams(); // URL에서 challengeId 가져오기
+  const location = useLocation(); // URL에서 쿼리 스트링을 가져오기 위한 훅
   const [guideText, setGuideText] = useState("");
   const [rightGuidePhotoUrl, setRightGuidePhotoUrl] = useState("");
   const [wrongGuidePhotoUrl, setWrongGuidePhotoUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const handleStartCamera = () => {
-    navigate("/proof-camera"); // 카메라가 있는 페이지로 이동
-  };
+  // 쿼리 스트링에서 userId 가져오기
+  const queryParams = new URLSearchParams(location.search);
+  const userId = queryParams.get("userId");
 
   useEffect(() => {
     const fetchGuideData = async () => {
@@ -34,13 +35,22 @@ const ProofGuidePage = () => {
     };
 
     fetchGuideData();
-  }, [challengeId]);
+
+    // 전달받은 challengeId와 userId를 로그로 출력
+    console.log("Challenge ID:", challengeId);
+    console.log("User ID:", userId);
+  }, [challengeId, userId]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   const handleBackClick = () => {
     navigate(-1); // 이전 페이지로 이동
+  };
+
+  const handleStartCamera = () => {
+    // userId와 challengeId를 URL에 포함하여 ProofCameraPage로 전달
+    navigate(`/proof-camera?challengeId=${challengeId}&userId=${userId}`);
   };
 
   return (
