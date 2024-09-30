@@ -31,6 +31,8 @@
   flex-grow: 1;
   padding: 20px;
   overflow-y: auto;
+  border-left: 1px solid #f7f7f7; /* 연한 회색 경계선 */
+  border-right: 1px solid #f7f7f7; /* 연한 회색 경계선 */
 }
 .proof-camera-page .content video {
   width: 100%;

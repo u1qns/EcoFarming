@@ -47,15 +47,20 @@ const ParticipantProofStatus = () => {
 
   // 신고하기 버튼 클릭 핸들러
   const handleComplaintClick = () => {
-    navigate("/complaint"); // navigate를 통해 /complaint 경로로 이동
-  };
+    navigate("/complaint", {
+      state: {
+        proof: selectedProof,
+        challenge: challenge
+      }
+    });
+  };  
 
   return (
     <div className="ParticipantProofStatus">
       <div className="achievement-section">
         <div className="achievement">
           <p>총 참가자수</p>
-          <h1>100명</h1>
+          <h1>{challenge?.userCount || 0}명</h1>
         </div>
         <div className="achievement">
           <p>평균 예상 달성률</p>

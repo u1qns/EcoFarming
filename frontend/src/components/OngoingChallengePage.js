@@ -5,7 +5,7 @@ import { FaHeart, FaUser } from "react-icons/fa";
 import "./OngoingChallengePage.css";
 import MyProofStatus from "./MyProofStatus";
 import ParticipantProofStatus from "./ParticipantProofStatus";
-import OngoingChallengeFooter from "./OngoingChallengeFooter";
+import OngoingChallengeFooter from "./OngoingChallengeFooter"; // Footer 컴포넌트 임포트
 import axios from "axios";
 
 const OngoingChallengePage = () => {
@@ -85,9 +85,7 @@ const OngoingChallengePage = () => {
               나의 인증 현황
             </div>
             <div
-              className={`tab ${
-                activeTab === "participantStatus" ? "active" : ""
-              }`}
+              className={`tab ${activeTab === "participantStatus" ? "active" : ""}`}
               onClick={() => setActiveTab("participantStatus")}
             >
               참가자 인증 현황
@@ -113,7 +111,9 @@ const OngoingChallengePage = () => {
           </p>
         </div>
       </div>
-      <OngoingChallengeFooter challengeId={challengeId}/>
+
+      {/* OngoingChallengeFooter에 challenge 데이터 전달 */}
+      <OngoingChallengeFooter challenge={challenge} />
     </div>
   );
 };
