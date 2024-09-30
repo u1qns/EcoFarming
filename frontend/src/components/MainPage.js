@@ -45,6 +45,15 @@ function MainPage() {
     autoplaySpeed: 2500,
   };
 
+  // 특정 날짜에서 오늘까지의 차이를 구하는 함수
+  const getDaysUntilStart = (startDate) => {
+    const today = new Date();
+    const start = new Date(startDate);
+    const differenceInTime = start.getTime() - today.getTime(); // 시간 차이 계산 (밀리초)
+    const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24)); // 차이를 일 단위로 변환
+    return differenceInDays;
+  };
+
   // 클릭 시 해당 챌린지로 이동할지 결정하는 함수
   const handleCardClick = async (challengeId, userId) => {
     try {
@@ -88,19 +97,24 @@ function MainPage() {
           <h3>에코파밍 챌린지로 환경을 지켜chu~💕</h3>
         </div>
         <div className="card-container">
-          {challenges.upcomingChallenge.map((challenge) => (
-            <Card
-              key={challenge.challengeId}
-              id={challenge.challengeId}
-              thumbnail={challenge.thumbPhotoUrl}
-              title={challenge.challengeTitle}
-              duration={`${challenge.duration / 7}주 동안`}
-              frequency={`${challenge.frequency}일`}
-              startDate={`${new Date(challenge.startDate).toLocaleDateString()} 시작`}
-              participants={challenge.userCount}
-              onClick={() => handleCardClick(challenge.challengeId, 1)} //TODO : userId
-            />
-          ))}
+          {challenges.upcomingChallenge.map((challenge) => {
+            const daysUntilStart = getDaysUntilStart(challenge.startDate);
+            return (
+              <Card
+                key={challenge.challengeId}
+                id={challenge.challengeId}
+                thumbnail={challenge.thumbPhotoUrl}
+                title={challenge.challengeTitle}
+                duration={`${challenge.duration / 7}주 동안`}
+                frequency={`${challenge.frequency}일`}
+                startDate={daysUntilStart > 0 
+                  ? `${daysUntilStart}일 뒤 시작` 
+                  : "오늘 시작"} // 며칠 뒤에 시작하는지 표시
+                participants={challenge.userCount}
+                onClick={() => handleCardClick(challenge.challengeId, 1)} //TODO : userId
+              />
+            );
+          })}
           {challenges.ongoingChallenge.map((challenge) => (
             <Card
               key={challenge.challengeId}
@@ -109,7 +123,6 @@ function MainPage() {
               title={challenge.challengeTitle}
               duration={`${challenge.duration / 7}주 동안`}
               frequency={`${challenge.frequency}일`}
-              //startDate={`${new Date(challenge.startDate).toLocaleDateString()} 시작`}
               startDate={"진행 중"}
               participants={challenge.userCount}
               onClick={() => handleCardClick(challenge.challengeId, 1)} //TODO : userId

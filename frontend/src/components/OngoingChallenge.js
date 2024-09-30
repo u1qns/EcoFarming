@@ -75,7 +75,7 @@ const OngoingChallenge = () => {
                 <div className="ongoing-challenge-stats">
                   <div>
                     <p className="stat-value">{challenge.successRate}%</p>
-                    <p className="stat-label">예상 달성률</p>
+                    <p className="stat-label">달성률</p>
                   </div>
                   <div>
                     <p className="stat-value">{challenge.totalParticipationCount}번</p>

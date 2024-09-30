@@ -13,7 +13,7 @@ const CompletedChallenge = () => {
       try {
         const userId = 1; // 예시로 유저 ID 설정
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/challenge-user/${userId}/upcoming`
+          `${process.env.REACT_APP_API_URL}/challenge-user/${userId}/completed`
         );
         setChallenges(response.data); // 받아온 데이터를 상태에 저장
       } catch (error) {
@@ -60,7 +60,7 @@ const CompletedChallenge = () => {
                 <div className="ongoing-challenge-stats">
                   <div>
                     <p className="stat-value">{challenge.successRate}%</p>
-                    <p className="stat-label">예상 달성률</p>
+                    <p className="stat-label">달성률</p>
                   </div>
                   <div>
                     <p className="stat-value">
