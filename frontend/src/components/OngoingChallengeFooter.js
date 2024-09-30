@@ -1,17 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; 
 import "./ChallengeFooter.css";
 import { CalendarIcon } from "lucide-react";
 
-const ChallengeFooter = () => {
-  const startDate = new Date("2024-09-16");
-  const endDate = new Date("2024-09-29");
-  const today = new Date();
+const OngoingChallengeFooter = ({ challenge }) => {
+  // challenge에서 startDate와 endDate를 가져와 사용
+  const startDate = new Date(challenge.startDate);
+  const endDate = new Date(challenge.endDate);
+  
 
   const formatDate = (date) => {
     const month = date.getMonth() + 1;
     const day = date.getDate();
     const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"][date.getDay()];
     return `${month}. ${day} (${dayOfWeek})`;
+  };
+  const handleGuideClick = () => {
+    navigate(`/proof/${challengeId}/guide`); // challengeId를 포함한 경로로 이동
   };
 
   return (
@@ -22,12 +27,14 @@ const ChallengeFooter = () => {
             {formatDate(startDate)} - {formatDate(endDate)}
             <CalendarIcon size={18} />
           </span>
-          <span className="duration">주 2일, 2주 동안</span>
+          <span className="duration">
+            주 {challenge.frequency}일, {challenge.duration}일 동안
+          </span>
         </div>
-        <button className="start-button">인증하기</button>
+        <button className="start-button" onClick={handleGuideClick}>인증하기</button>
       </div>
     </footer>
   );
 };
 
-export default ChallengeFooter;
+export default OngoingChallengeFooter;

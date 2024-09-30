@@ -60,7 +60,7 @@ const ParticipantProofStatus = () => {
       <div className="achievement-section">
         <div className="achievement">
           <p>총 참가자수</p>
-          <h1>100명</h1>
+          <h1>{challenge?.userCount || 0}명</h1>
         </div>
         <div className="achievement">
           <p>평균 예상 달성률</p>

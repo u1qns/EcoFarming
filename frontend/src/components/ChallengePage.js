@@ -257,7 +257,7 @@ const ChallengePage = () => {
           </p>
         </div>
       </div>
-      <ChallengeFooter />
+      <ChallengeFooter challenge={challengeData} />
     </div>
   );
 };

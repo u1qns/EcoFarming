@@ -11,6 +11,8 @@ import ProofCameraPage from "./components/ProofCameraPage";
 import ProofResultPage from "./components/ProofResultPage";
 import MyPage from "./components/MyPage";
 import ComplaintPage from "./components/ComplaintPage";
+import ParticipantProofStatus from "./components/ParticipantProofStatus";
+import PaymentPage from "./components/PaymentPage";
 import MyUpcomingChallengePage from "./components/MyUpcomingChallengePage";
 import MyOngoingChallengePage from "./components/MyOngoingChallengePage";
 import MyCompletedChallengePage from "./components/MyCompletedChallengePage";
@@ -41,7 +43,7 @@ function App() {
           <Route path="/proof-result" element={<ProofResultPage />} />
 
           <Route path="/complaint" element={<ComplaintPage />} />
-
+          <Route path="/payment" element={<PaymentPage />} />
           <Route path="/users" element={<MyPage />} />
           <Route path="/users/upcoming" element={<MyUpcomingChallengePage />} />
           <Route path="/users/ongoing" element={<MyOngoingChallengePage />} />

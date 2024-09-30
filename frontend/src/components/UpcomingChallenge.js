@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // Axios 추가
+import { useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import "./OngoingChallenge.css"; // 스타일 파일 재사용
 
 const UpcomingChallenge = () => {
   const [challenges, setChallenges] = useState([]); // 챌린지 데이터를 저장할 상태
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  const navigate = useNavigate(); // navigate 함수 추가
+
+  const handleChallengeClick = (challengeId, userId) => {
+    navigate(`/challenge/${challengeId}/${userId}`); // 해당 챌린지 상세 페이지로 이동
+  };
 
   useEffect(() => {
     // 유저 ID에 따라 데이터를 불러옴
@@ -37,7 +43,9 @@ const UpcomingChallenge = () => {
         <p>시작 예정인 챌린지가 없습니다.</p>
       ) : (
         challenges.map((challenge) => (
-          <div key={challenge.challengeId} className="ongoing-challenge-card">
+          <div key={challenge.challengeId} className="ongoing-challenge-card"
+          onClick={() => handleChallengeClick(challenge.challengeId, 1)} // 실제 userId를 전달
+          style={{ cursor: "pointer" }}>
             <div className="ongoing-challenge-content">
               <div className="ongoing-challenge-image">
                 <img
@@ -60,7 +68,7 @@ const UpcomingChallenge = () => {
                 <div className="ongoing-challenge-stats">
                   <div>
                     <p className="stat-value">{challenge.successRate}%</p>
-                    <p className="stat-label">예상 달성률</p>
+                    <p className="stat-label">달성률</p>
                   </div>
                   <div>
                     <p className="stat-value">{challenge.totalParticipationCount}번</p>
