@@ -59,7 +59,8 @@ const ComplaintPage = () => {
 
       if (
         (challenge.title === "카테고리1" && predictedLabel === "water jug") ||
-        (challenge.title === "카테고리2" && predictedLabel === "shopping basket") ||
+        (challenge.title === "카테고리2" &&
+          predictedLabel === "shopping basket") ||
         (challenge.title === "카테고리3" && predictedLabel === "handkerchief")
       ) {
         setAiPass(true);
@@ -107,22 +108,26 @@ const ComplaintPage = () => {
       {error && <div className="error-message">{error}</div>}
 
       <div className="content">
-        {proof && (
+        {/* {proof && (
           <div>
             <img src={proof.photoUrl} alt="신고할 이미지" />
             <p>신고할 사용자: {proof.userName}</p>
             <p>챌린지 제목: {challenge?.title}</p>
           </div>
-        )}
+        )} */}
         <div className="reason-buttons">
           <button
-            className={`reason-button ${selectedReason === "인증샷 무효" ? "selected" : ""}`}
+            className={`reason-button ${
+              selectedReason === "인증샷 무효" ? "selected" : ""
+            }`}
             onClick={() => handleReasonSelect("인증샷 무효")}
           >
             인증샷 무효 신고
           </button>
           <button
-            className={`reason-button ${selectedReason === "악성 유저" ? "selected" : ""}`}
+            className={`reason-button ${
+              selectedReason === "악성 유저" ? "selected" : ""
+            }`}
             onClick={() => handleReasonSelect("악성 유저")}
           >
             악성 유저로 신고
