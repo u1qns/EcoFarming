@@ -16,24 +16,24 @@
 }
 
 /* 토글 바 (탭) 스타일 */
-.tab-container {
+.ProofPage .tab-container {
   display: flex;
   justify-content: center;
   background-color: #ffffff; /* 탭 영역 배경 */
   padding: 10px 0;
 }
 
-.tabs {
+.ProofPage .tabs {
   display: flex;
   width: 90%;
   justify-content: space-between;
   background-color: #f0f0f0;
   border-radius: 100px;
-  margin-bottom : 10px;
+  margin-bottom: 10px;
   padding: 5px;
 }
 
-.tab {
+.ProofPage .tab {
   flex: 1;
   padding: 10px 0;
   cursor: pointer;
@@ -47,11 +47,11 @@
   transition: background-color 0.3s ease;
 }
 
-.tab.active {
+.ProofPage .tab.active {
   background-color: #000;
   color: #fff;
 }
 
-.tab:hover:not(.active) {
+.ProofPage .tab:hover:not(.active) {
   background-color: #ddd;
 }
