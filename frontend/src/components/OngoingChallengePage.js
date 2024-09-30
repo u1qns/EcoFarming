@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ChevronLeft, Share2, Heart } from "lucide-react";
 import { FaHeart, FaUser } from "react-icons/fa";
@@ -14,12 +14,19 @@ const OngoingChallengePage = () => {
   const [challenge, setChallenge] = useState(null); // 챌린지 정보를 저장할 상태
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("myStatus");
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // 챌린지 정보 가져오기
+  const handleScroll = useCallback(() => {
+    setIsScrolled(window.scrollY > 50);
+  }, []);
+
   useEffect(() => {
+    // 챌린지 정보 가져오기
     const fetchChallenge = async () => {
       try {
-        const challengeResponse = await axios.get(`${apiUrl}/challenges/${challengeId}/${userId}`); // API 호출 (챌린지 정보)
+        const challengeResponse = await axios.get(
+          `${apiUrl}/challenges/${challengeId}/${userId}`
+        ); // API 호출 (챌린지 정보)
         setChallenge(challengeResponse.data); // 챌린지 정보 저장
       } catch (error) {
         console.error("Error fetching challenge data:", error);
@@ -27,7 +34,11 @@ const OngoingChallengePage = () => {
     };
 
     fetchChallenge();
-  }, [apiUrl, challengeId, userId]);
+
+    //스크롤시 내브바 배경색 변경 구현
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [apiUrl, challengeId, userId, handleScroll]);
 
   const handleBackClick = () => {
     navigate("/");
@@ -39,6 +50,19 @@ const OngoingChallengePage = () => {
 
   return (
     <div className="OngoingChallengePage">
+      <div className={`header ${isScrolled ? "scrolled" : ""}`}>
+        <div className="icon-background" onClick={handleBackClick}>
+          <ChevronLeft className="back-button" />
+        </div>
+        <div className="action-buttons">
+          <div className="icon-background">
+            <Share2 className="share-button" />
+          </div>
+          <div className="icon-background">
+            <Heart className="heart-button" />
+          </div>
+        </div>
+      </div>
       <div className="content">
         <div className="image-container">
           <img
@@ -46,19 +70,6 @@ const OngoingChallengePage = () => {
             alt="Challenge"
             className="challenge-image"
           />
-          <div className="header">
-            <div className="icon-background" onClick={handleBackClick}>
-              <ChevronLeft className="back-button" />
-            </div>
-            <div className="action-buttons">
-              <div className="icon-background">
-                <Share2 className="share-button" />
-              </div>
-              <div className="icon-background">
-                <Heart className="heart-button" />
-              </div>
-            </div>
-          </div>
         </div>
         <div className="challenge-content">
           <button>상세페이지로 이동 </button>
@@ -85,7 +96,9 @@ const OngoingChallengePage = () => {
               나의 인증 현황
             </div>
             <div
-              className={`tab ${activeTab === "participantStatus" ? "active" : ""}`}
+              className={`tab ${
+                activeTab === "participantStatus" ? "active" : ""
+              }`}
               onClick={() => setActiveTab("participantStatus")}
             >
               참가자 인증 현황
