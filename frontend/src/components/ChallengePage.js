@@ -1,16 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect }  from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { ChevronLeft, Share2, Heart } from "lucide-react";
 import { FaHeart, FaUser } from "react-icons/fa";
 import "./ChallengePage.css";
 import ChallengeFooter from "./ChallengeFooter";
 import axios from "axios";
+import { fetchProofGuide } from "../services/proofService";
 
 const ChallengePage = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
+  const { state } = useLocation();
   const [challengeData, setChallengeData] = useState(null);
+  const [balanceData, setBalanceData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [guideText, setGuideText] = useState("");
+  const [rightGuidePhotoUrl, setRightGuidePhotoUrl] = useState("");
+  const [wrongGuidePhotoUrl, setWrongGuidePhotoUrl] = useState("");
   const { challengeId, userId } = useParams();
   const navigate = useNavigate();
 
@@ -27,7 +33,22 @@ const ChallengePage = () => {
         setLoading(false);
       }
     };
+    const fetchGuideData = async () => {
+      try {
+        const data = await fetchProofGuide(challengeId);
+        const { guideText, rightGuidePhotoUrl, wrongGuidePhotoUrl } = data;
+
+        setGuideText(guideText);
+        setRightGuidePhotoUrl(rightGuidePhotoUrl);
+        setWrongGuidePhotoUrl(wrongGuidePhotoUrl);
+      } catch (error) {
+        setError("인증 가이드를 불러오는데 실패했습니다.");
+      }
+    };
+
     fetchChallengeData();
+    fetchGuideData(); 
+
   }, [challengeId, userId]);
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>{error}</div>;
@@ -43,7 +64,6 @@ const ChallengePage = () => {
     userCount,
     totalBetAmountOption1,
     totalBetAmountOption2,
-    guideText,
     balanceId,
     option1Description,
     option2Description,
@@ -63,8 +83,8 @@ const ChallengePage = () => {
     { deposit: 0, refund: 100, reward: 10 }, // 100% 환급 + 10% 상금
   ];
 
-  const card1 = { title: "100억 부자 유병재", amount: 120000 };
-  const card2 = { title: "무일푼 거지 차은우", amount: 185000 };
+  const card1 = { title: option1Description, amount: totalBetAmountOption1 };
+  const card2 = { title: option2Description, amount: totalBetAmountOption2 };
 
   const getFillHeight = (amount1, amount2) => {
     if (amount1 === amount2) return "50%";
@@ -89,7 +109,7 @@ const ChallengePage = () => {
       <div className="content">
         <div className="image-container">
           <img
-            src={require("../assets/images/c1.jpg")}
+             src={state?.thumbPhotoUrl || challengeData.thumbPhotoUrl}
             alt="Challenge"
             className="challenge-image"
           />
@@ -222,14 +242,12 @@ const ChallengePage = () => {
         <div style={{ padding: 15 }} className="proof">
           <h2>이렇게 인증해주세요</h2>
           <p className="description" style={{ lineHeight: "1.5" }}>
-            안 쓰는 가전제품의&nbsp;
-            <span style={{ fontWeight: "bold" }}>콘센트를 뽑은 후</span>의
-            사진을 찍어 인증해주세요!
+            {guideText}
           </p>
           <div className="proof-container">
             <div className="image-wrapper">
               <img
-                src={require("../assets/images/c1.jpg")}
+                src={rightGuidePhotoUrl}
                 alt="Left image"
                 className="proof-image"
               />
@@ -237,7 +255,7 @@ const ChallengePage = () => {
             </div>
             <div className="image-wrapper">
               <img
-                src={require("../assets/images/c1.jpg")}
+                src={wrongGuidePhotoUrl}
                 alt="Right image"
                 className="proof-image"
               />

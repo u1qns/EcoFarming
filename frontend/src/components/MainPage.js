@@ -55,7 +55,7 @@ function MainPage() {
   };
 
   // 클릭 시 해당 챌린지로 이동할지 결정하는 함수
-  const handleCardClick = async (challengeId, userId) => {
+  const handleCardClick = async (challengeId, userId, thumbPhotoUrl) => {
     try {
       // API 호출 (참가 여부와 상관없이 동일한 API)
       const response = await axios.get(`${apiUrl}/challenges/${challengeId}/${userId}`);
@@ -67,10 +67,14 @@ function MainPage() {
       // 백엔드에서 반환된 데이터 타입을 기반으로 분기 처리
       if (challengeData.type === "ParticipantChallengeResponseDto") {
         // 참가 중인 경우 OngoingChallengePage로 이동
-        navigate(`/ongoing-challenge/${challengeId}/${userId}`);
+        navigate(`/ongoing-challenge/${challengeId}/${userId}`, {
+          state: { thumbPhotoUrl },
+        });
       } else if (challengeData.type === "NoParticipantChallengeResponseDto") {
         // 비참가 중인 경우 ChallengePage로 이동
-        navigate(`/challenge/${challengeId}/${userId}`);
+        navigate(`/challenge/${challengeId}/${userId}`, {
+          state: { thumbPhotoUrl }, // thumbPhotoUrl 데이터를 전달
+        });
       }
     } catch (error) {
       console.error('챌린지 정보를 불러오는 중 오류 발생:', error);
@@ -107,11 +111,11 @@ function MainPage() {
                 title={challenge.challengeTitle}
                 duration={`${challenge.duration / 7}주 동안`}
                 frequency={`${challenge.frequency}일`}
-                startDate={daysUntilStart > 0 
-                  ? `${daysUntilStart}일 뒤 시작` 
+                startDate={daysUntilStart > 0
+                  ? `${daysUntilStart}일 뒤 시작`
                   : "오늘 시작"} // 며칠 뒤에 시작하는지 표시
                 participants={challenge.userCount}
-                onClick={() => handleCardClick(challenge.challengeId, 1)} //TODO : userId
+                onClick={() => handleCardClick(challenge.challengeId, 1, challenge.thumbPhotoUrl)} //TODO : userId
               />
             );
           })}
@@ -125,7 +129,7 @@ function MainPage() {
               frequency={`${challenge.frequency}일`}
               startDate={"진행 중"}
               participants={challenge.userCount}
-              onClick={() => handleCardClick(challenge.challengeId, 1)} //TODO : userId
+              onClick={() => handleCardClick(challenge.challengeId, 1, challenge.thumbPhotoUrl)} //TODO : userId
             />
           ))}
         </div>
