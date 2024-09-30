@@ -2,21 +2,25 @@ import React, { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import "./ComplaintPage.css";
 import { submitComplaint } from "../services/complaintService";
-import axios from "axios"; // axios import 추가
-import { useLocation, useNavigate } from "react-router-dom"; // state 전달을 받기 위한 useLocation
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const PopupModal = ({ onClose }) => (
+const PopupModal = ({ message, onClose }) => (
   <div className="popup-overlay">
     <div className="popup-content">
-      <h2>신고가 접수되었습니다</h2>
-      <p>
-        신고 결과는 '마이페이지 > 인증샷
-        <br />
-        신고 결과'에서 확인 하실 수 있습니다.
-      </p>
-      <button className="popup-button" onClick={onClose}>
-        확인
-      </button>
+      <h2>{message}</h2>
+      {message === "신고가 접수되었습니다" && (
+        <p>
+          신고 결과는 '마이페이지 > 인증샷
+          <br />
+          신고 결과'에서 확인 하실 수 있습니다.
+        </p>
+      )}
+      {message !== "신고 처리 중입니다..." && (
+        <button className="popup-button" onClick={onClose}>
+          확인
+        </button>
+      )}
     </div>
   </div>
 );
@@ -29,10 +33,10 @@ const ComplaintPage = () => {
   const [selectedReason, setSelectedReason] = useState("");
   const [detailedReason, setDetailedReason] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [loadingPopup, setLoadingPopup] = useState(false); // 로딩 팝업 상태 추가
   const [error, setError] = useState("");
-  const [aiPass, setAiPass] = useState(false); // AI 검증 결과
+  const [aiPass, setAiPass] = useState(false);
 
-  // TEST DATA
   const proofId = 1;
   const userId = 1;
 
@@ -53,11 +57,9 @@ const ComplaintPage = () => {
       });
       const predictedLabel = response.data.aiPass;
 
-      // 카테고리별로 Label값을 체크
       if (
         (challenge.title === "카테고리1" && predictedLabel === "water jug") ||
-        (challenge.title === "카테고리2" &&
-          predictedLabel === "shopping basket") ||
+        (challenge.title === "카테고리2" && predictedLabel === "shopping basket") ||
         (challenge.title === "카테고리3" && predictedLabel === "handkerchief")
       ) {
         setAiPass(true);
@@ -66,15 +68,15 @@ const ComplaintPage = () => {
       }
     } catch (error) {
       console.error("AI 예측 중 오류가 발생했습니다:", error);
-      setAiPass(false); // 오류 시 기본적으로 false 처리
+      setAiPass(false);
     }
   };
 
   const handleSubmit = async () => {
     if (!isSubmitDisabled) {
+      setLoadingPopup(true); // 로딩 팝업 표시
       try {
-        await runPredict(proof.photoUrl); // AI 예측 실행
-        // 신고 데이터 제출
+        await runPredict(proof.photoUrl);
         const data = await submitComplaint({
           proofId: proofId,
           userId: userId,
@@ -82,26 +84,22 @@ const ComplaintPage = () => {
           description: detailedReason,
         });
         console.log("응답 데이터:", JSON.stringify(data, null, 2));
-        setShowPopup(true);
+        setLoadingPopup(false); // 로딩 팝업 종료
+        setShowPopup(true); // 완료 팝업 표시
       } catch (error) {
-        setError("신고 제출 중 오류가 발생했습니다. 다시 시도해주세요.");
+        setLoadingPopup(false); // 로딩 팝업 종료
         setError("신고 제출 중 오류가 발생했습니다. 다시 시도해주세요.");
       }
     }
   };
 
   const handleBackClick = () => {
-    navigate(-1); // 이전 페이지로 이동
+    navigate(-1);
   };
 
   return (
     <div className="complaint-page">
       <div className="header">
-        <ArrowLeft
-          size={24}
-          className="back-arrow"
-          onClick={() => navigate(-1)}
-        />
         <ArrowLeft size={24} className="back-arrow" onClick={handleBackClick} />
         <h1 className="title">신고하기</h1>
       </div>
@@ -118,17 +116,13 @@ const ComplaintPage = () => {
         )}
         <div className="reason-buttons">
           <button
-            className={`reason-button ${
-              selectedReason === "인증샷 무효" ? "selected" : ""
-            }`}
+            className={`reason-button ${selectedReason === "인증샷 무효" ? "selected" : ""}`}
             onClick={() => handleReasonSelect("인증샷 무효")}
           >
             인증샷 무효 신고
           </button>
           <button
-            className={`reason-button ${
-              selectedReason === "악성 유저" ? "selected" : ""
-            }`}
+            className={`reason-button ${selectedReason === "악성 유저" ? "selected" : ""}`}
             onClick={() => handleReasonSelect("악성 유저")}
           >
             악성 유저로 신고
@@ -153,7 +147,22 @@ const ComplaintPage = () => {
           신고하기
         </button>
       </div>
-      {showPopup && <PopupModal onClose={() => setShowPopup(false)} />}
+
+      {/* 로딩 팝업 표시 */}
+      {loadingPopup && (
+        <PopupModal
+          message="신고 처리 중입니다..."
+          onClose={() => {}} // 로딩 중일 때는 팝업을 닫을 수 없게 처리
+        />
+      )}
+
+      {/* 신고 완료 팝업 표시 */}
+      {showPopup && (
+        <PopupModal
+          message="신고가 접수되었습니다"
+          onClose={() => setShowPopup(false)}
+        />
+      )}
     </div>
   );
 };
