@@ -125,11 +125,32 @@ public class ProofService {
             return 0;
         }
 
-        return (byte) (((double) proofCount / frequency) * 100);
+        double successRate = ((double) proofCount / frequency) * 100;
+        if (successRate > 100) {
+            return 100;
+        }
+
+        return (byte) successRate;
     }
 
     public ProofInfoResponseDto getProofsByChallengeId(Integer challengeId, Pageable pageable) {
         Page<Proof> proofs = proofRepository.findByChallengeIdOrderByCreatedAtDesc(challengeId, pageable);
+
+        List<ProofDetailDto> proofDetails = proofs.stream()
+                .map(proof -> new ProofDetailDto(
+                        proof.getId(),
+                        proof.getPhotoUrl(),
+                        proof.getUser().getName(),
+                        proof.getIsValid(),
+                        proof.getCreatedAt()
+                ))
+                .collect(Collectors.toList());
+
+        return new ProofInfoResponseDto(proofDetails);
+    }
+
+    public ProofInfoResponseDto getProofsByChallengeIdAndUserId(Integer challengeId, Integer userId, Pageable pageable) {
+        Page<Proof> proofs = proofRepository.findByChallengeIdAndUserIdOrderByCreatedAtDesc(challengeId, userId, pageable);
 
         List<ProofDetailDto> proofDetails = proofs.stream()
                 .map(proof -> new ProofDetailDto(

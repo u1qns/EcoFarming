@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./MyPage.css";
 import MyPageNavbar from "./MyPageNavbar";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 import {
   ChevronRight,
   Headphones,
@@ -11,15 +13,15 @@ import {
   Siren,
   Footprints,
   Ticket,
-  MailWarningIcon,
 } from "lucide-react";
 
 const MenuOption = ({
   icon,
   text,
   rightIcon = <ChevronRight className="icon" />,
+  onClick,
 }) => (
-  <div className="menu-option">
+  <div className="menu-option" onClick={onClick}>
     <div className="menu-option-left">
       {React.cloneElement(icon, { className: "icon" })}
       <span className="menu-text">{text}</span>
@@ -29,6 +31,45 @@ const MenuOption = ({
 );
 
 function MyPage() {
+  // const username = localStorage.getItem('username');
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [userData, setUserData] = useState({
+    amount: 0,
+    prizeAmount: 0,
+    upcomingChallengeCount: 0,
+    ongoingChallengeCount: 0,
+    completedChallengeCount: 0,
+  });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userId = 1; // Example user ID -> 나중에 바꾸기
+        // const userId = localStorage.getItem('userId');
+        const response = await axios.get(`${apiUrl}/users/${userId}/my-page`);
+        setUserData(response.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const navigate = useNavigate();
+  const handleUpcomingClick = () => {
+    navigate(`/users/upcoming`);
+  };
+  const handleOngoingClick = () => {
+    navigate(`/users/ongoing`);
+  };
+  const handleCompletedClick = () => {
+    navigate(`/users/completed`);
+  };
+  const handleComplaintResultClick = () => {
+    navigate(`/users/complaint-result`);
+  };
+
   return (
     <div className="MyPage">
       <MyPageNavbar />
@@ -41,7 +82,8 @@ function MyPage() {
             />
           </div>
           <div className="profile-name">
-            <span>아임리쥬</span>
+            <span>임시</span>
+            {/* <span>{username}</span> */}
             <ChevronRight size={20} className="chevron" />
           </div>
         </div>
@@ -50,12 +92,14 @@ function MyPage() {
           <div className="wallet-item">
             <img src={require("../assets/images/Deposit2.png")} alt="Deposit" />
             <div className="label">보유금액</div>
-            <div className="value">14,000원</div>
+            <div className="value">{userData.amount.toLocaleString()}원</div>
           </div>
           <div className="wallet-item">
             <img src={require("../assets/images/Reward2.png")} alt="Reward" />
             <div className="label">상금</div>
-            <div className="value">8,000원</div>
+            <div className="value">
+              {userData.prizeAmount.toLocaleString()}원
+            </div>
           </div>
           <div className="wallet-item">
             <img src={require("../assets/images/Rating2.png")} alt="Rating" />
@@ -70,16 +114,16 @@ function MyPage() {
             <span>챌린지 현황</span>
           </div>
           <div className="challenge-info">
-            <div className="challenge-item">
-              <div className="value">2</div>
-              <div className="label">참가중</div>
+            <div className="challenge-item" onClick={handleUpcomingClick}>
+              <div className="value">{userData.upcomingChallengeCount}</div>
+              <div className="label">시작 전</div>
             </div>
-            <div className="challenge-item">
-              <div className="value">2</div>
-              <div className="label">시작전</div>
+            <div className="challenge-item" onClick={handleOngoingClick}>
+              <div className="value">{userData.ongoingChallengeCount}</div>
+              <div className="label">참가 중</div>
             </div>
-            <div className="challenge-item">
-              <div className="value">1</div>
+            <div className="challenge-item" onClick={handleCompletedClick}>
+              <div className="value">{userData.completedChallengeCount}</div>
               <div className="label">완료</div>
             </div>
           </div>
@@ -87,7 +131,11 @@ function MyPage() {
         <hr className="mypageHr" />
         <div className="menu-container">
           <MenuOption icon={<Headphones />} text="문의하기" />
-          <MenuOption icon={<Siren />} text="인증샷 신고 결과" />
+          <MenuOption
+            icon={<Siren />}
+            text="인증샷 신고 결과"
+            onClick={handleComplaintResultClick}
+          />
           <MenuOption icon={<Award />} text="내 레벨·배지" />
           <MenuOption icon={<BarChart2 />} text="챌린지 리포트" />
           <MenuOption icon={<Gift />} text="친구 초대" />

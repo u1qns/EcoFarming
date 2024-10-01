@@ -4,24 +4,24 @@
   height: 100vh;
   font-family: sans-serif;
 }
-.content {
+.MyPage .content {
   /* flex: 1; 남은 공간을 차지하도록 설정 */
   overflow-y: auto; /* content 내부에 수직 스크롤 생성 */
   border-left: 1px solid #f7f7f7; /* 연한 회색 경계선 */
   border-right: 1px solid #f7f7f7; /* 연한 회색 경계선 */
 }
-.content::-webkit-scrollbar {
+.MyPage .content::-webkit-scrollbar {
   display: none; /* 스크롤바를 보이지 않게 설정 */
 }
 
-.profile {
+.MyPage .profile {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
   padding: 20px;
 }
 
-.profile-image {
+.MyPage .profile-image {
   width: 70px;
   height: 70px;
   background-color: #c2c2c2;
@@ -30,72 +30,72 @@
   margin-right: 16px;
 }
 
-.profile-image img {
+.MyPage .profile-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.profile-name {
+.MyPage .profile-name {
   display: flex;
   align-items: center;
   font-size: 18px;
   font-weight: bold;
 }
 
-.chevron {
+.MyPage .chevron {
   color: #9ca3af;
   margin-left: 4px;
 }
 
-.wallet-info {
+.MyPage .wallet-info {
   display: flex;
   justify-content: center;
   gap: 48px;
   margin-bottom: 32px;
 }
 
-.wallet-item {
+.MyPage .wallet-item {
   text-align: center;
 }
 
-.wallet-item img {
+.MyPage .wallet-item img {
   width: 40px;
   height: 40px;
   margin: 0 auto 4px;
 }
 
-.wallet-item .label {
+.MyPage .wallet-item .label {
   font-size: 14px;
   color: #4b5563;
 }
 
-.wallet-item .value {
+.MyPage .wallet-item .value {
   font-weight: bold;
 }
 
-.challenge-status {
+.MyPage .challenge-status {
   margin-bottom: 5px;
   padding: 20px;
 }
 
-.challenge-header {
+.MyPage .challenge-header {
   display: flex;
   align-items: center;
   margin-bottom: 8px;
 }
 
-.challenge-header img {
+.MyPage .challenge-header img {
   width: 24px;
   height: 24px;
   margin-right: 8px;
 }
 
-.challenge-header span {
+.MyPage .challenge-header span {
   font-weight: bold;
 }
 
-.challenge-info {
+.MyPage .challenge-info {
   display: flex;
   justify-content: center;
   background-color: #f3f4f6;
@@ -104,31 +104,32 @@
   margin: 15px 10px;
 }
 
-.challenge-item {
+.MyPage .challenge-item {
   text-align: center;
   padding: 0 24px;
   width: 100%;
+  cursor: pointer;
 }
 
-.challenge-item:not(:last-child) {
+.MyPage .challenge-item:not(:last-child) {
   border-right: 1px solid #d1d5db;
 }
 
-.challenge-item .value {
+.MyPage .challenge-item .value {
   font-weight: bold;
 }
 
-.challenge-item .label {
+.MyPage .challenge-item .label {
   font-size: 14px;
   color: #4b5563;
 }
 
-.mypageHr {
+.MyPage .mypageHr {
   border: 1px solid #f2f2f2;
   margin: 0px;
 }
 
-.menu-container {
+.MyPage .menu-container {
   width: 100%;
   max-width: 28rem;
   margin: 0 auto;
@@ -139,7 +140,7 @@
   overflow: hidden;
 }
 
-.menu-option {
+.MyPage .menu-option {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -147,20 +148,20 @@
   border-bottom: 1px solid #e2e8f0;
 }
 
-.menu-option:last-child {
+.MyPage .menu-option:last-child {
   border-bottom: none;
 }
 
-.menu-option-left {
+.MyPage .menu-option-left {
   display: flex;
   align-items: center;
 }
 
-.icon {
+.MyPage .icon {
   width: 1.5rem;
   height: 1.5rem;
 }
 
-.menu-text {
+.MyPage .menu-text {
   margin-left: 0.75rem;
 }

@@ -1,0 +1,92 @@
+.proof-result-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: white;
+}
+
+.proof-result-page .header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e5e5;
+  height: 67px;
+  border-left: 1px solid #f7f7f7;
+  border-right: 1px solid #f7f7f7;
+}
+
+.proof-result-page .back-arrow {
+  margin-right: 1rem;
+}
+
+.proof-result-page .title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 600;
+  padding-right: 1.5rem;
+}
+
+.proof-result-page .content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  border-left: 1px solid #f7f7f7; /* 연한 회색 경계선 */
+  border-right: 1px solid #f7f7f7; /* 연한 회색 경계선 */
+}
+.proof-result-page .content .challenge-name {
+  margin: 0;
+  font-size: 14px;
+  color: grey;
+}
+
+/* 달성률 섹션 */
+.proof-result-page .achievement-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 40px 0px;
+}
+
+.proof-result-page .achievement {
+  text-align: center;
+}
+
+.proof-result-page .achievement h1 {
+  margin: 0px 5px 0px 0px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* 프로그레스 바 */
+.proof-result-page .progress-bar {
+  flex: 1;
+  margin: 0 20px 0px 0px;
+  background-color: #f1f1f1;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.proof-result-page .progress {
+  height: 100%;
+  background-color: #ff5e5e;
+  border-radius: 5px;
+  transition: width 0.3s ease-in-out; /* 애니메이션 */
+}
+
+.proof-result-page .footer {
+  padding: 1rem;
+  /* border-top: 0.1px solid #f1f1f1; */
+  box-shadow: 0 -0.5px 3px rgba(0, 0, 0, 0.1);
+  height: 75.5px;
+}
+.proof-result-page .proof-finish-button {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: black;
+  color: white;
+  font-weight: 600;
+}

@@ -29,7 +29,7 @@
 
 .ongoing-challenge-details {
   flex-grow: 1;
-  padding: 10px;
+  padding: 0px 10px 10px 10px;
 }
 
 .ongoing-challenge-header {
@@ -43,6 +43,7 @@
   font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: 3px;
+  margin-top: 6px;
 }
 
 .chevron-icon {
@@ -64,13 +65,13 @@
   margin-right: 1.5rem;
 }
 
-.stat-value {
+.ongoing-challenge-stats .stat-value {
   font-size: 1.125rem;
   font-weight: 700;
   margin: 0px;
 }
 
-.stat-label {
+.ongoing-challenge-stats .stat-label {
   font-size: 0.75rem;
   color: #718096;
   margin: 0px;

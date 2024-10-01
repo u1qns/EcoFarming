@@ -83,6 +83,7 @@ public class ChallengeUserService {
 
             // 빌더 패턴으로 참여자 정보 객체를 생성하고 반환
             return ParticipantChallengeResponseDto.builder()
+                    .type("ParticipantChallengeResponseDto")
                     .id(challenge.getId())
                     .title(challenge.getChallengeCategory().getTitle())
                     .description(challenge.getChallengeCategory().getDescription())
@@ -103,6 +104,7 @@ public class ChallengeUserService {
         } else {
             // 빌더 패턴으로 비참여자 정보 객체를 생성하고 반환
             return NoParticipantChallengeResponseDto.builder()
+                    .type("NoParticipantChallengeResponseDto")
                     .id(challenge.getId())
                     .title(challenge.getChallengeCategory().getTitle())
                     .description(challenge.getChallengeCategory().getDescription())

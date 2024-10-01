@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ParticipantChallengeResponseDto {
+    private String type = "ParticipantChallengeResponseDto";
     private Integer id;
     private String title;
     private String description;

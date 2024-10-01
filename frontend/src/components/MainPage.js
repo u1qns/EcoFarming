@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "./MainPage.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -5,97 +7,78 @@ import Card from "./Card";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import axios from 'axios';
 
 function MainPage() {
-  const cardData = [
-    {
-      id: 1,
-      thumbnail: require("../assets/images/c1.jpg"),
-      title: "안 쓰는 가전제품 콘센트 빼기",
-      duration: "2주 동안",
-      frequency: "2일",
-      startDate: "오늘부터 시작",
-      participants: 26,
-    },
-    {
-      id: 2,
-      thumbnail: require("../assets/images/c2.jpg"),
-      title: "제로 웨이스트 실천하기",
-      duration: "2주 동안",
-      frequency: "3일",
-      startDate: "오늘부터 시작",
-      participants: 7,
-    },
-    {
-      id: 3,
-      thumbnail: require("../assets/images/c3.jpg"),
-      title: "카페에서 텀블러 쓰기",
-      duration: "2주 동안",
-      frequency: "2일",
-      startDate: "오늘부터 시작",
-      participants: 7,
-    },
-    {
-      id: 4,
-      thumbnail: require("../assets/images/c4.jpg"),
-      title: "오늘하루 | 쓰레기 줍기 실천하기",
-      duration: "2주 동안",
-      frequency: "3일",
-      startDate: "오늘부터 시작",
-      participants: 7,
-    },
-    {
-      id: 5,
-      thumbnail: require("../assets/images/c5.jpg"),
-      title: "일회용 빨대 사용 줄이기",
-      duration: "4주 동안",
-      frequency: "1일",
-      startDate: "내일부터 시작",
-      participants: 14,
-    },
-    {
-      id: 6,
-      thumbnail: require("../assets/images/c6.jpg"),
-      title: "용기내 챌린지",
-      duration: "3주 동안",
-      frequency: "매일",
-      startDate: "오늘부터 시작",
-      participants: 18,
-    },
-    {
-      id: 7,
-      thumbnail: require("../assets/images/c7.jpg"),
-      title: "재활용 분리배출 정확히 하기",
-      duration: "1주 동안",
-      frequency: "5일",
-      startDate: "모레부터 시작",
-      participants: 12,
-    },
-    {
-      id: 8,
-      thumbnail: require("../assets/images/c8.jpg"),
-      title: "기후 위기/환경 기사 읽기",
-      duration: "2주 동안",
-      frequency: "매일",
-      startDate: "오늘부터 시작",
-      participants: 9,
-    },
-  ];
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [challenges, setChallenges] = useState({ ongoingChallenge: [], upcomingChallenge: [] });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchChallenges = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/challenges`);
+        setChallenges(response.data);
+      } catch (error) {
+        console.error('Error fetching challenges:', error);
+      }
+    };
+
+    fetchChallenges();
+  }, []);
 
   const carouselImages = [
+    require("../assets/images/subinPing.png"),
     require("../assets/images/tiniping.jpg"),
     require("../assets/images/tiniping2.jpg"),
     require("../assets/images/tiniping3.jpg"),
     require("../assets/images/tiniping4.jpg"),
   ];
+
   const settings = {
-    dots: true, // 아래에 점을 표시해 이미지 순서를 알려줌
-    infinite: true, // 무한 반복
-    speed: 500, // 슬라이드 전환 속도
-    slidesToShow: 1, // 한 번에 표시할 슬라이드 수
-    slidesToScroll: 1, // 한 번에 스크롤될 슬라이드 수
-    autoplay: true, // 자동 재생
-    autoplaySpeed: 2500, // 자동 재생 속도 (3초)
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2500,
+  };
+
+  // 특정 날짜에서 오늘까지의 차이를 구하는 함수
+  const getDaysUntilStart = (startDate) => {
+    const today = new Date();
+    const start = new Date(startDate);
+    const differenceInTime = start.getTime() - today.getTime(); // 시간 차이 계산 (밀리초)
+    const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24)); // 차이를 일 단위로 변환
+    return differenceInDays;
+  };
+
+  // 클릭 시 해당 챌린지로 이동할지 결정하는 함수
+  const handleCardClick = async (challengeId, userId, thumbPhotoUrl) => {
+    try {
+      // API 호출 (참가 여부와 상관없이 동일한 API)
+      const response = await axios.get(`${apiUrl}/challenges/${challengeId}/${userId}`);
+      const challengeData = response.data;
+
+      // API 응답 확인 (디버깅용 로그)
+      console.log('Challenge data:', challengeData);
+
+      // 백엔드에서 반환된 데이터 타입을 기반으로 분기 처리
+      if (challengeData.type === "ParticipantChallengeResponseDto") {
+        // 참가 중인 경우 OngoingChallengePage로 이동
+        navigate(`/ongoing-challenge/${challengeId}/${userId}`, {
+          state: { thumbPhotoUrl },
+        });
+      } else if (challengeData.type === "NoParticipantChallengeResponseDto") {
+        // 비참가 중인 경우 ChallengePage로 이동
+        navigate(`/challenge/${challengeId}/${userId}`, {
+          state: { thumbPhotoUrl }, // thumbPhotoUrl 데이터를 전달
+        });
+      }
+    } catch (error) {
+      console.error('챌린지 정보를 불러오는 중 오류 발생:', error);
+    }
   };
 
   return (
@@ -118,16 +101,35 @@ function MainPage() {
           <h3>에코파밍 챌린지로 환경을 지켜chu~💕</h3>
         </div>
         <div className="card-container">
-          {cardData.map((card, index) => (
+          {challenges.upcomingChallenge.map((challenge) => {
+            const daysUntilStart = getDaysUntilStart(challenge.startDate);
+            return (
+              <Card
+                key={challenge.challengeId}
+                id={challenge.challengeId}
+                thumbnail={challenge.thumbPhotoUrl}
+                title={challenge.challengeTitle}
+                duration={`${challenge.duration / 7}주 동안`}
+                frequency={`${challenge.frequency}일`}
+                startDate={daysUntilStart > 0
+                  ? `${daysUntilStart}일 뒤 시작`
+                  : "오늘 시작"} // 며칠 뒤에 시작하는지 표시
+                participants={challenge.userCount}
+                onClick={() => handleCardClick(challenge.challengeId, 1, challenge.thumbPhotoUrl)} //TODO : userId
+              />
+            );
+          })}
+          {challenges.ongoingChallenge.map((challenge) => (
             <Card
-              key={index}
-              id={card.id}
-              thumbnail={card.thumbnail}
-              title={card.title}
-              duration={card.duration}
-              frequency={card.frequency}
-              startDate={card.startDate}
-              participants={card.participants}
+              key={challenge.challengeId}
+              id={challenge.challengeId}
+              thumbnail={challenge.thumbPhotoUrl}
+              title={challenge.challengeTitle}
+              duration={`${challenge.duration / 7}주 동안`}
+              frequency={`${challenge.frequency}일`}
+              startDate={"진행 중"}
+              participants={challenge.userCount}
+              onClick={() => handleCardClick(challenge.challengeId, 1, challenge.thumbPhotoUrl)} //TODO : userId
             />
           ))}
         </div>

@@ -1,0 +1,58 @@
+.proof-camera-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: white;
+}
+
+.proof-camera-page .header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e5e5;
+  height: 67px;
+  border-left: 1px solid #f7f7f7;
+  border-right: 1px solid #f7f7f7;
+}
+
+.proof-camera-page .back-arrow {
+  margin-right: 1rem;
+}
+
+.proof-camera-page .title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 600;
+  padding-right: 1.5rem;
+}
+
+.proof-camera-page .content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  border-left: 1px solid #f7f7f7; /* 연한 회색 경계선 */
+  border-right: 1px solid #f7f7f7; /* 연한 회색 경계선 */
+}
+.proof-camera-page .content video {
+  width: 100%;
+}
+.proof-camera-page .content img {
+  width: 100%;
+}
+
+.proof-camera-page .footer {
+  padding: 1rem;
+  /* border-top: 0.1px solid #f1f1f1; */
+  box-shadow: 0 -0.5px 3px rgba(0, 0, 0, 0.1);
+  height: 75.5px;
+}
+.proof-camera-page .camera-button,
+.proof-camera-page .finish-button {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: black;
+  color: white;
+  font-weight: 600;
+}

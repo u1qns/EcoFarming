@@ -13,14 +13,16 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Integer> {
     int findFrequencyById(@Param("id") Integer id);
 
     // 진행 중인 챌린지
-    @Query("SELECT new com.a101.ecofarming.challenge.dto.response.TotalChallengeDto(c.id, c.challengeCategory.title, c.duration, c.frequency, c.userCount, c.startDate) " +
+    @Query("SELECT new com.a101.ecofarming.challenge.dto.response.TotalChallengeDto(c.id, c.challengeCategory.title, c.duration, c.frequency, c.userCount, c.startDate, cc.thumbPhotoUrl) " +
             "FROM Challenge c " +
+            "JOIN c.challengeCategory cc " +
             "WHERE c.startDate <= CURRENT_DATE AND c.endDate >= CURRENT_DATE")
     List<TotalChallengeDto> findOngoingChallenge();
 
     // 시작 전인 챌린지
-    @Query("SELECT new com.a101.ecofarming.challenge.dto.response.TotalChallengeDto(c.id, c.challengeCategory.title, c.duration, c.frequency, c.userCount, c.startDate) " +
+    @Query("SELECT new com.a101.ecofarming.challenge.dto.response.TotalChallengeDto(c.id, c.challengeCategory.title, c.duration, c.frequency, c.userCount, c.startDate, cc.thumbPhotoUrl) " +
             "FROM Challenge c " +
+            "JOIN c.challengeCategory cc " +
             "WHERE c.startDate > CURRENT_DATE")
     List<TotalChallengeDto> findUpcomingChallenge();
 

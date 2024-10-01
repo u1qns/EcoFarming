@@ -1,0 +1,298 @@
+.payment-page {
+  padding-bottom: 80px; /* 고정된 footer 높이만큼 여유 공간 추가 */
+}
+
+.payment-page .header {
+  display: flex;
+  align-items: center;
+  height: 45px; /* 고정된 높이를 상대적인 단위로 바꾸려면 vh 또는 rem 사용 가능 */
+}
+
+.payment-page .back-button {
+  cursor: pointer;
+  font-size: 2rem;
+}
+
+.payment-page .info-message {
+  margin: 10px 0;
+  background-color: #333;
+  border-radius: 10px; 
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-size: 1rem; /* 텍스트 크기를 rem 단위로 조정 */
+}
+
+.payment-page .challenge-info {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+}
+
+.payment-page .challenge-image {
+  width: 80px;
+  height: 80px;
+  margin-right: 15px;
+  border-radius: 10px; /* 둥근 모서리 추가 */
+  object-fit: cover; /* 이미지 비율 유지 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 이미지 그림자 추가 */
+}
+
+.payment-page .challenge-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.payment-page .challenge-details h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.payment-page .challenge-duration,
+.payment-page .challenge-dates {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.payment-page .challenge-dates span {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100px; /* 적절한 너비를 지정 */
+  text-align: right;
+}
+
+.payment-page .challenge-details p {
+  margin: 5px 0;
+  font-size: 0.8rem;
+}
+
+.payment-page .participants {
+  color: #666;
+  font-size: 14px;
+  margin-left: auto;
+  margin-right: 10px;
+  font-weight: 500;
+}
+
+.payment-page .deposit-section {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.payment-page .selected-amount h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #000;
+}
+
+.payment-page .amount-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 각 줄에 버튼 3개 */
+  gap: 13px; /* 버튼 간격 */
+  justify-items: stretch; /* 버튼 크기를 균등하게 맞추기 위해 stretch 사용 */
+  margin: 20px 0;
+}
+
+.payment-page .amount-button {
+  padding: 15px 0; /* 버튼의 세로 크기 */
+  border: none;
+  border-radius: 30px;
+  background-color: #f5f5f5;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, color 0.3s;
+  white-space: nowrap;
+  width: 100%; /* 버튼의 가로 크기를 컨테이너에 맞추기 위해 설정 */
+}
+
+.payment-page .amount-button.selected {
+  background-color: #27bf82;
+  color: white;
+  font-weight: bold;
+}
+
+.payment-page .amount-button:hover {
+  background-color: #27bf82;
+  color: white;
+}
+
+.payment-page .note {
+  color: gray;
+  font-size: 12px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.payment-page .refund-info {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
+  text-align: center;
+}
+
+.payment-page .refund-table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse; /* 테이블 테두리 제거 */
+}
+
+.payment-page .refund-table td {
+  padding: 5px 0px; /* 셀 간격 */
+  font-size: 13px;
+  color: #333;
+  text-align: left;
+}
+
+.payment-page .refund-table td:nth-child(2) {
+  text-align: right; /* 오른쪽 값은 오른쪽 정렬 */
+}
+
+.payment-page .payment-section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
+  text-align: left;
+}
+
+.payment-page .payment-section h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.payment-page .payment-details {
+  font-size: 16px;
+  color: #333;
+}
+
+.payment-page .payment-details p {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.payment-page .charge-amount {
+  color: #23bd80;
+  font-weight: bold;
+}
+
+.payment-page .agreement-text {
+  font-size: 12px;
+  color: gray;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.payment-page .terms-links {
+  display: flex;
+  justify-content: space-around;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.payment-page .fixed-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 410px; /* 페이지 다른 컴포넌트와 일관되게 최대 너비 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  left: 50%;
+  transform: translateX(-50%); /* 화면 중앙으로 배치 */
+}
+
+.payment-page .fixed-footer-button {
+  background-color: #27bf82;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.2rem; /* 버튼 텍스트 크기 조정 */
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+
+/* 미디어 쿼리 */
+@media (max-width: 768px) {
+  .payment-page .header {
+    height: 40px; /* 모바일 화면에서 header 높이 축소 */
+  }
+
+  .payment-page .info-message {
+    font-size: 0.9rem;
+  }
+
+  .payment-page .challenge-details h3 {
+    font-size: 1.2rem;
+  }
+
+  .payment-page .selected-amount h1 {
+    font-size: 2rem;
+  }
+
+  .payment-page .amount-button {
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+
+  .payment-page .fixed-footer-button {
+    padding: 12px 20px;
+    font-size: 1rem; /* 모바일에서 버튼 텍스트 크기 축소 */
+  }
+}
+
+@media (max-width: 480px) {
+  .payment-page .header {
+    height: 35px; /* 더 작은 화면에서 header 높이 축소 */
+  }
+
+  .payment-page .info-message {
+    font-size: 0.8rem;
+  }
+
+  .payment-page .challenge-details h3 {
+    font-size: 1rem;
+  }
+
+  .payment-page .selected-amount h1 {
+    font-size: 1.8rem;
+  }
+
+  .payment-page .amount-button {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+
+  .payment-page .fixed-footer-button {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+}
