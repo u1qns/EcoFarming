@@ -2,7 +2,6 @@ package com.a101.ecofarming.global.notification.fcm;
 
 import static com.a101.ecofarming.global.exception.ErrorCode.*;
 
-import com.a101.ecofarming.challenge.entity.Challenge;
 import com.a101.ecofarming.global.exception.CustomException;
 import com.a101.ecofarming.global.notification.fcm.dto.FCMMessageDto;
 import com.a101.ecofarming.global.notification.fcm.dto.FCMSubDto;
