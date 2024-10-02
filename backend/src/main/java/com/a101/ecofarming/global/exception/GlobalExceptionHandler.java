@@ -1,6 +1,7 @@
 package com.a101.ecofarming.global.exception;
 
 import com.a101.ecofarming.global.notification.NotificationManager;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(new ErrorResponse(
                         HttpStatus.INTERNAL_SERVER_ERROR.toString(),
                         "Unsupported Error"));
+    }
+
+    @ExceptionHandler(FirebaseMessagingException.class)
+    protected ResponseEntity<ErrorResponse> handleException(FirebaseMessagingException e, HttpServletRequest req) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(
+                        HttpStatus.NOT_FOUND.toString(),
+                        e.getMessagingErrorCode().toString()));
     }
 
     private String getParams(HttpServletRequest req) {

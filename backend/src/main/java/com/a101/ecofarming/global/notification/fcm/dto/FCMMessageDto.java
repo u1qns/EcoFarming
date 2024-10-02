@@ -1,4 +1,4 @@
-package com.a101.ecofarming.global.notification.fcm;
+package com.a101.ecofarming.global.notification.fcm.dto;
 
 import lombok.*;
 
@@ -6,8 +6,8 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class FCMRequestDto {
-    private String token;
+@Data
+public class FCMMessageDto {
     private String title;
     private String body;
 }
