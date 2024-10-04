@@ -11,7 +11,7 @@ spring:
       hibernate:
         format_sql: false
     hibernate:
-      ddl-auto: update # 기본값, 필요시 변경 가능
+      ddl-auto: none # 기본값, 필요시 변경 가능
 
   servlet:
     multipart:
