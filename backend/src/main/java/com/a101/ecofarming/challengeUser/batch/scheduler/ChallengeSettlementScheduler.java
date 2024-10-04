@@ -23,7 +23,7 @@ public class ChallengeSettlementScheduler {
 
     private final ChallengeRepository challengeRepository;
 
-    // 챌린지 정산
+    // 매일 자정 기준, 어제 끝난 챌린지가 있으면 챌린지 정산(시간은 나중에 바꿔도 됨)
     @Scheduled(cron = "0 0 0 * * *")
     public void settlementChallenges() throws Exception {
         LocalDate today = LocalDate.now();
