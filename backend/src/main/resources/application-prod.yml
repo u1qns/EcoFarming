@@ -29,5 +29,4 @@ management:
       show-details: always
 logging:
   level:
-    org.hibernate.SQL: OFF
-    org.hibernate.type.descriptor.sql.BasicBinder: OFF
+    root: info

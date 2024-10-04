@@ -59,11 +59,11 @@ public class UserService {
 
     public void join(JoinRequestDto request) {
         Boolean isExist = userRepository.existsByEmail(request.getEmail());
-        logger.info("이메일 존재 확인");
+        logger.error("이메일 존재 확인~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         if (isExist) {
             throw new CustomException(EMAIL_ALREADY_EXIST);
         }
-        logger.info("빌더 전");
+        logger.error("빌더 전~~~~~~~~~~~~~~~~~~~~~~~");
         User newUser = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
@@ -71,7 +71,7 @@ public class UserService {
                 .amount(0)
                 .prizeAmount(0)
                 .build();
-        logger.info("저장 전");
+        logger.error("저장 전~~~~~~~~~~~~~~~~~~~~~~");
         userRepository.save(newUser);
     }
 
