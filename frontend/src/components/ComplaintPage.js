@@ -35,10 +35,9 @@ const ComplaintPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [loadingPopup, setLoadingPopup] = useState(false); // 로딩 팝업 상태 추가
   const [error, setError] = useState("");
-  const [aiPass, setAiPass] = useState(false);
 
+  // TODO 
   const proofId = 1;
-  const userId = 1;
 
   const handleReasonSelect = (reason) => {
     setSelectedReason(reason);
@@ -63,21 +62,27 @@ const ComplaintPage = () => {
           predictedLabel === "shopping basket") ||
         (challenge.title === "카테고리3" && predictedLabel === "handkerchief")
       ) {
-        setAiPass(true);
+        return true;
       } else {
-        setAiPass(false);
+        return false;
       }
     } catch (error) {
       console.error("AI 예측 중 오류가 발생했습니다:", error);
-      setAiPass(false);
+      return false;
     }
   };
 
   const handleSubmit = async () => {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      console.error("userId가 존재하지 않습니다. 로그인 여부를 확인하세요.");
+      return;
+    }
+
     if (!isSubmitDisabled) {
       setLoadingPopup(true); // 로딩 팝업 표시
       try {
-        await runPredict(proof.photoUrl);
+        const aiPass = await runPredict(proof.photoUrl);
         const data = await submitComplaint({
           proofId: proofId,
           userId: userId,
