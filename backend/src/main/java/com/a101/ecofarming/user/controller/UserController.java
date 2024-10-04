@@ -25,16 +25,16 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/users/{userId}/my-page/complaints")
-    public ResponseEntity<?> getMyComplaints(@PathVariable("userId") Integer userId) {
-        List<MyComplaintsResponseDto> response = userService.getMyComplaints(userId);
+    @GetMapping("/users/my-page/complaints")
+    public ResponseEntity<?> getMyComplaints() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<MyComplaintsResponseDto> response = userService.getMyComplaints(email);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody JoinRequestDto request){
         userService.join(request);
-
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

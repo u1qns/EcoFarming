@@ -71,8 +71,8 @@ public class UserService {
         userRepository.save(newUser);
     }
 
-    public List<MyComplaintsResponseDto> getMyComplaints(Integer userId) {
-        User user = userRepository.findById(userId)
+    public List<MyComplaintsResponseDto> getMyComplaints(String email) {
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         List<Complaint> complaints = complaintRepository.findByUserId(user.getId());
