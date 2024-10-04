@@ -36,7 +36,11 @@ public class ChallengeUserService {
     private final ProofRepository proofRepository;
 
     @Transactional(readOnly = true)
-    public List<ChallengeUserResponseDto> findChallengesByUserId(Integer userId, ChallengeStatus status) {
+    public List<ChallengeUserResponseDto> findChallengesByUserId(ChallengeStatus status, String email) {
+        Integer userId = userRepository.findByEmail(email)
+                .map(User::getId)
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+
         return switch (status) {
             case UPCOMING -> challengeUserRepository.findUpcomingChallengesByUserId(userId);
             case ONGOING -> challengeUserRepository.findOngoingChallengesByUserId(userId);
