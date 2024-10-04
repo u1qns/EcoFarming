@@ -12,7 +12,6 @@ function Card({
   startDate,
   participants,
   onClick, // 클릭 시 호출될 함수
-  id
 }) {
   const navigate = useNavigate();
   const userId = localStorage.getItem('userId');
