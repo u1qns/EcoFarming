@@ -11,3 +11,6 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
   file:
     upload-dir: /home/ubuntu/uploads
+  redis:
+    port: 6379
+    timeout: 6000ms
