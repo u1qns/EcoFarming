@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class NoParticipantChallengeResponseDto {
+    @Builder.Default
     private String type = "NoParticipantChallengeResponseDto";
     private Integer id;
     private String title;

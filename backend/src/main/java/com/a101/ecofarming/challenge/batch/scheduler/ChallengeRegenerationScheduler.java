@@ -23,7 +23,7 @@ public class ChallengeRegenerationScheduler {
 
     private final ChallengeRepository challengeRepository;
 
-    // 일요일 자정에 챌린지 재생성
+    // 매일 자정 기준, 오늘 끝나는 챌린지가 있으면 챌린지 재생성
     @Scheduled(cron = "0 0 0 * * *")
     public void regenerateChallenges() throws Exception {
         LocalDate today = LocalDate.now();

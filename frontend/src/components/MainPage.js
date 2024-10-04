@@ -10,14 +10,13 @@ import Slider from "react-slick";
 import axios from 'axios';
 
 function MainPage() {
-  const apiUrl = process.env.REACT_APP_API_URL;
   const [challenges, setChallenges] = useState({ ongoingChallenge: [], upcomingChallenge: [] });
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/challenges`);
+        const response = await axios.get('/challenges');
         setChallenges(response.data);
       } catch (error) {
         console.error('Error fetching challenges:', error);
@@ -58,7 +57,7 @@ function MainPage() {
   const handleCardClick = async (challengeId, userId, thumbPhotoUrl) => {
     try {
       // API 호출 (참가 여부와 상관없이 동일한 API)
-      const response = await axios.get(`${apiUrl}/challenges/${challengeId}/${userId}`);
+      const response = await axios.get(`/challenges/${challengeId}/${userId}`);
       const challengeData = response.data;
 
       // API 응답 확인 (디버깅용 로그)

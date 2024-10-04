@@ -6,6 +6,7 @@ import com.a101.ecofarming.challengeUser.repository.ChallengeUserRepository;
 import com.a101.ecofarming.complaint.entity.Complaint;
 import com.a101.ecofarming.complaint.repository.ComplaintRepository;
 import com.a101.ecofarming.global.exception.CustomException;
+import com.a101.ecofarming.user.dto.request.JoinRequestDto;
 import com.a101.ecofarming.proof.entity.Proof;
 import com.a101.ecofarming.proof.repository.ProofRepository;
 import com.a101.ecofarming.user.dto.response.MyComplaintsResponseDto;
@@ -13,6 +14,7 @@ import com.a101.ecofarming.user.dto.response.MyPageResponseDto;
 import com.a101.ecofarming.user.entity.User;
 import com.a101.ecofarming.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,17 +29,20 @@ import static com.a101.ecofarming.global.exception.ErrorCode.*;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     private final ChallengeUserRepository challengeUserRepository;
     private final ComplaintRepository complaintRepository;
     private final ProofRepository proofRepository;
     private final ChallengeCategoryRepository challengeCategoryRepository;
 
     @Transactional(readOnly = true)
-    public MyPageResponseDto findUserMyPage(Integer userId) {
-        User user = userRepository.findById(userId)
+    public MyPageResponseDto findUserMyPage(String email) {
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
-        ChallengeCountsDto challengeCountsDto = challengeUserRepository.countChallengesByUserId(userId);
+        ChallengeCountsDto challengeCountsDto = challengeUserRepository.countChallengesByUserId(user.getId());
 
         return MyPageResponseDto.builder()
                 .amount(user.getAmount())
@@ -46,6 +51,24 @@ public class UserService {
                 .ongoingChallengeCount(challengeCountsDto.getOngoingChallengeCount())
                 .completedChallengeCount(challengeCountsDto.getCompletedChallengeCount())
                 .build();
+    }
+
+    public void join(JoinRequestDto request) {
+        Boolean isExist = userRepository.existsByEmail(request.getEmail());
+
+        if (isExist) {
+            throw new CustomException(EMAIL_ALREADY_EXIST);
+        }
+
+        User newUser = User.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(bCryptPasswordEncoder.encode(request.getPassword()))
+                .amount(0)
+                .prizeAmount(0)
+                .build();
+
+        userRepository.save(newUser);
     }
 
     public List<MyComplaintsResponseDto> getMyComplaints(Integer userId) {
