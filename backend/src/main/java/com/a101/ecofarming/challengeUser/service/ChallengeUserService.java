@@ -150,6 +150,7 @@ public class ChallengeUserService {
                 .option2Description(challenge.getBalanceGame().getOption2Description())
                 .totalBetAmountOption1(challenge.getTotalBetAmountOption1())
                 .totalBetAmountOption2(challenge.getTotalBetAmountOption2())
+                .amount(user.getAmount())
                 .build();
 
     }
