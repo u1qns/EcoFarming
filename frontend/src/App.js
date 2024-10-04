@@ -19,6 +19,7 @@ import MyCompletedChallengePage from "./components/MyCompletedChallengePage";
 import MyComplaintResultPage from "./components/MyComplaintResultPage";
 import LoginPage from "./components/LoginPage";
 import SignupPage from "./components/SignupPage";
+import Logout from "./components/Logout";
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
+        <Route path="/logout" element={<Logout />} />
 
 
         </Routes>
