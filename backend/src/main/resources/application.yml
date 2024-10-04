@@ -9,7 +9,7 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
     hibernate:
       ddl-auto: update  # 기본값, 필요시 변경 가능
 
