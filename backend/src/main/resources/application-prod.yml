@@ -12,7 +12,9 @@ spring:
   file:
     upload-dir: /home/ubuntu/uploads
   redis:
+    host: j11a101.p.ssafy.io
     port: 6379
+    password: 1234
     timeout: 6000ms
 management:
   endpoints:
