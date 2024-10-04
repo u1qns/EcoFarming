@@ -9,6 +9,7 @@ pipeline {
         SPRING_PROFILE = 'prod'
         BLUE_PORT = '8085'
         GREEN_PORT = '8086'
+        JWT_SECRET = 'vmfhaltmskdlstkfkdgodyroqkfwkdbalroqkfwkdbalsdfewhwevqwqsdgqwtefq'
         PORT_FILE = "/home/ubuntu/current_port.txt"  // EC2 서버에 저장할 포트 상태 파일
     }
 
