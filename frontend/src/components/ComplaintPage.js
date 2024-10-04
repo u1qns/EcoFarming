@@ -6,6 +6,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const PopupModal = ({ message, onClose }) => (
+  <div className="complaint-popup">
   <div className="popup-overlay">
     <div className="popup-content">
       <h2>{message}</h2>
@@ -22,7 +23,7 @@ const PopupModal = ({ message, onClose }) => (
         </button>
       )}
     </div>
-  </div>
+  </div></div>
 );
 
 const ComplaintPage = () => {

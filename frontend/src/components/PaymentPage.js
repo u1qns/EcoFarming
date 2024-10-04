@@ -5,6 +5,29 @@ import { ChevronLeft } from "lucide-react";
 import "./PaymentPage.css"; // 스타일 파일 추가
 import { FaUser } from "react-icons/fa";
 import PaymentNavbar from "./PaymentNavbar";
+import { ArrowLeft } from "lucide-react";
+
+const PopupModal = ({ message, onClose }) => (
+  <div className="payment-popup">
+  <div className="popup-overlay">
+    <div className="popup-content">
+      <h2>{message}</h2>
+      {message === "신고가 접수되었습니다" && (
+        <p>
+          신고 결과는 '마이페이지 > 인증샷
+          <br />
+          신고 결과'에서 확인 하실 수 있습니다.
+        </p>
+      )}
+      {message !== "신고 처리 중입니다..." && (
+        <button className="popup-button" onClick={onClose}>
+          확인
+        </button>
+      )}
+    </div>
+  </div></div>
+);
+
 
 const PaymentPage = () => {
   const { state } = useLocation();
@@ -12,10 +35,18 @@ const PaymentPage = () => {
   const [selectedAmount, setSelectedAmount] = useState(10000); // 선택된 금액 상태
   const [userAmount, setUserAmount] = useState(0); // 사용자 보유 예치금 상태
   const [chargingAmount, setChargingAmount] = useState(0); // 실제 충전할 금액
-
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 표시 상태
 
   const handleAmountClick = (amount) => {
     setSelectedAmount(amount);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleFooterButtonClick = () => {
+    setIsModalOpen(true);
   };
 
   useEffect(() => {
@@ -208,13 +239,17 @@ const PaymentPage = () => {
         </div>
       </div>
 
-      {/* 하단 고정 버튼 */}
-      <div className="fixed-footer">
-        <button className="fixed-footer-button">
-        {chargingAmount.toLocaleString()}원 충전하기
+ {/* 하단 고정 버튼 */}
+ <div className="fixed-footer">
+        <button className="fixed-footer-button" onClick={handleFooterButtonClick}>
+          {chargingAmount.toLocaleString()}원 충전하기
         </button>
       </div>
 
+      {/* 모달 */}
+      {isModalOpen && (
+        <PopupModal message="결제가 완료되었습니다." onClose={handleModalClose} />
+      )}
     </div>
   );
 };
