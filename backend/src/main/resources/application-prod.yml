@@ -4,10 +4,11 @@ spring:
     username: root
     password: root
   jpa:
-    hibernate:
-      ddl-auto: none
+    show-sql: false
     properties:
       hibernate:
+        format_sql: false
+        use_sql_comments: false
         dialect: org.hibernate.dialect.MySQLDialect
   redis:
     host: j11a101.p.ssafy.io
@@ -26,3 +27,6 @@ management:
   endpoint:
     health:
       show-details: always
+logging:
+  level:
+    root: info

@@ -5,6 +5,9 @@ import com.a101.ecofarming.user.dto.response.MyComplaintsResponseDto;
 import com.a101.ecofarming.user.dto.response.MyPageResponseDto;
 import com.a101.ecofarming.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,9 +16,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
     private final UserService userService;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("/users/my-page")
     public ResponseEntity<?> findUserMyPage(){
@@ -34,7 +40,7 @@ public class UserController {
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody JoinRequestDto request){
         userService.join(request);
-
+        logger.error("controller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
