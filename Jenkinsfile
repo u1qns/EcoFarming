@@ -9,7 +9,6 @@ pipeline {
         SPRING_PROFILE = 'prod'
         BLUE_PORT = '8085'
         GREEN_PORT = '8086'
-        JWT_SECRET = 'vmfhaltmskdlstkfkdgodyroqkfwkdbalroqkfwkdbalsdfewhwevqwqsdgqwtefq'
         PORT_FILE = "/home/ubuntu/current_port.txt"  // EC2 서버에 저장할 포트 상태 파일
     }
 
@@ -71,30 +70,34 @@ pipeline {
         }
 
         // 새로운 버전 배포
-        stage('Deploy to New Environment') {
-            steps {
-                sshagent(['ssafy-ec2-ssh']) {
-                    withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        script {
-                            def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
-                            def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
-                            echo "Deploying to ${environmentName} Environment (Port: ${newPort})..."
-                            sh """
-                            ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} \\
-                                'docker image prune -f && \\
-                                echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin && \\
-                                docker pull ${BACKEND_DOCKER_REPO}:latest && \\
-                                docker stop backend_${newPort} || true && \\
-                                docker rm backend_${newPort} || true && \\
-                                docker run -d --name backend_${newPort} -p ${newPort}:8080 -v /home/ubuntu/uploads:/home/ubuntu/uploads ${BACKEND_DOCKER_REPO}:latest --spring.profiles.active=${SPRING_PROFILE} --file.upload-dir=/home/ubuntu/uploads && \\
-                                docker logout'
-                            """
-                            echo "Deployment to ${environmentName} Environment Complete!"
-                        }
-                    }
+stage('Deploy to New Environment') {
+    steps {
+        sshagent(['ssafy-ec2-ssh']) {
+            withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                script {
+                    def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
+                    def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
+                    echo "Deploying to ${environmentName} Environment (Port: ${newPort})..."
+                    sh """
+                    ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} \\
+                        'docker image prune -f && \\
+                        echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin && \\
+                        docker pull ${BACKEND_DOCKER_REPO}:latest && \\
+                        docker stop backend_${newPort} || true && \\
+                        docker rm backend_${newPort} || true && \\
+                        docker run -d --name backend_${newPort} -p ${newPort}:8080 \\
+                        -e JWT_SECRET=${JWT_SECRET} \\
+                        -v /home/ubuntu/uploads:/home/ubuntu/uploads ${BACKEND_DOCKER_REPO}:latest \\
+                        --spring.profiles.active=${SPRING_PROFILE} --file.upload-dir=/home/ubuntu/uploads && \\
+                        docker logout'
+                    """
+                    echo "Deployment to ${environmentName} Environment Complete!"
                 }
             }
         }
+    }
+}
+
 
         // Health Check
         stage('Health Check on New Environment') {
