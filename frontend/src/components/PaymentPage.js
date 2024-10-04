@@ -1,16 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 import { ChevronLeft } from "lucide-react";
 import "./PaymentPage.css"; // 스타일 파일 추가
 import { FaUser } from "react-icons/fa";
 import PaymentNavbar from "./PaymentNavbar";
 
 const PaymentPage = () => {
+  const { state } = useLocation();
+  const challengeId = state?.challengeId;
   const [selectedAmount, setSelectedAmount] = useState(10000); // 선택된 금액 상태
+  const [userAmount, setUserAmount] = useState(0); // 사용자 보유 예치금 상태
+  const [chargingAmount, setChargingAmount] = useState(0); // 실제 충전할 금액
+
 
   const handleAmountClick = (amount) => {
     setSelectedAmount(amount);
   };
 
+  useEffect(() => {
+    const fetchPaymentData = async () => {
+      try {
+        const userId = localStorage.getItem('userId'); // localStorage에서 userId 가져오기
+        const apiUrl = process.env.REACT_APP_API_URL;
+        
+        if (!userId) {
+          console.error("userId가 존재하지 않습니다. 로그인 여부를 확인하세요.");
+          return;
+        }
+
+        // goToPayment API 호출로 userAmount 포함된 데이터 가져오기
+        const response = await axios.get(`${apiUrl}/challenges/${challengeId}/${userId}/payment`);
+        setUserAmount(response.data.amount); // 가져온 amount를 상태로 설정
+      } catch (error) {
+        console.error("Error fetching payment data:", error);
+      }
+    };
+
+    fetchPaymentData();
+  }, [challengeId]); // 컴포넌트 로드 시 한 번만 실행
+
+  useEffect(() => {
+    setChargingAmount(Math.max(selectedAmount - userAmount, 0)); // chargingAmount를 계산하여 설정
+  }, [selectedAmount, userAmount]);
+
+  const handlePaymentClick = async () => {
+    const userId = localStorage.getItem("userId");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
+    if (!userId) {
+      console.error("userId가 존재하지 않습니다.");
+      return;
+    }
+
+    const paymentData = {
+      balanceId: 1, // 여기에 실제 balanceId 값 설정
+      balanceGamePick: 1, // 여기에 실제 balanceGamePick 값 설정
+      chargingAmount,
+      betAmount: selectedAmount,
+    };
+
+    try {
+      const response = await axios.post(
+        `${apiUrl}/challenges/${challengeId}/${userId}/payment`,
+        paymentData
+      );
+
+      if (response.status === 200) {
+        alert("결제가 성공적으로 처리되었습니다.");
+      } else {
+        console.error("결제에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("Error occurred during payment:", error);
+    }
+  };
 
   return (
     <div className="payment-page">
@@ -121,14 +185,14 @@ const PaymentPage = () => {
           </p>
           <p>
             <span>사용 예치금</span>
-            <span>-0원</span>
+            <span>-{userAmount.toLocaleString()}원</span>
           </p>
           <p style={{ color: 'gray' }}>
-            <span>(현재 보유 예치금: 0원)</span>
+            <span>(현재 보유 예치금: {userAmount.toLocaleString()}원)</span>
           </p>
           <p className="charge-amount">
             <span>충전 금액</span>
-            <span>{selectedAmount.toLocaleString()}원</span>
+            <span>{chargingAmount.toLocaleString()}원</span>
           </p>
         </div>
 
@@ -147,7 +211,7 @@ const PaymentPage = () => {
       {/* 하단 고정 버튼 */}
       <div className="fixed-footer">
         <button className="fixed-footer-button">
-          {selectedAmount.toLocaleString()}원 충전하기
+        {chargingAmount.toLocaleString()}원 충전하기
         </button>
       </div>
 

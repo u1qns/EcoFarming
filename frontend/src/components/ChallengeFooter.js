@@ -1,8 +1,12 @@
 import React from "react";
 import "./ChallengeFooter.css";
 import { CalendarIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const ChallengeFooter = ({ challenge }) => {
+const ChallengeFooter = ({ challenge, userId }) => {
+  const navigate = useNavigate();
+
   if (!challenge) {
     return null;
   }
@@ -27,6 +31,29 @@ const ChallengeFooter = ({ challenge }) => {
     return "이미 시작됨";
   };
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const handlePaymentClick = async () => {
+    const userId = localStorage.getItem('userId'); // localStorage에서 userId 가져오기
+    if (!userId) {
+      console.error("userId가 존재하지 않습니다. 로그인 여부를 확인하세요.");
+      return;
+    }
+
+    try {
+
+      const response = await axios.get(`${apiUrl}/challenges/${challenge.id}/${userId}/payment`);
+
+      if (response.status === 200) {
+        
+        navigate("/payment", { state: { challengeId: challenge.id } }); 
+      } else {
+        console.error("Payment failed");
+      }
+    } catch (error) {
+      console.error("Error occurred during payment:", error);
+    }
+  };
+
   return (
     <footer className="ChallengeFooter">
       <div className="footer-content">
@@ -39,7 +66,7 @@ const ChallengeFooter = ({ challenge }) => {
             주 {challenge.frequency}일, {challenge.duration / 7}주 동안
           </span>
         </div>
-        <button className="start-button">{getDayDifference()}</button>
+        <button className="start-button" onClick={handlePaymentClick} >{getDayDifference()}</button>
       </div>
     </footer>
   );
