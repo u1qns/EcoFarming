@@ -97,6 +97,7 @@ function MainPage() {
             ))}
           </Slider>
           <p>나는야 에코핑!</p>
+          <p>나 마스터야</p>
           <h3>에코파밍 챌린지로 환경을 지켜chu~💕</h3>
         </div>
         <div className="card-container">
