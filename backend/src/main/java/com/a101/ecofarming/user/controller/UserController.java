@@ -40,7 +40,7 @@ public class UserController {
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody JoinRequestDto request){
         userService.join(request);
-        logger.info("controller");
+        logger.error("controller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
