@@ -1,19 +1,35 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import "./LoginSignup.css";
 
 const SignupPage = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
-  const handleSignup = (e) => {
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSignup = async (e) => {
     e.preventDefault();
-    // 회원가입 처리 로직을 여기에 작성
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Password:", password);
+    try {
+      const response = await axios.post(`${apiUrl}/join`, formData);
+      if (response.status === 201) {
+        alert('회원가입이 성공적으로 완료되었습니다.');
+        navigate('/login'); // 로그인 페이지로 이동
+      }
+    } catch (error) {
+      alert('회원가입에 실패했습니다.');
+    }
   };
 
   return (
@@ -28,8 +44,9 @@ const SignupPage = () => {
             <label>이름</label>
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               placeholder="이름을 입력하세요"
               required
             />
@@ -38,8 +55,9 @@ const SignupPage = () => {
             <label>이메일</label>
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="이메일을 입력하세요"
               required
             />
@@ -48,8 +66,9 @@ const SignupPage = () => {
             <label>비밀번호</label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               placeholder="비밀번호를 입력하세요"
               required
             />
