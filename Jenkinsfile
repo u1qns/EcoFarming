@@ -59,6 +59,16 @@ pipeline {
             }
         }
 
+          stage('Push Backend to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('', DOCKER_HUB_CREDENTIALS_ID) {
+                        docker.image("${BACKEND_DOCKER_REPO}:latest").push()
+                    }
+                }
+            }
+        }
+
         // 새로운 버전 배포
         stage('Deploy to New Environment') {
             steps {
