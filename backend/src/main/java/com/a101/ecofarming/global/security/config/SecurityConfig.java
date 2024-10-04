@@ -76,7 +76,7 @@ public class SecurityConfig {
 
                 // 경로 별 인가 작업
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/login", "/join", "/challenges", "/reissue").permitAll()
+                        .requestMatchers("/", "/login", "/join", "/challenges", "/reissue", "/jwt/**").permitAll()
                         .anyRequest().authenticated())
 
                 .addFilterBefore(new JWTFilter(jwtUtil, redisTemplate), LoginFilter.class)
