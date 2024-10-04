@@ -56,6 +56,7 @@ const ComplaintPage = () => {
       });
       const predictedLabel = response.data.aiPass;
 
+      // TODO
       if (
         (challenge.title === "카테고리1" && predictedLabel === "water jug") ||
         (challenge.title === "카테고리2" &&
