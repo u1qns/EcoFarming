@@ -126,7 +126,7 @@ stage('Deploy to New Environment') {
                     retry(5) {
                         sleep(time: 5, unit: "SECONDS")
                         def response = sh(
-                            script: "curl --silent --fail https://${USER_SERVER_IP}:${newPort}/api/actuator/health",
+                            script: "curl --silent --fail https://${USER_SERVER_IP}/api/actuator/health",
                             returnStatus: true
                         )
                         if (response != 0) {
