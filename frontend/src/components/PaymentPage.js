@@ -7,26 +7,6 @@ import { FaUser } from "react-icons/fa";
 import PaymentNavbar from "./PaymentNavbar";
 import { ArrowLeft } from "lucide-react";
 
-const PopupModal = ({ message, onClose }) => (
-  <div className="payment-popup">
-  <div className="popup-overlay">
-    <div className="popup-content">
-      <h2>{message}</h2>
-      {message === "신고가 접수되었습니다" && (
-        <p>
-          신고 결과는 '마이페이지 > 인증샷
-          <br />
-          신고 결과'에서 확인 하실 수 있습니다.
-        </p>
-      )}
-      {message !== "신고 처리 중입니다..." && (
-        <button className="popup-button" onClick={onClose}>
-          확인
-        </button>
-      )}
-    </div>
-  </div></div>
-);
 
 
 const PaymentPage = () => {
@@ -36,6 +16,7 @@ const PaymentPage = () => {
   const [userAmount, setUserAmount] = useState(0); // 사용자 보유 예치금 상태
   const [chargingAmount, setChargingAmount] = useState(0); // 실제 충전할 금액
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 표시 상태
+  const [remainingAmount, setRemainingAmount] = useState(0); // 남은 금액 상태
 
   const handleAmountClick = (amount) => {
     setSelectedAmount(amount);
@@ -46,7 +27,7 @@ const PaymentPage = () => {
   };
 
   const handleFooterButtonClick = () => {
-    setIsModalOpen(true);
+        handlePaymentClick(); // 결제 처리
   };
 
   useEffect(() => {
@@ -98,7 +79,9 @@ const PaymentPage = () => {
       );
 
       if (response.status === 200) {
-        alert("결제가 성공적으로 처리되었습니다.");
+        const newRemainingAmount = userAmount - selectedAmount + chargingAmount;
+        setRemainingAmount(newRemainingAmount); // 남은 금액 업데이트
+        setIsModalOpen(true); // 모달 열기
       } else {
         console.error("결제에 실패했습니다.");
       }
@@ -248,7 +231,21 @@ const PaymentPage = () => {
 
       {/* 모달 */}
       {isModalOpen && (
-        <PopupModal message="결제가 완료되었습니다." onClose={handleModalClose} />
+          <div className="payment-popup">
+          <div className="popup-overlay">
+            <div className="popup-content">
+              <h2>결제가 완료되었습니다.</h2>
+              <p>충전한 금액: {chargingAmount.toLocaleString()}원</p>
+              <p>사용 예치금: {userAmount.toLocaleString()}원</p>
+              <p>남은 금액: {remainingAmount.toLocaleString()}원</p>
+              
+                <button className="popup-button" onClick={handleModalClose}>
+                  확인
+                </button>
+              
+            </div>
+          </div>
+          </div>
       )}
     </div>
   );
