@@ -67,6 +67,7 @@ pipeline {
 
                         echo "Start Building Docker Image for ${environmentName} Environment..."
                         def app = docker.build("${BACKEND_DOCKER_REPO}:latest")
+                        sh "docker tag ${BACKEND_DOCKER_REPO}:latest ${BACKEND_DOCKER_REPO}:${newPort}"
                         echo "Docker Image Build Complete for ${environmentName} Environment!"
                     }
                 }
