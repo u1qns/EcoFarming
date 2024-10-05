@@ -16,12 +16,9 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 public class UserController {
 
     private final UserService userService;
-
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("/users/my-page")
     public ResponseEntity<?> findUserMyPage(){
@@ -40,7 +37,7 @@ public class UserController {
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody JoinRequestDto request){
         userService.join(request);
-        logger.error("controller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
