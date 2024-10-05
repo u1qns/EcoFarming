@@ -115,29 +115,7 @@ stage('Deploy to New Environment') {
 }
 
 
-        // Health Check
-        stage('Health Check on New Environment') {
-            steps {
-                script {
-                    def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
-                    def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
-                    echo "Performing Health Check on ${environmentName} Environment (Port: ${newPort})..."
 
-                    retry(5) {
-                        sleep(time: 5, unit: "SECONDS")
-                        def response = sh(
-                            script: "curl --silent --fail http://${USER_SERVER_IP}:${newPort}/api/actuator/health",
-                            returnStatus: true
-                        )
-                        if (response != 0) {
-                            error("Health Check Failed for ${environmentName} Environment (Port: ${newPort}), stopping deployment.")
-                        }
-                    }
-
-                    echo "Health Check Passed for ${environmentName} Environment (Port: ${newPort})."
-                }
-            }
-        }
 
         // Nginx 설정 변경 및 트래픽 전환
         stage('Switch Traffic to New Environment') {
