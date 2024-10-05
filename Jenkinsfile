@@ -7,8 +7,8 @@ pipeline {
         DOCKERHUB_FRONTEND_REPO = 'chanmin314/ecofarmingfront'
         USER_SERVER_IP = 'j11a101.p.ssafy.io'
         SPRING_PROFILE = 'prod'
-        BLUE_PORT = '8085'
-        GREEN_PORT = '8086'
+        BLUE_PORT = '8086'
+        GREEN_PORT = '8085'
         PORT_FILE = "/home/ubuntu/current_port.txt"  // EC2 서버에 저장할 포트 상태 파일
     }
 
