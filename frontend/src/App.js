@@ -63,8 +63,6 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/login1" element={<Login />} />
-        <Route path="/join" element={<Join />} />
 
 
         </Routes>
