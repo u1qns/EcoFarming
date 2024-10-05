@@ -30,6 +30,3 @@ management:
 logging:
   level:
     root: info
-server:
-  ssl:
-    enabled: false
