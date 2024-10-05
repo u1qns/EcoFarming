@@ -30,7 +30,6 @@ import static com.a101.ecofarming.global.exception.ErrorCode.*;
 @Service
 @Transactional
 @RequiredArgsConstructor
-@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -59,11 +58,10 @@ public class UserService {
 
     public void join(JoinRequestDto request) {
         Boolean isExist = userRepository.existsByEmail(request.getEmail());
-        logger.error("이메일 존재 확인~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         if (isExist) {
             throw new CustomException(EMAIL_ALREADY_EXIST);
         }
-        logger.error("빌더 전~~~~~~~~~~~~~~~~~~~~~~~");
+
         User newUser = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
@@ -71,7 +69,7 @@ public class UserService {
                 .amount(0)
                 .prizeAmount(0)
                 .build();
-        logger.error("저장 전~~~~~~~~~~~~~~~~~~~~~~");
+
         userRepository.save(newUser);
     }
 
