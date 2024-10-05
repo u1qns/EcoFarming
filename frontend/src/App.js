@@ -20,7 +20,6 @@ import MyComplaintResultPage from "./components/MyComplaintResultPage";
 import LoginPage from "./components/LoginPage";
 import SignupPage from "./components/SignupPage";
 import Logout from "./components/Logout";
-import Login from "./components/Login";
 import Join from "./components/Join";
 
 function App() {
