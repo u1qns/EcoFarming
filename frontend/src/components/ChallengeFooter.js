@@ -43,7 +43,7 @@ const ChallengeFooter = ({ challenge, userId }) => {
 
       try {
         // 유저가 이미 챌린지에 참가했는지 확인
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/challenges/${challenge.id}/${userId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/challenges/${challenge.id}`);
         const challengeData = response.data;
 
         if (challengeData.type === "ParticipantChallengeResponseDto") {
