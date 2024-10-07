@@ -1,17 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import "./MainPage.css";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-import Card from "./Card";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
-import axios from 'axios';
-
 function MainPage() {
   const [challenges, setChallenges] = useState({ ongoingChallenge: [], upcomingChallenge: [] });
   const navigate = useNavigate();
+
+  // 로컬스토리지에서 userId를 가져오기
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const fetchChallenges = async () => {
@@ -44,35 +36,28 @@ function MainPage() {
     autoplaySpeed: 2500,
   };
 
-  // 특정 날짜에서 오늘까지의 차이를 구하는 함수
   const getDaysUntilStart = (startDate) => {
     const today = new Date();
     const start = new Date(startDate);
-    const differenceInTime = start.getTime() - today.getTime(); // 시간 차이 계산 (밀리초)
-    const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24)); // 차이를 일 단위로 변환
+    const differenceInTime = start.getTime() - today.getTime();
+    const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24));
     return differenceInDays;
   };
 
-  // 클릭 시 해당 챌린지로 이동할지 결정하는 함수
   const handleCardClick = async (challengeId, userId, thumbPhotoUrl) => {
     try {
-      // API 호출 (참가 여부와 상관없이 동일한 API)
-      const response = await axios.get(`/challenges/${challengeId}/${userId}`);
+      const response = await axios.get(`/challenges/${challengeId}`);
       const challengeData = response.data;
 
-      // API 응답 확인 (디버깅용 로그)
       console.log('Challenge data:', challengeData);
 
-      // 백엔드에서 반환된 데이터 타입을 기반으로 분기 처리
       if (challengeData.type === "ParticipantChallengeResponseDto") {
-        // 참가 중인 경우 OngoingChallengePage로 이동
         navigate(`/ongoing-challenge/${challengeId}/${userId}`, {
           state: { thumbPhotoUrl },
         });
       } else if (challengeData.type === "NoParticipantChallengeResponseDto") {
-        // 비참가 중인 경우 ChallengePage로 이동
         navigate(`/challenge/${challengeId}/${userId}`, {
-          state: { thumbPhotoUrl }, // thumbPhotoUrl 데이터를 전달
+          state: { thumbPhotoUrl },
         });
       }
     } catch (error) {
@@ -112,9 +97,9 @@ function MainPage() {
                 frequency={`${challenge.frequency}일`}
                 startDate={daysUntilStart > 0
                   ? `${daysUntilStart}일 뒤 시작`
-                  : "오늘 시작"} // 며칠 뒤에 시작하는지 표시
+                  : "오늘 시작"}
                 participants={challenge.userCount}
-                onClick={() => handleCardClick(challenge.challengeId, 1, challenge.thumbPhotoUrl)} //TODO : userId
+                onClick={() => handleCardClick(challenge.challengeId, userId, challenge.thumbPhotoUrl)} // userId 적용
               />
             );
           })}
@@ -128,7 +113,7 @@ function MainPage() {
               frequency={`${challenge.frequency}일`}
               startDate={"진행 중"}
               participants={challenge.userCount}
-              onClick={() => handleCardClick(challenge.challengeId, 1, challenge.thumbPhotoUrl)} //TODO : userId
+              onClick={() => handleCardClick(challenge.challengeId, userId, challenge.thumbPhotoUrl)} // userId 적용
             />
           ))}
         </div>
