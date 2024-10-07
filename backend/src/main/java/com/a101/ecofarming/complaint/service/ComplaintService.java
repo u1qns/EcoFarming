@@ -13,6 +13,7 @@ import com.a101.ecofarming.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,9 +32,10 @@ public class ComplaintService {
 
     @Transactional
     public ComplaintResponseDto createComplaint(ComplaintRequestDto complaintRequestDto) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Proof proof = proofRepository.findById(complaintRequestDto.getProofId())
                 .orElseThrow(() -> new CustomException(PROOF_NOT_FOUND));
-        User user = userRepository.findById(complaintRequestDto.getUserId())
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         Complaint complaint = Complaint.builder()
