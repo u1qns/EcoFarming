@@ -147,13 +147,13 @@ const PaymentPage = () => {
         <p>예치금을 걸고싶은 옵션을 선택해주세요.</p>
         <div className="ballance-container">
           <div>
-            <div className="ballance-card">
+            <div
+              className={`ballance-card ${selectedCard === 1 ? "choice" : ""}`}
+              onClick={() => handleCardClick(1)}
+            >
               <p className="ballance-card-text ">{`${card1.title}`}</p>
               <div
-                className={`ballance-fill-bar ${
-                  selectedCard === 1 ? "choice" : ""
-                }`}
-                onClick={() => handleCardClick(1)}
+                className={"ballance-fill-bar"}
                 style={{ height: getFillHeight(card1.amount, card2.amount) }}
               ></div>
             </div>
@@ -162,13 +162,13 @@ const PaymentPage = () => {
             </div>
           </div>
           <div>
-            <div className="ballance-card ">
+            <div
+              className={`ballance-card ${selectedCard === 2 ? "choice" : ""}`}
+              onClick={() => handleCardClick(2)}
+            >
               <p className="ballance-card-text ">{`${card2.title}`}</p>
               <div
-                className={`ballance-fill-bar ${
-                  selectedCard === 2 ? "choice" : ""
-                }`}
-                onClick={() => handleCardClick(2)}
+                className="ballance-fill-bar"
                 style={{ height: getFillHeight(card2.amount, card1.amount) }}
               ></div>
             </div>

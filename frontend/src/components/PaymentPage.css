@@ -134,13 +134,11 @@
   background-color: #acbea9;
   z-index: 0;
 }
-.payment-page .choice {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+.payment-page .choice > .ballance-card-text {
+  font-weight: bold;
+}
+.payment-page .choice > .ballance-fill-bar {
   background-color: #b8f1b0;
-  z-index: 0;
 }
 
 .payment-page .ballance-amount {
