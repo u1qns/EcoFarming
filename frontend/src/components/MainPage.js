@@ -57,7 +57,7 @@ function MainPage() {
   const handleCardClick = async (challengeId, userId, thumbPhotoUrl) => {
     try {
       // API 호출 (참가 여부와 상관없이 동일한 API)
-      const response = await axios.get(`/challenges/${challengeId}/${userId}`);
+      const response = await axios.get(`/challenges/${challengeId}`);
       const challengeData = response.data;
 
       // API 응답 확인 (디버깅용 로그)

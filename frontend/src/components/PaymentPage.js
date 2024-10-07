@@ -7,8 +7,6 @@ import { FaUser } from "react-icons/fa";
 import PaymentNavbar from "./PaymentNavbar";
 import { ArrowLeft } from "lucide-react";
 
-
-
 const PaymentPage = () => {
   const { state } = useLocation();
   const challengeId = state?.challengeId;
@@ -17,6 +15,7 @@ const PaymentPage = () => {
   const [chargingAmount, setChargingAmount] = useState(0); // 실제 충전할 금액
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 표시 상태
   const [remainingAmount, setRemainingAmount] = useState(0); // 남은 금액 상태
+  const [selectedGameOption, setSelectedGameOption] = useState("option1");
 
   const handleAmountClick = (amount) => {
     setSelectedAmount(amount);
@@ -27,22 +26,26 @@ const PaymentPage = () => {
   };
 
   const handleFooterButtonClick = () => {
-        handlePaymentClick(); // 결제 처리
+    handlePaymentClick(); // 결제 처리
   };
 
   useEffect(() => {
     const fetchPaymentData = async () => {
       try {
-        const userId = localStorage.getItem('userId'); // localStorage에서 userId 가져오기
+        const userId = localStorage.getItem("userId"); // localStorage에서 userId 가져오기
         const apiUrl = process.env.REACT_APP_API_URL;
-        
+
         if (!userId) {
-          console.error("userId가 존재하지 않습니다. 로그인 여부를 확인하세요.");
+          console.error(
+            "userId가 존재하지 않습니다. 로그인 여부를 확인하세요."
+          );
           return;
         }
 
         // goToPayment API 호출로 userAmount 포함된 데이터 가져오기
-        const response = await axios.get(`${apiUrl}/challenges/${challengeId}/${userId}/payment`);
+        const response = await axios.get(
+          `${apiUrl}/challenges/${challengeId}/${userId}/payment`
+        );
         setUserAmount(response.data.amount); // 가져온 amount를 상태로 설정
       } catch (error) {
         console.error("Error fetching payment data:", error);
@@ -90,6 +93,24 @@ const PaymentPage = () => {
     }
   };
 
+  const option1Description = "탕수육 찍먹";
+  const option2Description = "탕수육 부먹";
+  const totalBetAmountOption1 = "31000";
+  const totalBetAmountOption2 = "1200";
+
+  const card1 = { title: option1Description, amount: totalBetAmountOption1 };
+  const card2 = { title: option2Description, amount: totalBetAmountOption2 };
+
+  const getFillHeight = (amount1, amount2) => {
+    if (amount1 === amount2) return "50%";
+    return amount1 > amount2 ? "60%" : "40%";
+  };
+
+  const [selectedCard, setSelectedCard] = useState(null);
+  const handleCardClick = (cardNumber) => {
+    setSelectedCard(cardNumber);
+  };
+
   return (
     <div className="payment-page">
       {/* 상단 헤더 */}
@@ -99,9 +120,7 @@ const PaymentPage = () => {
       </div> */}
       <PaymentNavbar />
       {/* 정보 메시지 */}
-      <div className="info-message">
-        챌린지를 통해 함께 환경을 지켜요!
-      </div>
+      <div className="info-message">챌린지를 통해 함께 환경을 지켜요!</div>
 
       {/* 챌린지 정보 */}
       <div className="challenge-info">
@@ -113,51 +132,103 @@ const PaymentPage = () => {
         <div className="challenge-details">
           <h3>안 쓰는 가전제품 콘센트 빼기</h3>
           <p className="challenge-duration">주 2일, 2주 동안</p>
-          <p className="challenge-dates">8. 26 (월) - 9. 8 (일)<span><FaUser /> 26명</span></p>
+          <p className="challenge-dates">
+            8. 26 (월) - 9. 8 (일)
+            <span>
+              <FaUser /> 26명
+            </span>
+          </p>
         </div>
       </div>
 
-
-     {/* 예치금 섹션 */}
+      {/* 예치금 섹션 */}
       <div className="deposit-section">
-        <h3>예치금</h3>
-        <p>시작 전에 돈을 걸면, 종료시점 달성률에 따라 환급해드려요!</p>
+        {/* <h3>예치금</h3> */}
+        <p>예치금을 걸고싶은 옵션을 선택해주세요.</p>
+        <div className="ballance-container">
+          <div>
+            <div
+              className={`ballance-card ${selectedCard === 1 ? "choice" : ""}`}
+              onClick={() => handleCardClick(1)}
+            >
+              <p className="ballance-card-text ">{`${card1.title}`}</p>
+              <div
+                className={"ballance-fill-bar"}
+                style={{ height: getFillHeight(card1.amount, card2.amount) }}
+              ></div>
+            </div>
+            <div className="ballance-amount">
+              {card1.amount.toLocaleString()}원
+            </div>
+          </div>
+          <div>
+            <div
+              className={`ballance-card ${selectedCard === 2 ? "choice" : ""}`}
+              onClick={() => handleCardClick(2)}
+            >
+              <p className="ballance-card-text ">{`${card2.title}`}</p>
+              <div
+                className="ballance-fill-bar"
+                style={{ height: getFillHeight(card2.amount, card1.amount) }}
+              ></div>
+            </div>
+            <div className="ballance-amount">
+              {card2.amount.toLocaleString()}원
+            </div>
+          </div>
+        </div>
+        <p>
+          시작 전에 돈을 걸면,
+          <br /> 종료시점 달성률에 따라 환급해드려요!
+        </p>
         <div className="selected-amount">
           <h1>{selectedAmount.toLocaleString()}원</h1>
         </div>
         <div className="amount-options">
           <button
-            className={`amount-button ${selectedAmount === 10000 ? "selected" : ""}`}
+            className={`amount-button ${
+              selectedAmount === 10000 ? "selected" : ""
+            }`}
             onClick={() => handleAmountClick(10000)}
           >
             10,000원
           </button>
           <button
-            className={`amount-button ${selectedAmount === 30000 ? "selected" : ""}`}
+            className={`amount-button ${
+              selectedAmount === 30000 ? "selected" : ""
+            }`}
             onClick={() => handleAmountClick(30000)}
           >
             30,000원
           </button>
           <button
-            className={`amount-button ${selectedAmount === 50000 ? "selected" : ""}`}
+            className={`amount-button ${
+              selectedAmount === 50000 ? "selected" : ""
+            }`}
             onClick={() => handleAmountClick(50000)}
           >
             50,000원
           </button>
           <button
-            className={`amount-button ${selectedAmount === 100000 ? "selected" : ""}`}
+            className={`amount-button ${
+              selectedAmount === 100000 ? "selected" : ""
+            }`}
             onClick={() => handleAmountClick(100000)}
           >
             100,000원
           </button>
           <button
-            className={`amount-button ${selectedAmount === 150000 ? "selected" : ""}`}
+            className={`amount-button ${
+              selectedAmount === 150000 ? "selected" : ""
+            }`}
             onClick={() => handleAmountClick(150000)}
           >
             150,000원
           </button>
           <button
-            className={`amount-button ${selectedAmount === 200000 ? "selected" : ""}`}
+            className={`amount-button ${
+              selectedAmount === 200000 ? "selected" : ""
+            }`}
             onClick={() => handleAmountClick(200000)}
           >
             200,000원
@@ -166,16 +237,16 @@ const PaymentPage = () => {
         <p className="note">최소 1만원 ~ 최대 20만원</p>
       </div>
 
-
-
-
       {/* 결제 정보 섹션 */}
       <div className="refund-info">
         <table className="refund-table">
           <tbody>
             <tr>
               <td>100% 성공</td>
-              <td>(예상) {selectedAmount.toLocaleString()} ~ {(selectedAmount * 1.1).toLocaleString()}원</td>
+              <td>
+                (예상) {selectedAmount.toLocaleString()} ~{" "}
+                {(selectedAmount * 1.1).toLocaleString()}원
+              </td>
             </tr>
             <tr>
               <td>85% 이상 성공</td>
@@ -201,7 +272,7 @@ const PaymentPage = () => {
             <span>사용 예치금</span>
             <span>-{userAmount.toLocaleString()}원</span>
           </p>
-          <p style={{ color: 'gray' }}>
+          <p style={{ color: "gray" }}>
             <span>(현재 보유 예치금: {userAmount.toLocaleString()}원)</span>
           </p>
           <p className="charge-amount">
@@ -210,9 +281,7 @@ const PaymentPage = () => {
           </p>
         </div>
 
-        <p className="agreement-text">
-          결제 조건 및 서비스 약관에 동의합니다.
-        </p>
+        <p className="agreement-text">결제 조건 및 서비스 약관에 동의합니다.</p>
 
         {/* 약관 링크 */}
         <div className="terms-links">
@@ -222,30 +291,32 @@ const PaymentPage = () => {
         </div>
       </div>
 
- {/* 하단 고정 버튼 */}
- <div className="fixed-footer">
-        <button className="fixed-footer-button" onClick={handleFooterButtonClick}>
+      {/* 하단 고정 버튼 */}
+      <div className="fixed-footer">
+        <button
+          className="fixed-footer-button"
+          onClick={handleFooterButtonClick}
+        >
           {chargingAmount.toLocaleString()}원 충전하기
         </button>
       </div>
 
       {/* 모달 */}
       {isModalOpen && (
-          <div className="payment-popup">
+        <div className="payment-popup">
           <div className="popup-overlay">
             <div className="popup-content">
               <h2>결제가 완료되었습니다.</h2>
               <p>충전한 금액: {chargingAmount.toLocaleString()}원</p>
               <p>사용 예치금: {userAmount.toLocaleString()}원</p>
               <p>남은 금액: {remainingAmount.toLocaleString()}원</p>
-              
-                <button className="popup-button" onClick={handleModalClose}>
-                  확인
-                </button>
-              
+
+              <button className="popup-button" onClick={handleModalClose}>
+                확인
+              </button>
             </div>
           </div>
-          </div>
+        </div>
       )}
     </div>
   );
