@@ -50,8 +50,15 @@
   font-size: 13px;
   font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .ChallengeFooter .start-button:hover {
   background-color: #27b37b;
+}
+.ChallengeFooter .start-button:disabled {
+  background-color: #cccccc; /* 비활성화 시 회색 */
+  color: #666666; /* 비활성화된 버튼의 텍스트 색상 */
+  cursor: not-allowed; /* 비활성화 시 커서 변경 */
+  opacity: 0.6; /* 비활성화된 느낌을 주기 위한 투명도 조정 */
 }
