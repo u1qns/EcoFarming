@@ -69,7 +69,11 @@ const MyComplaintResult = ({ complaints }) => {
                           : ""
                       }`}
                     >
-                      {complaint.result}
+                      {complaint.isApproved === false
+                        ? "fail"
+                        : complaint.isApproved === true
+                        ? "pass"
+                        : ""}
                     </p>
                   </div>
                 </div>
