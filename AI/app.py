@@ -1,12 +1,14 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import predict  # predict.py에서 AI 모델을 불러온다고 가정
-import requests
-from io import BytesIO
 from PIL import Image
+import os
 
 app = Flask(__name__)
-CORS(app)  # CORS 허용 설정
+CORS(app, supports_credentials=True)  # CORS 허용 설정
+
+# 이미지가 저장된 경로 (기본 디렉토리 설정)
+UPLOAD_FOLDER = '/home/ubuntu/uploads/ProofPhotos'
 
 # AI 예측을 수행하는 엔드포인트
 @app.route('/run-predict', methods=['POST'])
@@ -14,11 +16,16 @@ def run_predict():
     try:
         data = request.json
         print(data)
-        image_url = data['image_url']
+        image_filename = data['image_url']  # 이미지 파일 이름만 전달된다고 가정
 
-        # URL에서 이미지를 다운로드
-        response = requests.get(image_url)
-        image = Image.open(BytesIO(response.content))
+        # 이미지의 전체 경로를 생성 (UPLOAD_FOLDER와 파일명을 합침)
+        image_path = os.path.join(UPLOAD_FOLDER, image_filename)
+
+        # 로컬 파일에서 이미지를 읽음
+        if not os.path.exists(image_path):
+            raise FileNotFoundError(f"File not found: {image_path}")
+        
+        image = Image.open(image_path)
 
         # predict.py에서 예측 함수 호출
         model = predict.load_resnet50_model()
