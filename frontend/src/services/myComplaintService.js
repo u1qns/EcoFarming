@@ -2,9 +2,9 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-export const fetchComplaints  = async (userId) => {
+export const fetchComplaints  = async () => {
   try {
-    const response = await axios.get(`${API_URL}/users/${userId}/my-page/complaints`);
+    const response = await axios.get(`${API_URL}/users/my-page/complaints`);
     console.log(JSON.stringify(response))
     return response.data;
   } catch (error) {
