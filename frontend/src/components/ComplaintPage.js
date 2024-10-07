@@ -57,7 +57,7 @@ const ComplaintPage = () => {
         image_url: photoUrl,
       });
       const predictedLabel = response.data.aiPass;
-
+      // TODO 카테고리 1, 2, 3 변경
       if (
         (challenge.title === "카테고리1" && predictedLabel === "water jug") ||
         (challenge.title === "카테고리2" &&
