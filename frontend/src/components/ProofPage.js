@@ -17,8 +17,6 @@ function ProofPage() {
     const fetchData = async () => {
       try {
         // 예시: 진행 중 챌린지와 시작 전 챌린지를 동시에 불러오는 비동기 요청
-        const userId = 1; // 유저 ID 설정
-
         // 진행 중 챌린지 데이터 요청
         const ongoingResponse = await axios.get(
           `${process.env.REACT_APP_API_URL}/challenge-user/ongoing`
