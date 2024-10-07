@@ -18,8 +18,8 @@ UPLOAD_FOLDER = '/home/ubuntu/uploads/ProofPhotos'
 def run_predict():
     try:
         data = request.json
-        print(data)
         image_filename = data['image_url']  # 이미지 파일 이름만 전달된다고 가정
+        print(f"Received image filename: {image_filename}")  # 디버깅을 위한 로그 출력
 
         # 이미지의 전체 경로를 생성 (UPLOAD_FOLDER와 파일명을 합침)
         image_path = os.path.join(UPLOAD_FOLDER, image_filename)
@@ -27,19 +27,20 @@ def run_predict():
         # 로컬 파일에서 이미지를 읽음
         if not os.path.exists(image_path):
             raise FileNotFoundError(f"File not found: {image_path}")
-        
+
+        print(f"Processing image at path: {image_path}")  # 경로 확인 로그
+
         image = Image.open(image_path)
 
-        # predict.py에서 예측 함수 호출
+        # AI 예측 로직
         model = predict.load_resnet50_model()
         image_tensor = predict.preprocess_image(image)
         prediction = predict.predict_image(model, image_tensor)
 
-        # AI 예측 결과 반환
-        result = {"aiPass": prediction}
-        return jsonify(result)
+        # 예측 결과 반환
+        return jsonify({"aiPass": prediction})
     except Exception as e:
-        # 예외 발생 시 오류 메시지를 Flask 콘솔에 출력
+        # 오류 메시지 출력
         print(f"Error during prediction: {e}")
         return jsonify({"error": str(e)}), 500
 
@@ -47,12 +48,18 @@ def run_predict():
 # Flask 서버를 서브프로세스로 실행
 def start_flask_server():
     print("Flask 서버를 실행합니다...")
-    # app.py를 백그라운드에서 실행
     process = subprocess.Popen(["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=5000"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    # 서버가 완전히 시작될 때까지 대기 (Flask 서버 준비될 때까지 대기)
-    time.sleep(5)
+    # 서버가 완전히 시작될 때까지 상태 확인
+    while True:
+        try:
+            response = requests.get("http://localhost:5000")
+            if response.status_code == 200:
+                break
+        except requests.exceptions.ConnectionError:
+            time.sleep(1)  # 연결이 될 때까지 대기
     return process
+
 
 
 # 서버 실행 후 나머지 로직을 실행하는 함수
