@@ -21,9 +21,8 @@ const OngoingChallenge = ({ setCount }) => { // setCount prop 추가
   useEffect(() => {
     const fetchOngoingChallenges = async () => {
       try {
-        const userId = 1; // 예시로 유저 ID 설정
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/challenge-user/${userId}/ongoing`
+          `${process.env.REACT_APP_API_URL}/challenge-user/ongoing`
         );
         setChallenges(response.data); // 받아온 데이터를 상태에 저장
         setCount(response.data.length); // 부모 컴포넌트에 챌린지 개수 전달
@@ -51,7 +50,7 @@ const OngoingChallenge = ({ setCount }) => { // setCount prop 추가
           <div 
             key={challenge.challengeId} 
             className="ongoing-challenge-card"
-            onClick={() => handleChallengeClick(challenge.challengeId, 1)} // 실제 userId를 전달
+            onClick={() => handleChallengeClick(challenge.challengeId, localStorage.getItem('userId'))} // 실제 userId를 전달
             style={{ cursor: "pointer" }}
           >
             <div className="ongoing-challenge-content">

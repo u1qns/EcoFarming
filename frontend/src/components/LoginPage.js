@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
 import "./LoginSignup.css";
 
@@ -31,10 +31,13 @@ const LoginPage = () => {
       localStorage.setItem('userId', userId);
 
       navigate('/');
-      alert('로그인 성공!');
     } catch (error) {
-      alert('로그인 실패');
+      alert('아이디 또는 비밀번호가 일치하지 않습니다.');
     }
+  };
+
+  const handleSignupClick = () => {
+    navigate("/sign-up");
   };
 
   return (
@@ -73,6 +76,9 @@ const LoginPage = () => {
       <div className="footer">
         <button type="submit" className="auth-button" onClick={handleLogin}>
           로그인
+        </button>
+        <button type="button" className="auth-button signup-button" onClick={handleSignupClick}>
+          회원가입
         </button>
       </div>
     </div>

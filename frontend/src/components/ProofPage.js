@@ -21,13 +21,13 @@ function ProofPage() {
 
         // 진행 중 챌린지 데이터 요청
         const ongoingResponse = await axios.get(
-          `${process.env.REACT_APP_API_URL}/challenge-user/${userId}/ongoing`
+          `${process.env.REACT_APP_API_URL}/challenge-user/ongoing`
         );
         setOngoingCount(ongoingResponse.data.length); // 진행 중 챌린지 개수 설정
 
         // 시작 전 챌린지 데이터 요청
         const upcomingResponse = await axios.get(
-          `${process.env.REACT_APP_API_URL}/challenge-user/${userId}/upcoming`
+          `${process.env.REACT_APP_API_URL}/challenge-user/upcoming`
         );
         setUpcomingCount(upcomingResponse.data.length); // 시작 전 챌린지 개수 설정
 

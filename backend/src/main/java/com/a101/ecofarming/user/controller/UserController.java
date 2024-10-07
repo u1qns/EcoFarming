@@ -7,7 +7,6 @@ import com.a101.ecofarming.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -19,8 +18,7 @@ public class UserController {
 
     @GetMapping("/users/my-page")
     public ResponseEntity<?> findUserMyPage(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        MyPageResponseDto response = userService.findUserMyPage(email);
+        MyPageResponseDto response = userService.findUserMyPage();
 
         return ResponseEntity.ok(response);
     }
