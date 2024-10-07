@@ -110,7 +110,11 @@ public class ProofService {
             throw new CustomException(FILE_UPLOAD_FAILED);
         }
 
-        return filePath;
+        // 반환할 URL 경로 (클라이언트가 접근할 수 있는 경로)
+        String urlPath = PROOF_PHOTOS_DIR + challenge.getId() + "/" + fileName;
+
+        // URL 경로 반환
+        return urlPath;
     }
 
     private Byte calculateSuccessRate(User user, Challenge challenge) {
