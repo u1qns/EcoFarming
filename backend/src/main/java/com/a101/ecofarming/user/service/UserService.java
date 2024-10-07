@@ -14,6 +14,7 @@ import com.a101.ecofarming.user.dto.response.MyPageResponseDto;
 import com.a101.ecofarming.user.entity.User;
 import com.a101.ecofarming.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 import static com.a101.ecofarming.global.exception.ErrorCode.*;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -72,8 +74,10 @@ public class UserService {
         userRepository.save(newUser);
     }
 
-    public List<MyComplaintsResponseDto> getMyComplaints(Integer userId) {
-        User user = userRepository.findById(userId)
+    public List<MyComplaintsResponseDto> getMyComplaints() {
+        log.info("나의 신고 내역 조회");
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         List<Complaint> complaints = complaintRepository.findByUserId(user.getId());

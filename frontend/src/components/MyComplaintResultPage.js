@@ -16,10 +16,9 @@ function MyComplaintResultPage() {
   };
 
   useEffect(() => {
-    const userId = 1; // TODO: userId
     const loadComplaints = async () => {
       try {
-        const data = await fetchComplaints(userId);
+        const data = await fetchComplaints();
         setComplaints(data); // 상태 업데이트
         JSON.stringify(data, null, 2);
       } catch (err) {

@@ -23,9 +23,9 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/users/{userId}/my-page/complaints")
-    public ResponseEntity<?> getMyComplaints(@PathVariable("userId") Integer userId) {
-        List<MyComplaintsResponseDto> response = userService.getMyComplaints(userId);
+    @GetMapping("/users/my-page/complaints")
+    public ResponseEntity<?> getMyComplaints() {
+        List<MyComplaintsResponseDto> response = userService.getMyComplaints();
         return ResponseEntity.ok(response);
     }
 

@@ -18,15 +18,19 @@ const ParticipantProofStatus = () => {
   useEffect(() => {
     const fetchProofImages = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/proof/${challengeId}`); // API 호출
-        setProofImages(response.data.proofs); // 받아온 데이터를 상태에 저장
-
-        // 챌린지 정보 가져오기
-        const challengeResponse = await axios.get(`${apiUrl}/challenges/${challengeId}`); // API 호출 (챌린지 정보)
-        setChallenge(challengeResponse.data); // 챌린지 정보 저장
-        
+        const proofResponse = await axios.get(`${apiUrl}/proof/${challengeId}`); 
+        setProofImages(proofResponse.data.proofs);
+    
+        const challengeResponse = await axios.get(`${apiUrl}/challenges/${challengeId}`);
+        setChallenge(challengeResponse.data);
       } catch (error) {
-        console.error("Error fetching proof images:", error);
+        if (error.proofResponse) {
+          console.error("서버 오류 발생:", error.proofResponse.status, error.proofResponse.data);
+        } else if (error.request) {
+          console.error("네트워크 오류:", error.request);
+        } else {
+          console.error("오류 발생:", error.message);
+        }
       }
     };
 
