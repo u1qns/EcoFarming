@@ -17,6 +17,7 @@ const PaymentPage = () => {
   const [chargingAmount, setChargingAmount] = useState(0); // 실제 충전할 금액
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 표시 상태
   const [remainingAmount, setRemainingAmount] = useState(0); // 남은 금액 상태
+  const [selectedGameOption, setSelectedGameOption] = useState("option1");
 
   const handleAmountClick = (amount) => {
     setSelectedAmount(amount);
