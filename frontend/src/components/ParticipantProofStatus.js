@@ -22,7 +22,7 @@ const ParticipantProofStatus = () => {
         setProofImages(response.data.proofs); // 받아온 데이터를 상태에 저장
 
         // 챌린지 정보 가져오기
-        const challengeResponse = await axios.get(`${apiUrl}/challenges/${challengeId}/${userId}`); // API 호출 (챌린지 정보)
+        const challengeResponse = await axios.get(`${apiUrl}/challenges/${challengeId}`); // API 호출 (챌린지 정보)
         setChallenge(challengeResponse.data); // 챌린지 정보 저장
         
       } catch (error) {
