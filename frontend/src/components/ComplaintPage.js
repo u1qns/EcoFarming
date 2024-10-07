@@ -55,12 +55,10 @@ const ComplaintPage = () => {
         image_url: photoUrl,
       });
       const predictedLabel = response.data.aiPass;
-      // TODO 카테고리1, 2, 3 이름 변경하기
       if (
-        (challenge.title === "카테고리1" && predictedLabel === "water jug") ||
-        (challenge.title === "카테고리2" &&
-          predictedLabel === "shopping basket") ||
-        (challenge.title === "카테고리3" && predictedLabel === "handkerchief")
+        (challenge.category_id === 1 && predictedLabel === "water jug") ||
+        (challenge.category_id === 2 && predictedLabel === "shopping basket") ||
+        (challenge.category_id === 3 && predictedLabel === "handkerchief")
       ) {
         return true;
       } else {
