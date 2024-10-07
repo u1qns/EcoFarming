@@ -19,8 +19,7 @@ public class UserController {
 
     @GetMapping("/users/my-page")
     public ResponseEntity<?> findUserMyPage(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        MyPageResponseDto response = userService.findUserMyPage(email);
+        MyPageResponseDto response = userService.findUserMyPage();
 
         return ResponseEntity.ok(response);
     }

@@ -20,24 +20,21 @@ public class ChallengeUserController {
 
     @GetMapping("/upcoming")
     public ResponseEntity<?> findUpcomingChallenges(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<ChallengeUserResponseDto> response = challengeUserService.findChallengesByUserId(UPCOMING, email);
+        List<ChallengeUserResponseDto> response = challengeUserService.findChallengesByUserId(UPCOMING);
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/ongoing")
     public ResponseEntity<?> findOngoingChallenges(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<ChallengeUserResponseDto> response = challengeUserService.findChallengesByUserId(ONGOING, email);
+        List<ChallengeUserResponseDto> response = challengeUserService.findChallengesByUserId(ONGOING);
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/completed")
     public ResponseEntity<?> findCompletedChallenges(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<ChallengeUserResponseDto> response = challengeUserService.findChallengesByUserId(COMPLETED, email);
+        List<ChallengeUserResponseDto> response = challengeUserService.findChallengesByUserId(COMPLETED);
 
         return ResponseEntity.ok(response);
     }
