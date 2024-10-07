@@ -14,10 +14,6 @@ const ProofGuidePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // 쿼리 스트링에서 userId 가져오기
-  const queryParams = new URLSearchParams(location.search);
-  const userId = queryParams.get("userId");
-
   useEffect(() => {
     const fetchGuideData = async () => {
       try {
@@ -35,11 +31,7 @@ const ProofGuidePage = () => {
     };
 
     fetchGuideData();
-
-    // 전달받은 challengeId와 userId를 로그로 출력
-    console.log("Challenge ID:", challengeId);
-    console.log("User ID:", userId);
-  }, [challengeId, userId]);
+  }, [challengeId]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -49,8 +41,7 @@ const ProofGuidePage = () => {
   };
 
   const handleStartCamera = () => {
-    // userId와 challengeId를 URL에 포함하여 ProofCameraPage로 전달
-    navigate(`/proof-camera?challengeId=${challengeId}&userId=${userId}`);
+    navigate(`/proof-camera?challengeId=${challengeId}`);
   };
 
   return (
