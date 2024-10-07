@@ -17,8 +17,9 @@ const ChallengePage = () => {
   const [guideText, setGuideText] = useState("");
   const [rightGuidePhotoUrl, setRightGuidePhotoUrl] = useState("");
   const [wrongGuidePhotoUrl, setWrongGuidePhotoUrl] = useState("");
-  const { challengeId, userId } = useParams();
+  const { challengeId } = useParams();
   const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const fetchChallengeData = async () => {
