@@ -16,7 +16,7 @@
 .payment-page .info-message {
   margin: 10px 0;
   background-color: #333;
-  border-radius: 10px; 
+  border-radius: 10px;
   color: white;
   padding: 10px;
   text-align: center;
@@ -92,6 +92,70 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.payment-page .ballance-container {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+}
+
+.payment-page .ballance-card {
+  width: 165px;
+  height: 200px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.payment-page .balance-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.payment-page .ballance-card-text {
+  position: absolute;
+  top: 30%;
+  left: 15px;
+  right: 15px;
+  font-size: 20px;
+  /* font-weight: bold; */
+  padding: 10px;
+  z-index: 2;
+  margin: 0;
+  text-align: center;
+}
+
+.payment-page .ballance-fill-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #acbea9;
+  z-index: 0;
+}
+.payment-page .choice > .ballance-card-text {
+  font-weight: bold;
+}
+.payment-page .choice > .ballance-fill-bar {
+  background-color: #b8f1b0;
+}
+
+.payment-page .ballance-amount {
+  margin-top: auto;
+  padding: 5px 15px 15px 15px;
+  font-size: 18px;
+  /* font-weight: bold; */
+  text-align: center;
+  background-color: transparent;
+  z-index: 1;
+  position: relative;
+}
+
+.payment-page .deposit-section p {
+  margin: 10px 10px;
+}
+
 .payment-page .selected-amount h1 {
   font-size: 36px;
   font-weight: bold;
@@ -122,13 +186,13 @@
 }
 
 .payment-page .amount-button.selected {
-  background-color: #27bf82;
+  background-color: #2edd97;
   color: white;
   font-weight: bold;
 }
 
 .payment-page .amount-button:hover {
-  background-color: #27bf82;
+  background-color: #2edd97;
   color: white;
 }
 
@@ -169,7 +233,7 @@
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
-  margin-top: 20px;
+  margin: 20px 0px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
   text-align: left;
 }
@@ -192,7 +256,7 @@
 }
 
 .payment-page .charge-amount {
-  color: #23bd80;
+  color: #2edd97;
   font-weight: bold;
 }
 
@@ -227,7 +291,7 @@
 }
 
 .payment-page .fixed-footer-button {
-  background-color: #27bf82;
+  background-color: #2edd97;
   color: white;
   border: none;
   padding: 15px 30px;
@@ -238,7 +302,6 @@
   max-width: 400px;
   margin-bottom: 20px;
 }
-
 
 /* 미디어 쿼리 */
 @media (max-width: 768px) {
