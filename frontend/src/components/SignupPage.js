@@ -24,7 +24,6 @@ const SignupPage = () => {
     try {
       const response = await axios.post(`${apiUrl}/join`, formData);
       if (response.status === 201) {
-        alert('회원가입이 성공적으로 완료되었습니다.');
         navigate('/login'); // 로그인 페이지로 이동
       }
     } catch (error) {

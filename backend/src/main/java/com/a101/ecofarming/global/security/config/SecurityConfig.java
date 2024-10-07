@@ -59,7 +59,7 @@ public class SecurityConfig {
                             CorsConfiguration configuration = new CorsConfiguration();
 
                             // 프론트 주소
-                            configuration.setAllowedOrigins(Collections.singletonList("https://j11a101.p.ssafy.io"));
+                            configuration.setAllowedOrigins(Arrays.asList("https://j11a101.p.ssafy.io", "http://localhost:3000"));
                             configuration.setAllowedMethods(Collections.singletonList("*"));
                             configuration.setAllowCredentials(true);
                             configuration.setAllowedHeaders(Collections.singletonList("*"));

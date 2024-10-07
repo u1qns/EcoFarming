@@ -84,3 +84,8 @@
 .auth-page .auth-button:hover {
   background-color: #444;
 }
+
+.signup-button {
+  margin-top: 1rem; /* 회원가입 버튼과 로그인 버튼 사이에 간격 추가 */
+}
+
