@@ -51,12 +51,13 @@ public class ChallengeUserService {
     }
 
     @Transactional(readOnly = true)
-    public Object getChallengeDetailsByUser(Integer challengeId, Integer userId) {
+    public Object getChallengeDetailsByUser(Integer challengeId) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
         // 챌린지와 유저 존재 확인
         Challenge challenge = challengeRepository.findById(challengeId)
                 .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
-
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         // 유저가 해당 챌린지에 참여 중인지 확인

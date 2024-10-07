@@ -13,6 +13,7 @@ import com.a101.ecofarming.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,9 +32,10 @@ public class ComplaintService {
 
     @Transactional
     public ComplaintResponseDto createComplaint(ComplaintRequestDto complaintRequestDto) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Proof proof = proofRepository.findById(complaintRequestDto.getProofId())
                 .orElseThrow(() -> new CustomException(PROOF_NOT_FOUND));
-        User user = userRepository.findById(complaintRequestDto.getUserId())
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         Complaint complaint = Complaint.builder()
@@ -44,6 +46,7 @@ public class ComplaintService {
                 .adminPass(null)
                 .build();
         Complaint savedComplaint = complaintRepository.save(complaint);
+        log.info("신고 생성 성공 / AI 판독 결과:  {} / {}", savedComplaint.getId(), complaintRequestDto.getAiPass());
 
         // AI 검증이 실패했을 때만 요청
         if (!complaintRequestDto.getAiPass()) {
@@ -54,13 +57,18 @@ public class ComplaintService {
     }
 
     public List<ComplaintResponseDto> getAllComplaints() {
+        log.info("전체 신고 조회 요청");
+
         List<Complaint> complaints = complaintRepository.findAll();
+        log.info("총 {}개의 신고가 조회되었습니다.", complaints.size());
+
         return complaints.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
 
     private ComplaintResponseDto convertToDto(Complaint complaint) {
+        log.info("관리자에게 알림 전송: {}", complaint.getId());
         return ComplaintResponseDto.builder()
                 .id(complaint.getId())
                 .description(complaint.getDescription())

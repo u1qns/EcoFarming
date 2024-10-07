@@ -36,10 +36,8 @@ const ComplaintPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [loadingPopup, setLoadingPopup] = useState(false); // 로딩 팝업 상태 추가
   const [error, setError] = useState("");
-  const [aiPass, setAiPass] = useState(false);
 
-  const proofId = 1;
-  const userId = 1;
+  const proofId = 1; // TODO
 
   const handleReasonSelect = (reason) => {
     setSelectedReason(reason);
@@ -64,13 +62,14 @@ const ComplaintPage = () => {
           predictedLabel === "shopping basket") ||
         (challenge.title === "카테고리3" && predictedLabel === "handkerchief")
       ) {
-        setAiPass(true);
+        return true;
       } else {
-        setAiPass(false);
+        return false;
       }
     } catch (error) {
       console.error("AI 예측 중 오류가 발생했습니다:", error);
-      setAiPass(false);
+      alert("AI 예측 중 오류가 발생했습니다. 다시 신고해 주세요."); // 사용자에게 알림
+      return null; // 재신고를 유도하기 위해 null 반환
     }
   };
 
@@ -78,10 +77,9 @@ const ComplaintPage = () => {
     if (!isSubmitDisabled) {
       setLoadingPopup(true); // 로딩 팝업 표시
       try {
-        await runPredict(proof.photoUrl);
+        const aiPass = await runPredict(proof.photoUrl);
         const data = await submitComplaint({
           proofId: proofId,
-          userId: userId,
           aiPass: aiPass,
           description: detailedReason,
         });
