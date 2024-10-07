@@ -14,6 +14,7 @@ import com.a101.ecofarming.user.dto.response.MyPageResponseDto;
 import com.a101.ecofarming.user.entity.User;
 import com.a101.ecofarming.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +39,8 @@ public class UserService {
     private final ChallengeCategoryRepository challengeCategoryRepository;
 
     @Transactional(readOnly = true)
-    public MyPageResponseDto findUserMyPage(String email) {
+    public MyPageResponseDto findUserMyPage() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
@@ -59,7 +61,6 @@ public class UserService {
             throw new CustomException(EMAIL_ALREADY_EXIST);
         }
 
-
         User newUser = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
@@ -67,7 +68,6 @@ public class UserService {
                 .amount(0)
                 .prizeAmount(0)
                 .build();
-
 
         userRepository.save(newUser);
     }
