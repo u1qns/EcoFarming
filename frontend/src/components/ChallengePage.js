@@ -25,7 +25,7 @@ const ChallengePage = () => {
     const fetchChallengeData = async () => {
       try {
         const response = await axios.get(
-          `${apiUrl}/challenges/${challengeId}/${userId}`
+          `${apiUrl}/challenges/${challengeId}`
         );
         setChallengeData(response.data);
         setLoading(false);
