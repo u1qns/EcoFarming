@@ -24,8 +24,10 @@ const PaymentPage = () => {
     option1Description,
     option2Description,
     thumbPhotoUrl
-  } = state || {}; 
+  } = state || {};
 
+  const [currentBetAmountOption1, setCurrentBetAmountOption1] = useState(totalBetAmountOption1);
+  const [currentBetAmountOption2, setCurrentBetAmountOption2] = useState(totalBetAmountOption2);
   const [selectedAmount, setSelectedAmount] = useState(10000); // 선택된 금액 상태
   const [userAmount, setUserAmount] = useState(0); // 사용자 보유 예치금 상태
   const [chargingAmount, setChargingAmount] = useState(0); // 실제 충전할 금액
@@ -35,6 +37,12 @@ const PaymentPage = () => {
 
   const handleAmountClick = (amount) => {
     setSelectedAmount(amount);
+    // 선택된 카드에 해당 금액을 즉시 반영
+  if (selectedCard === 1) {
+    setCurrentBetAmountOption1(totalBetAmountOption1 + amount); // 옵션1에 금액 반영
+  } else if (selectedCard === 2) {
+    setCurrentBetAmountOption2(totalBetAmountOption2 + amount); // 옵션2에 금액 반영
+  }
   };
 
   const handleModalClose = () => {
@@ -119,7 +127,19 @@ const PaymentPage = () => {
 
   const [selectedCard, setSelectedCard] = useState(null);
   const handleCardClick = (cardNumber) => {
-    setSelectedCard(cardNumber);
+    setSelectedCard(cardNumber); // 선택된 카드를 업데이트
+
+  // 선택된 카드가 옵션 1일 때
+  if (cardNumber === 1) {
+    setCurrentBetAmountOption1(totalBetAmountOption1 + selectedAmount); // 선택한 금액을 옵션 1에 반영
+    setCurrentBetAmountOption2(totalBetAmountOption2); // 옵션 2는 원래 값 유지
+  }
+
+  // 선택된 카드가 옵션 2일 때
+  if (cardNumber === 2) {
+    setCurrentBetAmountOption2(totalBetAmountOption2 + selectedAmount); // 선택한 금액을 옵션 2에 반영
+    setCurrentBetAmountOption1(totalBetAmountOption1); // 옵션 1은 원래 값 유지
+  }
   };
 
   return (
@@ -162,14 +182,14 @@ const PaymentPage = () => {
               className={`ballance-card ${selectedCard === 1 ? "choice" : ""}`}
               onClick={() => handleCardClick(1)}
             >
-              <p className="ballance-card-text ">{`${card1.title}`}</p>
+              <p className="ballance-card-text ">{`${option1Description}`}</p>
               <div
-                className={"ballance-fill-bar"}
-                style={{ height: getFillHeight(card1.amount, card2.amount) }}
+                className="ballance-fill-bar"
+                style={{ height: getFillHeight(currentBetAmountOption1, currentBetAmountOption2) }}
               ></div>
             </div>
             <div className="ballance-amount">
-              {card1.amount.toLocaleString()}원
+              {currentBetAmountOption1.toLocaleString()}원
             </div>
           </div>
           <div>
@@ -177,17 +197,18 @@ const PaymentPage = () => {
               className={`ballance-card ${selectedCard === 2 ? "choice" : ""}`}
               onClick={() => handleCardClick(2)}
             >
-              <p className="ballance-card-text ">{`${card2.title}`}</p>
+              <p className="ballance-card-text ">{`${option2Description}`}</p>
               <div
                 className="ballance-fill-bar"
-                style={{ height: getFillHeight(card2.amount, card1.amount) }}
+                style={{ height: getFillHeight(currentBetAmountOption2, currentBetAmountOption1) }}
               ></div>
             </div>
             <div className="ballance-amount">
-              {card2.amount.toLocaleString()}원
+              {currentBetAmountOption2.toLocaleString()}원
             </div>
           </div>
         </div>
+
         <p>
           시작 전에 돈을 걸면,
           <br /> 종료시점 달성률에 따라 환급해드려요!
@@ -197,49 +218,43 @@ const PaymentPage = () => {
         </div>
         <div className="amount-options">
           <button
-            className={`amount-button ${
-              selectedAmount === 10000 ? "selected" : ""
-            }`}
+            className={`amount-button ${selectedAmount === 10000 ? "selected" : ""
+              }`}
             onClick={() => handleAmountClick(10000)}
           >
             10,000원
           </button>
           <button
-            className={`amount-button ${
-              selectedAmount === 30000 ? "selected" : ""
-            }`}
+            className={`amount-button ${selectedAmount === 30000 ? "selected" : ""
+              }`}
             onClick={() => handleAmountClick(30000)}
           >
             30,000원
           </button>
           <button
-            className={`amount-button ${
-              selectedAmount === 50000 ? "selected" : ""
-            }`}
+            className={`amount-button ${selectedAmount === 50000 ? "selected" : ""
+              }`}
             onClick={() => handleAmountClick(50000)}
           >
             50,000원
           </button>
           <button
-            className={`amount-button ${
-              selectedAmount === 100000 ? "selected" : ""
-            }`}
+            className={`amount-button ${selectedAmount === 100000 ? "selected" : ""
+              }`}
             onClick={() => handleAmountClick(100000)}
           >
             100,000원
           </button>
           <button
-            className={`amount-button ${
-              selectedAmount === 150000 ? "selected" : ""
-            }`}
+            className={`amount-button ${selectedAmount === 150000 ? "selected" : ""
+              }`}
             onClick={() => handleAmountClick(150000)}
           >
             150,000원
           </button>
           <button
-            className={`amount-button ${
-              selectedAmount === 200000 ? "selected" : ""
-            }`}
+            className={`amount-button ${selectedAmount === 200000 ? "selected" : ""
+              }`}
             onClick={() => handleAmountClick(200000)}
           >
             200,000원
