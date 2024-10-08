@@ -121,8 +121,11 @@ const PaymentPage = () => {
   const card2 = { title: option2Description, amount: totalBetAmountOption2 };
 
   const getFillHeight = (amount1, amount2) => {
-    if (amount1 === amount2) return "50%";
-    return amount1 > amount2 ? "60%" : "40%";
+    const total = amount1 + amount2;
+    if (total === 0) return "50%"; // 양쪽 모두 0일 때는 기본적으로 50%
+    
+    const percentage1 = (amount1 / total) * 100;
+    return `${percentage1}%`;
   };
 
   const [selectedCard, setSelectedCard] = useState(null);
