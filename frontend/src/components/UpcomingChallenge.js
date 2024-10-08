@@ -9,8 +9,9 @@ const UpcomingChallenge = ({ setCount }) => { // setCount prop 추가
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const navigate = useNavigate(); // navigate 함수 추가
 
-  const handleChallengeClick = (challengeId, userId) => {
-    navigate(`/challenge/${challengeId}/${userId}`); // 해당 챌린지 상세 페이지로 이동
+  const handleChallengeClick = (challengeId) => {
+    const userId = localStorage.getItem('userId');
+    navigate(`/ongoing-challenge/${challengeId}/${userId}`); // 해당 챌린지 상세 페이지로 이동
   };
 
   useEffect(() => {
@@ -43,7 +44,7 @@ const UpcomingChallenge = ({ setCount }) => { // setCount prop 추가
       ) : (
         challenges.map((challenge) => (
           <div key={challenge.challengeId} className="ongoing-challenge-card"
-          onClick={() => handleChallengeClick(challenge.challengeId, localStorage.getItem('userId'))} // 실제 userId를 전달
+          onClick={() => handleChallengeClick(challenge.challengeId)} // 실제 userId를 전달
           style={{ cursor: "pointer" }}>
             <div className="ongoing-challenge-content">
               <div className="ongoing-challenge-image">

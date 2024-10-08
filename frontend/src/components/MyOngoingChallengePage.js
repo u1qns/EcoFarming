@@ -3,8 +3,10 @@ import OngoingChallenge from "./OngoingChallenge";
 import Footer from "./Footer";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function MyOngoingChallengePage() {
+  const [count, setCount] = useState(0); // 챌린지 개수를 저장할 상태 추가
   const navigate = useNavigate();
   const handleBackClick = () => {
     navigate(-1); // 이전 페이지로 이동
@@ -18,7 +20,7 @@ function MyOngoingChallengePage() {
       <div className="content">
         <div style={{ marginBottom: 20 }}></div>
         <div style={{ padding: 15, paddingTop: 0 }}>
-          <OngoingChallenge />
+          <OngoingChallenge setCount={setCount}/>
         </div>
       </div>
       <Footer />

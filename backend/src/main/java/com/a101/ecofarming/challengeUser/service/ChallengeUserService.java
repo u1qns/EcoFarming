@@ -106,6 +106,7 @@ public class ChallengeUserService {
                     .totalBetAmountOption1(totalBetAmountOption1)
                     .totalBetAmountOption2(totalBetAmountOption2)
                     .prizeAmount(prizeAmount)
+                    .thumbPhotoUrl(challenge.getChallengeCategory().getThumbPhotoUrl())
                     .build();
 
         } else {
@@ -126,6 +127,7 @@ public class ChallengeUserService {
                     .option2Description(challenge.getBalanceGame().getOption2Description())
                     .totalBetAmountOption1(challenge.getTotalBetAmountOption1())
                     .totalBetAmountOption2(challenge.getTotalBetAmountOption2())
+                    .thumbPhotoUrl(challenge.getChallengeCategory().getThumbPhotoUrl())
                     .build();
         }
     }

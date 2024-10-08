@@ -3,8 +3,12 @@ import UpcomingChallenge from "./UpcomingChallenge";
 import Footer from "./Footer";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+
 
 function MyUpcomingChallengePage() {
+  const [count, setCount] = useState(0);
   const navigate = useNavigate();
   const handleBackClick = () => {
     navigate(-1); // 이전 페이지로 이동
@@ -18,7 +22,7 @@ function MyUpcomingChallengePage() {
       <div className="content">
         <div style={{ marginBottom: 20 }}></div>
         <div style={{ padding: 15, paddingTop: 0 }}>
-          <UpcomingChallenge />
+          <UpcomingChallenge setCount={setCount}/> {/* setCount prop 전달 */}
         </div>
       </div>
       <Footer />
