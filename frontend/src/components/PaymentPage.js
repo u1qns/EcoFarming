@@ -38,11 +38,11 @@ const PaymentPage = () => {
   const handleAmountClick = (amount) => {
     setSelectedAmount(amount);
     // 선택된 카드에 해당 금액을 즉시 반영
-  if (selectedCard === 1) {
-    setCurrentBetAmountOption1(totalBetAmountOption1 + amount); // 옵션1에 금액 반영
-  } else if (selectedCard === 2) {
-    setCurrentBetAmountOption2(totalBetAmountOption2 + amount); // 옵션2에 금액 반영
-  }
+    if (selectedCard === 1) {
+      setCurrentBetAmountOption1(totalBetAmountOption1 + amount); // 옵션1에 금액 반영
+    } else if (selectedCard === 2) {
+      setCurrentBetAmountOption2(totalBetAmountOption2 + amount); // 옵션2에 금액 반영
+    }
   };
 
   const handleModalClose = () => {
@@ -123,7 +123,7 @@ const PaymentPage = () => {
   const getFillHeight = (amount1, amount2) => {
     const total = amount1 + amount2;
     if (total === 0) return "50%"; // 양쪽 모두 0일 때는 기본적으로 50%
-    
+
     const percentage1 = (amount1 / total) * 100;
     return `${percentage1}%`;
   };
@@ -132,17 +132,17 @@ const PaymentPage = () => {
   const handleCardClick = (cardNumber) => {
     setSelectedCard(cardNumber); // 선택된 카드를 업데이트
 
-  // 선택된 카드가 옵션 1일 때
-  if (cardNumber === 1) {
-    setCurrentBetAmountOption1(totalBetAmountOption1 + selectedAmount); // 선택한 금액을 옵션 1에 반영
-    setCurrentBetAmountOption2(totalBetAmountOption2); // 옵션 2는 원래 값 유지
-  }
+    // 선택된 카드가 옵션 1일 때
+    if (cardNumber === 1) {
+      setCurrentBetAmountOption1(totalBetAmountOption1 + selectedAmount); // 선택한 금액을 옵션 1에 반영
+      setCurrentBetAmountOption2(totalBetAmountOption2); // 옵션 2는 원래 값 유지
+    }
 
-  // 선택된 카드가 옵션 2일 때
-  if (cardNumber === 2) {
-    setCurrentBetAmountOption2(totalBetAmountOption2 + selectedAmount); // 선택한 금액을 옵션 2에 반영
-    setCurrentBetAmountOption1(totalBetAmountOption1); // 옵션 1은 원래 값 유지
-  }
+    // 선택된 카드가 옵션 2일 때
+    if (cardNumber === 2) {
+      setCurrentBetAmountOption2(totalBetAmountOption2 + selectedAmount); // 선택한 금액을 옵션 2에 반영
+      setCurrentBetAmountOption1(totalBetAmountOption1); // 옵션 1은 원래 값 유지
+    }
   };
 
   return (
@@ -159,17 +159,19 @@ const PaymentPage = () => {
       {/* 챌린지 정보 */}
       <div className="challenge-info">
         <img
-          src="https://via.placeholder.com/100" // 임시 이미지 경로
+          src={thumbPhotoUrl || "https://via.placeholder.com/100"} // thumbPhotoUrl 사용, 없으면 기본 이미지
           alt="Challenge Thumbnail"
           className="challenge-image"
         />
         <div className="challenge-details">
-          <h3>안 쓰는 가전제품 콘센트 빼기</h3>
-          <p className="challenge-duration">주 2일, 2주 동안</p>
+          <h3>{title}</h3> {/* 실제 챌린지 제목 */}
+          <p className="challenge-duration">
+            주 {frequency}일, {Math.ceil(duration / 7)}주 동안
+          </p>
           <p className="challenge-dates">
-            8. 26 (월) - 9. 8 (일)
+            {new Date(startDate).toLocaleDateString()} - {new Date(endDate).toLocaleDateString()} {/* 날짜 형식으로 변환 */}
             <span>
-              <FaUser /> 26명
+              <FaUser /> {userCount}명
             </span>
           </p>
         </div>
