@@ -94,13 +94,18 @@ public class UserService {
         String challengeTitle = challengeCategoryRepository.findTitleById(
                 proof.getChallenge().getChallengeCategory().getId()
         );
+        
+        Boolean isApproved = complaint.getAiPass();
+        if(isApproved == null) {
+            isApproved = complaint.getAiPass();
+        }
 
         return MyComplaintsResponseDto.builder()
                 .complaintId(complaint.getId())
                 .title(challengeTitle)
                 .description(complaint.getDescription())
                 .photoUrl(proof.getPhotoUrl())
-                .isApproved(proof.getIsValid())
+                .isApproved(isApproved)
                 .complaintDate(proof.getCreatedAt())
                 .build();
     }
