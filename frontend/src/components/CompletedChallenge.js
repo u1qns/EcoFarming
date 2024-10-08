@@ -61,7 +61,7 @@ const CompletedChallenge = () => {
                   </div>
                   <div>
                     <p className="stat-value">
-                      {challenge.returnAmount}
+                      {challenge.returnAmount}원
                     </p>
                     <p className="stat-label">반환금</p>
                   </div>
