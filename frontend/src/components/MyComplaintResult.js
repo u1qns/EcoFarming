@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // Axios 추가
-import { ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./MyComplaintResult.css";
 
@@ -50,7 +49,6 @@ const MyComplaintResult = ({ complaints }) => {
               <div className="details">
                 <div className="complaint-header">
                   <h2>{complaint.title}</h2>
-                  <ChevronRight className="chevron-icon" />
                 </div>
                 <p className="date">
                   신고 일시:{" "}
@@ -77,7 +75,6 @@ const MyComplaintResult = ({ complaints }) => {
                     </p>
                   </div>
                 </div>
-                <button className="button">신고 취소하기</button>
               </div>
             </div>
           </div>
