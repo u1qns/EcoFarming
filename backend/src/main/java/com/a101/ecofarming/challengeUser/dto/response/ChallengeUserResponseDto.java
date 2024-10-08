@@ -18,5 +18,6 @@ public class ChallengeUserResponseDto {
     private Byte duration;
     private Byte successRate;
     private String thumbPhotoUrl;
+    private Integer returnAmount;
     private Long totalParticipationCount;
 }
