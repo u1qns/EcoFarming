@@ -8,13 +8,14 @@ const OngoingChallenge = ({ setCount }) => { // setCount prop 추가
   const navigate = useNavigate();
   const [challenges, setChallenges] = useState([]); // 챌린지 데이터를 저장할 상태
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  const userId = localStorage.getItem('userId');
 
-  const handleGuideClick = () => {
-    var challengeId = 1; // test
+  const handleGuideClick = (challengeId, event) => {
+    event.stopPropagation(); 
     navigate(`/proof/${challengeId}/guide`);
   };
 
-  const handleChallengeClick = (challengeId, userId) => {
+  const handleChallengeClick = (challengeId) => {
     navigate(`/ongoing-challenge/${challengeId}/${userId}`); // 해당 챌린지 상세 페이지로 이동
   };
 
@@ -47,10 +48,10 @@ const OngoingChallenge = ({ setCount }) => { // setCount prop 추가
         <p>참가 중인 챌린지가 없습니다.</p>
       ) : (
         challenges.map((challenge) => (
-          <div 
-            key={challenge.challengeId} 
+          <div
+            key={challenge.challengeId}
             className="ongoing-challenge-card"
-            onClick={() => handleChallengeClick(challenge.challengeId, localStorage.getItem('userId'))} // 실제 userId를 전달
+            onClick={() => handleChallengeClick(challenge.challengeId)} 
             style={{ cursor: "pointer" }}
           >
             <div className="ongoing-challenge-content">
@@ -84,7 +85,7 @@ const OngoingChallenge = ({ setCount }) => { // setCount prop 추가
                 </div>
                 <button
                   className="ongoing-challenge-button"
-                  onClick={() => handleGuideClick(challenge.challengeId)}
+                  onClick={(event) => handleGuideClick(challenge.challengeId, event)}
                 >
                   인증하기
                 </button>
