@@ -6,8 +6,10 @@ import "./PaymentPage.css"; // 스타일 파일 추가
 import { FaUser } from "react-icons/fa";
 import PaymentNavbar from "./PaymentNavbar";
 import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const PaymentPage = () => {
+  const navigate = useNavigate();
   const { state } = useLocation();
   const {
     challengeId,
@@ -47,6 +49,7 @@ const PaymentPage = () => {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
+    navigate("/users");
   };
 
   const handleFooterButtonClick = () => {
