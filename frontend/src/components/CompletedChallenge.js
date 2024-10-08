@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // Axios 추가
-import { ChevronRight } from "lucide-react";
 import "./OngoingChallenge.css"; // 스타일 파일 재사용
 
 const CompletedChallenge = () => {
@@ -47,7 +46,6 @@ const CompletedChallenge = () => {
               <div className="ongoing-challenge-details">
                 <div className="ongoing-challenge-header">
                   <h2>{challenge.title}</h2>
-                  <ChevronRight className="chevron-icon" />
                 </div>
                 <p className="ongoing-challenge-date">
                   {new Date(challenge.startDate).toLocaleDateString()} ~{" "}
@@ -63,7 +61,7 @@ const CompletedChallenge = () => {
                   </div>
                   <div>
                     <p className="stat-value">
-                      {challenge.returnAmount}원
+                      {challenge.returnAmount}
                     </p>
                     <p className="stat-label">반환금</p>
                   </div>
