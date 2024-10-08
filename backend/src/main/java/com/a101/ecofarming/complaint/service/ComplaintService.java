@@ -1,5 +1,6 @@
 package com.a101.ecofarming.complaint.service;
 
+import com.a101.ecofarming.complaint.dto.AIAnalysisRequestDto;
 import com.a101.ecofarming.complaint.dto.ComplaintRequestDto;
 import com.a101.ecofarming.complaint.dto.ComplaintResponseDto;
 import com.a101.ecofarming.complaint.entity.Complaint;
@@ -42,18 +43,26 @@ public class ComplaintService {
                 .proof(proof)
                 .user(user)
                 .description(complaintRequestDto.getDescription())
-                .aiPass(complaintRequestDto.getAiPass())
                 .adminPass(null)
                 .build();
         Complaint savedComplaint = complaintRepository.save(complaint);
-        log.info("신고 생성 성공 / AI 판독 결과:  {} / {}", savedComplaint.getId(), complaintRequestDto.getAiPass());
-
-        // AI 검증이 실패했을 때만 요청
-        if (!complaintRequestDto.getAiPass()) {
-            notifyAdmin(savedComplaint);
-        }
 
         return convertToDto(savedComplaint);
+    }
+
+    public void updateAIPass(AIAnalysisRequestDto aiAnalysisRequestDto) {
+        log.info("{}번 인증샷 신고에 대한 AI 판독 결과 : {}",
+                aiAnalysisRequestDto.getComplaintId(), aiAnalysisRequestDto.getAiPass());
+
+        Complaint complaint = complaintRepository.findById(aiAnalysisRequestDto.getComplaintId())
+                .orElseThrow(()-> new CustomException(COMPLATINT_NOT_FOUND));
+
+        complaint.setAiPass(aiAnalysisRequestDto.getAiPass());
+
+        // AI 검증이 실패했을 때만 요청
+        if (!aiAnalysisRequestDto.getAiPass()) {
+            notifyAdmin(complaint);
+        }
     }
 
     public List<ComplaintResponseDto> getAllComplaints() {
@@ -68,11 +77,9 @@ public class ComplaintService {
     }
 
     private ComplaintResponseDto convertToDto(Complaint complaint) {
-        log.info("관리자에게 알림 전송: {}", complaint.getId());
         return ComplaintResponseDto.builder()
                 .id(complaint.getId())
                 .description(complaint.getDescription())
-                .aiPass(complaint.getAiPass())
                 .adminPass(complaint.getAdminPass())
                 .proofId(complaint.getProof().getId())
                 .userId(complaint.getUser().getId())

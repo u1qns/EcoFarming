@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import "./ComplaintPage.css";
 import { submitComplaint } from "../services/complaintService";
+import { submitAIResult } from "../services/AIService";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -49,44 +50,40 @@ const ComplaintPage = () => {
 
   const isSubmitDisabled = detailedReason.length < 10;
 
-  const runPredict = async (photoUrl) => {
+  const runPredict = async (complaintId, photoUrl) => {
     try {
-      const response = await axios.post("http://localhost:5000/run-predict", {
-        image_url: photoUrl,
-      });
+      console.log("[runPredict] 호출");
+      const response = await axios.post("http://localhost:5000/run-predict",  { image_url: photoUrl });
       const predictedLabel = response.data.aiPass;
-      if (
+      console.log("AI 분석 라벨 : ", predictedLabel);
+      const aiPass = (
         (challenge.category_id === 1 && predictedLabel === "water jug") ||
         (challenge.category_id === 2 && predictedLabel === "shopping basket") ||
         (challenge.category_id === 3 && predictedLabel === "handkerchief")
-      ) {
-        return true;
-      } else {
-        return false;
-      }
+      );
+      console.log("AI 예측 결과 : ", aiPass);
+      await submitAIResult({complaintId, aiPass});
     } catch (error) {
       console.error("AI 예측 중 오류가 발생했습니다:", error);
-      alert("AI 예측 중 오류가 발생했습니다. 다시 신고해 주세요."); // 사용자에게 알림
-      return false; // TODO: 임시
     }
   };
+
 
   const handleSubmit = async () => {
     if (!isSubmitDisabled) {
       setLoadingPopup(true); // 로딩 팝업 표시
       try {
-        const aiPass = await runPredict(proof.photoUrl);
-        const data = await submitComplaint({
+        const response = await submitComplaint({
           proofId: proofId,
-          aiPass: aiPass, // TODO: 수정
           description: detailedReason,
         });
-        console.log("응답 데이터:", JSON.stringify(data, null, 2));
+
         setLoadingPopup(false); // 로딩 팝업 종료
         setShowPopup(true); // 완료 팝업 표시
+        await runPredict(response.id, proof.phoroUrl)
       } catch (error) {
+        console.error("신고 제출 중 오류 발생 : ", error);
         setLoadingPopup(false); // 로딩 팝업 종료
-        setError("신고 제출 중 오류가 발생했습니다. 다시 시도해주세요.");
       }
     }
   };

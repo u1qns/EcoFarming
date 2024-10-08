@@ -35,5 +35,8 @@ public class Complaint extends BaseEntity {
     @Column(name = "admin_pass")
     private Boolean adminPass;
 
+    public void setAiPass(Boolean aiPass) {
+        this.aiPass = aiPass;
+    }
 }
 

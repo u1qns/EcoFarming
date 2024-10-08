@@ -15,6 +15,7 @@ public enum ErrorCode {
     CHALLENGE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 챌린지입니다."),
     PAYMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 결제입니다"),
     CHALLENGE_USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 챌린지유저입니다."),
+    COMPLATINT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 신고입니다."),
 
     INVALID_INPUT_FORMAT(HttpStatus.BAD_REQUEST, "잘못된 입력 형식입니다."),
     REFRESH_TOKEN_NULL(HttpStatus.BAD_REQUEST, "refresh token이 null입니다."),

@@ -1,8 +1,8 @@
 package com.a101.ecofarming.complaint.controller;
 
+import com.a101.ecofarming.complaint.dto.AIAnalysisRequestDto;
 import com.a101.ecofarming.complaint.dto.ComplaintRequestDto;
 import com.a101.ecofarming.complaint.dto.ComplaintResponseDto;
-import com.a101.ecofarming.complaint.repository.ComplaintRepository;
 import com.a101.ecofarming.complaint.service.ComplaintService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +21,13 @@ public class ComplaintController {
             @RequestBody ComplaintRequestDto complaintRequestDto) {
         ComplaintResponseDto complaintResponseDto = complaintService.createComplaint(complaintRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(complaintResponseDto);
+    }
+
+    @PostMapping("/proof/AI")
+    public ResponseEntity<Void> aiAnalysis(
+            @RequestBody AIAnalysisRequestDto aiAnalysisRequestDto) {
+        complaintService.updateAIPass(aiAnalysisRequestDto);
+        return ResponseEntity.ok().build();
     }
 
     // 전체 Complaint 목록 조회 API
