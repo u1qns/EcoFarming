@@ -56,9 +56,13 @@ public class ComplaintService {
 
         Complaint complaint = complaintRepository.findById(aiAnalysisRequestDto.getComplaintId())
                 .orElseThrow(()-> new CustomException(COMPLATINT_NOT_FOUND));
-
         complaint.setAiPass(aiAnalysisRequestDto.getAiPass());
 
+        // 인증샷 isValid 업데이트
+        Proof proof = complaint.getProof();
+        proof.setIsValid(aiAnalysisRequestDto.getAiPass());
+        proofRepository.save(proof);
+        
         // AI 검증이 실패했을 때만 요청
         if (!aiAnalysisRequestDto.getAiPass()) {
             notifyAdmin(complaint);

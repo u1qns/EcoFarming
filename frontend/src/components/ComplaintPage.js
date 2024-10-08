@@ -159,7 +159,7 @@ const ComplaintPage = () => {
       {showPopup && (
         <PopupModal
           message="신고가 접수되었습니다"
-          onClose={() => setShowPopup(false)}
+          onClose={() => handleBackClick()}
         />
       )}
     </div>

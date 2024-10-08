@@ -67,11 +67,13 @@ const MyComplaintResult = ({ complaints }) => {
                           : ""
                       }`}
                     >
-                      {complaint.isApproved === false
-                        ? "불통"
-                        : complaint.isApproved === true
-                        ? "통과"
-                        : ""}
+                      {
+                        complaint.isApproved === true
+                          ? "통과"
+                          : complaint.isApproved === false
+                          ? "불통"
+                          : "신고 검토 중" // null인 경우
+                      }
                     </p>
                   </div>
                 </div>

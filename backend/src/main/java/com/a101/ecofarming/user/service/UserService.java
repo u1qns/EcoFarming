@@ -95,12 +95,17 @@ public class UserService {
                 proof.getChallenge().getChallengeCategory().getId()
         );
 
+        Boolean isApproved = complaint.getAdminPass();
+        if(isApproved == null) {
+            isApproved = complaint.getAiPass();
+        }
+
         return MyComplaintsResponseDto.builder()
                 .complaintId(complaint.getId())
                 .title(challengeTitle)
                 .description(complaint.getDescription())
                 .photoUrl(proof.getPhotoUrl())
-                .isApproved(proof.getIsValid())
+                .isApproved(isApproved)
                 .complaintDate(proof.getCreatedAt())
                 .build();
     }
