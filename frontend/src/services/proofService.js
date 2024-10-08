@@ -13,9 +13,8 @@ export const fetchProofGuide = async (challengeId) => {
 };
 
 // 챌린지 증명 사진 업로드
-export const uploadProof = async (userId, challengeId, photo) => {
+export const uploadProof = async (challengeId, photo) => {
     const formData = new FormData();
-    formData.append('userId', userId);
     formData.append('challengeId', challengeId);
     formData.append('photo', photo);
 

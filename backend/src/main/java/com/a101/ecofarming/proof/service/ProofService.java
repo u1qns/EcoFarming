@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
@@ -56,15 +57,11 @@ public class ProofService {
 
     @Transactional
     public ProofUploadResponseDto uploadProof(ProofUploadRequestDto requestDto) {
-        log.info("Proof upload request received for userId: {} and challengeId: {}",
-                requestDto.getUserId(),
-                requestDto.getChallengeId());
-
-        // 챌린지 및 사용자 조회
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         Challenge challenge = challengeRepository.findById(requestDto.getChallengeId())
                 .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
-        User user = userRepository.findById(requestDto.getUserId())
-                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         // 챌린지 인증 저장
         String filePath = saveProofFile(requestDto, user, challenge);
@@ -110,10 +107,8 @@ public class ProofService {
             throw new CustomException(FILE_UPLOAD_FAILED);
         }
 
-        // 반환할 URL 경로 (클라이언트가 접근할 수 있는 경로)
         String urlPath = PROOF_PHOTOS_DIR + challenge.getId() + "/" + fileName;
 
-        // URL 경로 반환
         return urlPath;
     }
 

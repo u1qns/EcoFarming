@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProofUploadRequestDto {
-    private Integer userId;
     private Integer challengeId;
     private MultipartFile photo;
 }
