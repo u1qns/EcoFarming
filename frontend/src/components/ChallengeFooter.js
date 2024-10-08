@@ -75,7 +75,23 @@ const ChallengeFooter = ({ challenge, userId }) => {
       const response = await axios.get(`${apiUrl}/challenges/${challenge.id}/${userId}/payment`);
 
       if (response.status === 200) {
-        navigate("/payment", { state: { challengeId: challenge.id } });
+        navigate("/payment", { 
+          state: {
+            challengeId: challenge.id,
+            title: challenge.title,
+            description: challenge.description,
+            startDate: challenge.startDate,
+            endDate: challenge.endDate,
+            frequency: challenge.frequency,
+            duration: challenge.duration,
+            userCount: challenge.userCount,
+            totalBetAmountOption1: challenge.totalBetAmountOption1,
+            totalBetAmountOption2: challenge.totalBetAmountOption2,
+            balanceId: challenge.balanceId,
+            option1Description: challenge.option1Description,
+            option2Description: challenge.option2Description,
+            thumbPhotoUrl: challenge.thumbPhotoUrl
+          } });
       } else {
         console.error("Payment failed");
       }

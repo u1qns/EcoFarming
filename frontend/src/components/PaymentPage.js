@@ -9,7 +9,23 @@ import { ArrowLeft } from "lucide-react";
 
 const PaymentPage = () => {
   const { state } = useLocation();
-  const challengeId = state?.challengeId;
+  const {
+    challengeId,
+    title,
+    description,
+    startDate,
+    endDate,
+    frequency,
+    duration,
+    userCount,
+    totalBetAmountOption1,
+    totalBetAmountOption2,
+    balanceId,
+    option1Description,
+    option2Description,
+    thumbPhotoUrl
+  } = state || {}; 
+
   const [selectedAmount, setSelectedAmount] = useState(10000); // 선택된 금액 상태
   const [userAmount, setUserAmount] = useState(0); // 사용자 보유 예치금 상태
   const [chargingAmount, setChargingAmount] = useState(0); // 실제 충전할 금액
@@ -92,11 +108,6 @@ const PaymentPage = () => {
       console.error("Error occurred during payment:", error);
     }
   };
-
-  const option1Description = "탕수육 찍먹";
-  const option2Description = "탕수육 부먹";
-  const totalBetAmountOption1 = "31000";
-  const totalBetAmountOption2 = "1200";
 
   const card1 = { title: option1Description, amount: totalBetAmountOption1 };
   const card2 = { title: option2Description, amount: totalBetAmountOption2 };
