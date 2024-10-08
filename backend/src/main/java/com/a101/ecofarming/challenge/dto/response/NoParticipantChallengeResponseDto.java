@@ -25,4 +25,5 @@ public class NoParticipantChallengeResponseDto {
     private String option2Description;
     private Integer totalBetAmountOption1;
     private Integer totalBetAmountOption2;
+    private String thumbPhotoUrl;
 }

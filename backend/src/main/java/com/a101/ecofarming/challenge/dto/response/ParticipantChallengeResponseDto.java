@@ -25,6 +25,7 @@ public class ParticipantChallengeResponseDto {
     private Integer balanceId;
     private Byte balanceGamePick;
     private List<ProofDetailDto> proofs;
+    private String thumbPhotoUrl;
 
     private Integer totalBetAmountOption1;
     private Integer totalBetAmountOption2;

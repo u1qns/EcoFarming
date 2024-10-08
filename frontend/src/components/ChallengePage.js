@@ -68,6 +68,7 @@ const ChallengePage = () => {
     balanceId,
     option1Description,
     option2Description,
+    thumbPhotoUrl
   } = challengeData;
 
   const handleBackClick = () => {
