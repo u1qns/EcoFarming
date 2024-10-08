@@ -94,8 +94,8 @@ public class UserService {
         String challengeTitle = challengeCategoryRepository.findTitleById(
                 proof.getChallenge().getChallengeCategory().getId()
         );
-        
-        Boolean isApproved = complaint.getAiPass();
+
+        Boolean isApproved = complaint.getAdminPass();
         if(isApproved == null) {
             isApproved = complaint.getAiPass();
         }
