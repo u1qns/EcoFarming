@@ -38,5 +38,5 @@
   flex-wrap: wrap;
   max-width: 400px;
   margin: 0 auto; /* 가운데 정렬 */
-  justify-content: space-around;
+  justify-content: space-between;
 }
