@@ -58,7 +58,7 @@ const ProofGuidePage = () => {
           <div className="proof-container">
             <div className="image-wrapper">
               <img
-                src={wrongGuidePhotoUrl}
+                src={ rightGuidePhotoUrl }
                 alt="Left image"
                 className="proof-image"
               />
@@ -66,7 +66,7 @@ const ProofGuidePage = () => {
             </div>
             <div className="image-wrapper">
               <img
-                src={rightGuidePhotoUrl}
+                src={ wrongGuidePhotoUrl }
                 alt="Right image"
                 className="proof-image"
               />
