@@ -38,8 +38,6 @@ const ComplaintPage = () => {
   const [loadingPopup, setLoadingPopup] = useState(false); // 로딩 팝업 상태 추가
   const [error, setError] = useState("");
 
-  const proofId = 1; // TODO
-
   const handleReasonSelect = (reason) => {
     setSelectedReason(reason);
   };
@@ -74,7 +72,7 @@ const ComplaintPage = () => {
       setLoadingPopup(true); // 로딩 팝업 표시
       try {
         const response = await submitComplaint({
-          proofId: proofId,
+          proofId: proof.proofId,
           description: detailedReason,
         });
 
