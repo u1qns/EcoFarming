@@ -1,6 +1,6 @@
 import React from "react";
 import "./Navbar.css";
-import logo from "../assets/images/logo_bear.jpg";
+import logo from "../assets/images/favicon.png";
 import { ChevronRight, Bell, Settings } from "lucide-react";
 
 const Navbar = () => {
