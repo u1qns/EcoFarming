@@ -10,7 +10,7 @@ import { ArrowLeft } from "lucide-react";
 const PaymentPage = () => {
   const { state } = useLocation();
   const challengeId = state?.challengeId;
-  const [selectedAmount, setSelectedAmount] = useState(10000); // 선택된 금액 상태
+  const [selectedAmount, setSelectedAmount] = useState(0); // 선택된 금액 상태
   const [userAmount, setUserAmount] = useState(0); // 사용자 보유 예치금 상태
   const [chargingAmount, setChargingAmount] = useState(0); // 실제 충전할 금액
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 표시 상태
@@ -144,7 +144,7 @@ const PaymentPage = () => {
       {/* 예치금 섹션 */}
       <div className="deposit-section">
         {/* <h3>예치금</h3> */}
-        <p>예치금을 걸고싶은 옵션을 선택해주세요.</p>
+        <h3>예치금을 걸고싶은 옵션을 선택해주세요.</h3>
         <div className="ballance-container">
           <div>
             <div
