@@ -80,7 +80,7 @@ function MyPage() {
       // 쿠키에서 refresh token 삭제
       document.cookie = 'refresh=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;';
       
-      navigate('/'); // 로그아웃 후 메인 페이지로 이동
+      navigate('/login'); // 로그아웃 후 로그인 페이지로 이동
     } catch (error) {
     }
   };
@@ -92,7 +92,7 @@ function MyPage() {
         <div className="profile">
           <div className="profile-image">
             <img
-              src={require("../assets/images/berryhachuping.png")}
+              src={require("../assets/images/logo_bear.jpg")}
               alt="Profile"
             />
           </div>
