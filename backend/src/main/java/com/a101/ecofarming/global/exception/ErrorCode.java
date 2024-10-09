@@ -27,6 +27,11 @@ public enum ErrorCode {
     // FILE UPLOAD
     FILE_NAME_NULL(HttpStatus.BAD_REQUEST, "파일 이름이 null입니다."),
     FILE_UPLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드 중 오류가 발생했습니다."),
+
+    //FCM
+    FCM_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "FCM 전송에 실패했습니다"),
+    FCM_TOKEN_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "유저의 FireBase 토큰이 없습니다."),
+
     ;
 
     private final HttpStatus httpStatus;
