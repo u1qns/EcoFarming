@@ -2,6 +2,7 @@ package com.a101.ecofarming.global.notification.fcm;
 
 import static com.a101.ecofarming.global.exception.ErrorCode.*;
 
+import com.a101.ecofarming.challenge.entity.Challenge;
 import com.a101.ecofarming.global.exception.CustomException;
 import com.a101.ecofarming.global.notification.fcm.dto.FCMMessageDto;
 import com.a101.ecofarming.global.notification.fcm.dto.FCMSubDto;
@@ -12,6 +13,7 @@ import com.google.firebase.messaging.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,10 +30,10 @@ public class FCMService {
 
     // Firebase 토큰을 Redis에 저장
     public void saveToken(FCMTokenDto requestDto) {
-        User user = userRepository.findById(requestDto.getUserId())
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         String key = generateFcmKey(user.getId());
-
         saveTokenToRedis(key, requestDto.getToken());
     }
 
@@ -56,29 +58,42 @@ public class FCMService {
         return token;
     }
 
-    public void sendMessage(FCMMessageDto requestDto, String topic) {
-        Message message = createMessageWithTopic(requestDto, topic);
+    public void sendMessage(Challenge challenge, Integer type) {
+        Message message = createMessageWithTopic(challenge, type);
 
         try {
-            FirebaseMessaging.getInstance().send(message);
+            String response = FirebaseMessaging.getInstance().send(message);
+            log.info("Successfully Sent {} Topic to Subscribers: {}", challenge.getId(), response);
         } catch (FirebaseMessagingException e) {
+            log.error("Failed to subscribe tokens to topic {}: {}", e.getMessagingErrorCode(), e.getMessage());
             throw new CustomException(FCM_SEND_FAILED);
         }
     }
 
-    private Message createMessageWithToken(FCMMessageDto request, String token) {
-        return Message.builder()
-                .setToken(token)
-                .setNotification(createNotification(request))
-                .setWebpushConfig(createWebpushConfig(request))
-                .build();
-    }
+    private Message createMessageWithTopic(Challenge challenge, Integer type) {
+        FCMMessageDto fcmMessageDto = new FCMMessageDto();
+        switch (type) {
+            case 1:
+                fcmMessageDto.setTitle("[ECOFARMING] 참가하신 챌린지가 시작되었어요!");
+                fcmMessageDto.setBody(String.format("%s~%s 동안 %s 번만 열심히 참가해주세요 ☘",
+                        challenge.getStartDate(), challenge.getEndDate(), challenge.getFrequency()));
+                break;
+            case 2:
+                fcmMessageDto.setTitle("[ECOFARMING] 참가하신 챌린지가 종료되었어요!");
+                fcmMessageDto.setBody("들어와서 상금을 조회해보세요! 🤩");
+                break;
+            default:
+                return null;
+        }
 
-    private Message createMessageWithTopic(FCMMessageDto request, String topic) {
+        if(fcmMessageDto == null) {
+            log.error("지원하지 않는 메세지 타입입니다. {}", type);
+            throw new CustomException(FCM_SEND_FAILED);
+        }
         return Message.builder()
-                .setTopic(topic)
-                .setNotification(createNotification(request))
-                .setWebpushConfig(createWebpushConfig(request))
+                .setTopic(challenge.getId().toString())
+                .setNotification(createNotification(fcmMessageDto))
+                .setWebpushConfig(createWebpushConfig(fcmMessageDto))
                 .build();
     }
 
@@ -96,21 +111,10 @@ public class FCMService {
                 .build();
     }
 
-    protected void sendMessageWithTopic(String topic) throws FirebaseMessagingException {
-        FCMMessageDto requestDto = new FCMMessageDto("Eco Farming", topic.toString());
-        Message message = createMessageWithTopic(requestDto, topic);
-
-        try {
-            String response = FirebaseMessaging.getInstance().send(message);
-            log.info("Successfully Sent {} Topic to Subscribers: {}", topic, response);
-        } catch (FirebaseMessagingException e) {
-            log.error("Failed to subscribe tokens to topic {}: {}", e.getMessagingErrorCode(), e.getMessage());
-            throw e;
-        }
-    }
-
     public void subscribeFromTopic(FCMSubDto fcmSubDto) throws FirebaseMessagingException {
         try {
+            log.info("구독 요청 접수 : {}", fcmSubDto.getTopic());
+            log.info("구독 요청 토큰 : {}", fcmSubDto.getToken());
             TopicManagementResponse response = FirebaseMessaging.getInstance()
                             .subscribeToTopic(Collections.singletonList(fcmSubDto.getToken()),
                                     fcmSubDto.getTopic());

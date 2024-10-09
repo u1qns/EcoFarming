@@ -1,5 +1,10 @@
 package com.a101.ecofarming.global.notification.fcm;
 
+import com.a101.ecofarming.challenge.entity.Challenge;
+import com.a101.ecofarming.challenge.repository.ChallengeRepository;
+import com.a101.ecofarming.global.exception.CustomException;
+import com.a101.ecofarming.global.exception.ErrorCode;
+import com.a101.ecofarming.global.notification.NotificationManager;
 import com.a101.ecofarming.global.notification.fcm.dto.FCMSubDto;
 import com.a101.ecofarming.global.notification.fcm.dto.FCMTokenDto;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -14,10 +19,14 @@ import org.springframework.web.bind.annotation.*;
 public class FCMController {
 
     private final FCMService fcmService;
+    private final NotificationManager notificationManager;
+    private final ChallengeRepository challengeRepository;
 
     @Autowired
-    public FCMController(FCMService fcmService) {
+    public FCMController(FCMService fcmService, NotificationManager notificationManager, ChallengeRepository challengeRepository) {
         this.fcmService = fcmService;
+        this.notificationManager = notificationManager;
+        this.challengeRepository = challengeRepository;
     }
 
     @PostMapping("/token")
@@ -42,9 +51,11 @@ public class FCMController {
 
     // TEST 용
     @PostMapping("/send-test")
-    public ResponseEntity<String> sendNotification(@RequestParam String topic)
+    public ResponseEntity<String> sendNotification(@RequestParam Integer challengeId, @RequestParam Integer type)
             throws FirebaseMessagingException {
-        fcmService.sendMessageWithTopic(topic);
+        Challenge challenge = challengeRepository.findById(challengeId).
+                orElseThrow(() -> new CustomException(ErrorCode.CHALLENGE_NOT_FOUND));
+        notificationManager.sendNotification(challenge, type);
         return ResponseEntity.ok("FCM 알림 전송에 성공했습니다.");
     }
 }

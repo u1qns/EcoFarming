@@ -8,7 +8,5 @@ import lombok.Getter;
 @Builder
 @Data
 public class FCMTokenDto {
-    Integer userId;
-    String deviceId;
     String token;
 }

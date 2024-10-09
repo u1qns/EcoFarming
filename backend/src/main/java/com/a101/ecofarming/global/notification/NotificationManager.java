@@ -1,5 +1,6 @@
 package com.a101.ecofarming.global.notification;
 
+import com.a101.ecofarming.challenge.entity.Challenge;
 import com.a101.ecofarming.complaint.entity.Complaint;
 import com.a101.ecofarming.global.notification.mattermost.MattermostService;
 import com.a101.ecofarming.global.notification.fcm.FCMService;
@@ -24,9 +25,7 @@ public class NotificationManager {
         mmSender.sendComplaintNotification(complaint);
     }
 
-
-    public void sendNotification(FCMMessageDto fcmMessageDto, String topic) {
-        fcmSender.sendMessage(fcmMessageDto, topic);
+    public void sendNotification(Challenge challenge, Integer type) {
+        fcmSender.sendMessage(challenge, type);
     }
-
 }

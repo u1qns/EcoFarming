@@ -3,7 +3,6 @@ import axios from 'axios';
 const API_URL = process.env.REACT_APP_API_URL;
 
 export const submitToken = async (request) => {
-    console.log(request);
     try {
         const response = await axios.post(`${API_URL}/fcm/token`, request);
         return response.data;   
