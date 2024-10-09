@@ -16,7 +16,7 @@ public class ChallengeService {
     private final ChallengeRepository challengeRepository;
 
     @Transactional(readOnly = true)
-    public TotalChallengesResponseDto findAllChallenge(){
+    public TotalChallengesResponseDto findAllChallenge() {
         List<TotalChallengeDto> upcomingChallenges = challengeRepository.findUpcomingChallenge();
         List<TotalChallengeDto> ongoingChallenges = challengeRepository.findOngoingChallenge();
 

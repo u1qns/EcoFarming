@@ -16,14 +16,16 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Integer> {
     @Query("SELECT new com.a101.ecofarming.challenge.dto.response.TotalChallengeDto(c.id, c.challengeCategory.title, c.duration, c.frequency, c.userCount, c.startDate, cc.thumbPhotoUrl) " +
             "FROM Challenge c " +
             "JOIN c.challengeCategory cc " +
-            "WHERE c.startDate <= CURRENT_DATE AND c.endDate >= CURRENT_DATE")
+            "WHERE c.startDate <= CURRENT_DATE AND c.endDate >= CURRENT_DATE " +
+            "ORDER BY c.startDate ASC")
     List<TotalChallengeDto> findOngoingChallenge();
 
     // 시작 전인 챌린지
     @Query("SELECT new com.a101.ecofarming.challenge.dto.response.TotalChallengeDto(c.id, c.challengeCategory.title, c.duration, c.frequency, c.userCount, c.startDate, cc.thumbPhotoUrl) " +
             "FROM Challenge c " +
             "JOIN c.challengeCategory cc " +
-            "WHERE c.startDate > CURRENT_DATE")
+            "WHERE c.startDate > CURRENT_DATE " +
+            "ORDER BY c.startDate ASC")
     List<TotalChallengeDto> findUpcomingChallenge();
 
     // SpringBatch 오늘 끝나는 챌린지 찾기
