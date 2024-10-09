@@ -48,7 +48,7 @@ const ComplaintPage = () => {
 
   const isSubmitDisabled = detailedReason.length < 10;
 
-  const runPredict = async (complaintId, photoUrl, challengeId) => {
+  const runPredict = async (complaintId, photoUrl) => {
     try {
       console.log("[runPredict] 호출");
       const response = await axios.post("https://j11a101.p.ssafy.io/run-predict",  { image_url: photoUrl, challengeId : challengeId });
@@ -79,8 +79,8 @@ const ComplaintPage = () => {
         setLoadingPopup(false); // 로딩 팝업 종료
         setShowPopup(true); // 완료 팝업 표시
         console.log(proof);
-        
-        await runPredict(response.id, proof.photoUrl, challenge.challengeId)
+
+        await runPredict(response.id, proof.photoUrl)
       } catch (error) {
         console.error("신고 제출 중 오류 발생 : ", error);
         setLoadingPopup(false); // 로딩 팝업 종료
