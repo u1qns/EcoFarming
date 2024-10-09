@@ -57,7 +57,7 @@ function MainPage() {
   const handleCardClick = async (challengeId, userId, thumbPhotoUrl) => {
     try {
       // API 호출 (참가 여부와 상관없이 동일한 API)
-      const response = await axios.get(`/challenges/${challengeId}/${userId}`);
+      const response = await axios.get(`/challenges/${challengeId}`);
       const challengeData = response.data;
 
       // API 응답 확인 (디버깅용 로그)
@@ -114,7 +114,7 @@ function MainPage() {
                   ? `${daysUntilStart}일 뒤 시작`
                   : "오늘 시작"} // 며칠 뒤에 시작하는지 표시
                 participants={challenge.userCount}
-                onClick={() => handleCardClick(challenge.challengeId, 1, challenge.thumbPhotoUrl)} //TODO : userId
+                onClick={() => handleCardClick(challenge.challengeId, localStorage.getItem('userId'), challenge.thumbPhotoUrl)}
               />
             );
           })}
@@ -128,7 +128,7 @@ function MainPage() {
               frequency={`${challenge.frequency}일`}
               startDate={"진행 중"}
               participants={challenge.userCount}
-              onClick={() => handleCardClick(challenge.challengeId, 1, challenge.thumbPhotoUrl)} //TODO : userId
+              onClick={() => handleCardClick(challenge.challengeId, localStorage.getItem('userId'), challenge.thumbPhotoUrl)}
             />
           ))}
         </div>

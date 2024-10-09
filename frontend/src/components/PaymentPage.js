@@ -6,11 +6,31 @@ import "./PaymentPage.css"; // 스타일 파일 추가
 import { FaUser } from "react-icons/fa";
 import PaymentNavbar from "./PaymentNavbar";
 import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const PaymentPage = () => {
+  const navigate = useNavigate();
   const { state } = useLocation();
-  const challengeId = state?.challengeId;
-  const [selectedAmount, setSelectedAmount] = useState(0); // 선택된 금액 상태
+  const {
+    challengeId,
+    title,
+    description,
+    startDate,
+    endDate,
+    frequency,
+    duration,
+    userCount,
+    totalBetAmountOption1,
+    totalBetAmountOption2,
+    balanceId,
+    option1Description,
+    option2Description,
+    thumbPhotoUrl
+  } = state || {};
+
+  const [currentBetAmountOption1, setCurrentBetAmountOption1] = useState(totalBetAmountOption1);
+  const [currentBetAmountOption2, setCurrentBetAmountOption2] = useState(totalBetAmountOption2);
+  const [selectedAmount, setSelectedAmount] = useState(10000); // 선택된 금액 상태
   const [userAmount, setUserAmount] = useState(0); // 사용자 보유 예치금 상태
   const [chargingAmount, setChargingAmount] = useState(0); // 실제 충전할 금액
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 표시 상태
@@ -19,10 +39,17 @@ const PaymentPage = () => {
 
   const handleAmountClick = (amount) => {
     setSelectedAmount(amount);
+    // 선택된 카드에 해당 금액을 즉시 반영
+    if (selectedCard === 1) {
+      setCurrentBetAmountOption1(totalBetAmountOption1 + amount); // 옵션1에 금액 반영
+    } else if (selectedCard === 2) {
+      setCurrentBetAmountOption2(totalBetAmountOption2 + amount); // 옵션2에 금액 반영
+    }
   };
 
   const handleModalClose = () => {
     setIsModalOpen(false);
+    navigate("/users");
   };
 
   const handleFooterButtonClick = () => {
@@ -93,22 +120,32 @@ const PaymentPage = () => {
     }
   };
 
-  const option1Description = "탕수육 찍먹";
-  const option2Description = "탕수육 부먹";
-  const totalBetAmountOption1 = "31000";
-  const totalBetAmountOption2 = "1200";
-
   const card1 = { title: option1Description, amount: totalBetAmountOption1 };
   const card2 = { title: option2Description, amount: totalBetAmountOption2 };
 
   const getFillHeight = (amount1, amount2) => {
-    if (amount1 === amount2) return "50%";
-    return amount1 > amount2 ? "60%" : "40%";
+    const total = amount1 + amount2;
+    if (total === 0) return "50%"; // 양쪽 모두 0일 때는 기본적으로 50%
+
+    const percentage1 = (amount1 / total) * 100;
+    return `${percentage1}%`;
   };
 
   const [selectedCard, setSelectedCard] = useState(null);
   const handleCardClick = (cardNumber) => {
-    setSelectedCard(cardNumber);
+    setSelectedCard(cardNumber); // 선택된 카드를 업데이트
+
+    // 선택된 카드가 옵션 1일 때
+    if (cardNumber === 1) {
+      setCurrentBetAmountOption1(totalBetAmountOption1 + selectedAmount); // 선택한 금액을 옵션 1에 반영
+      setCurrentBetAmountOption2(totalBetAmountOption2); // 옵션 2는 원래 값 유지
+    }
+
+    // 선택된 카드가 옵션 2일 때
+    if (cardNumber === 2) {
+      setCurrentBetAmountOption2(totalBetAmountOption2 + selectedAmount); // 선택한 금액을 옵션 2에 반영
+      setCurrentBetAmountOption1(totalBetAmountOption1); // 옵션 1은 원래 값 유지
+    }
   };
 
   return (
@@ -125,17 +162,19 @@ const PaymentPage = () => {
       {/* 챌린지 정보 */}
       <div className="challenge-info">
         <img
-          src="https://via.placeholder.com/100" // 임시 이미지 경로
+          src={thumbPhotoUrl || "https://via.placeholder.com/100"} // thumbPhotoUrl 사용, 없으면 기본 이미지
           alt="Challenge Thumbnail"
           className="challenge-image"
         />
         <div className="challenge-details">
-          <h3>안 쓰는 가전제품 콘센트 빼기</h3>
-          <p className="challenge-duration">주 2일, 2주 동안</p>
+          <h3>{title}</h3> {/* 실제 챌린지 제목 */}
+          <p className="challenge-duration">
+            주 {frequency}일, {Math.ceil(duration / 7)}주 동안
+          </p>
           <p className="challenge-dates">
-            8. 26 (월) - 9. 8 (일)
+            {new Date(startDate).toLocaleDateString()} - {new Date(endDate).toLocaleDateString()} {/* 날짜 형식으로 변환 */}
             <span>
-              <FaUser /> 26명
+              <FaUser /> {userCount}명
             </span>
           </p>
         </div>
@@ -151,14 +190,14 @@ const PaymentPage = () => {
               className={`ballance-card ${selectedCard === 1 ? "choice" : ""}`}
               onClick={() => handleCardClick(1)}
             >
-              <p className="ballance-card-text ">{`${card1.title}`}</p>
+              <p className="ballance-card-text ">{`${option1Description}`}</p>
               <div
-                className={"ballance-fill-bar"}
-                style={{ height: getFillHeight(card1.amount, card2.amount) }}
+                className="ballance-fill-bar"
+                style={{ height: getFillHeight(currentBetAmountOption1, currentBetAmountOption2) }}
               ></div>
             </div>
             <div className="ballance-amount">
-              {card1.amount.toLocaleString()}원
+              {currentBetAmountOption1.toLocaleString()}원
             </div>
           </div>
           <div>
@@ -166,17 +205,18 @@ const PaymentPage = () => {
               className={`ballance-card ${selectedCard === 2 ? "choice" : ""}`}
               onClick={() => handleCardClick(2)}
             >
-              <p className="ballance-card-text ">{`${card2.title}`}</p>
+              <p className="ballance-card-text ">{`${option2Description}`}</p>
               <div
                 className="ballance-fill-bar"
-                style={{ height: getFillHeight(card2.amount, card1.amount) }}
+                style={{ height: getFillHeight(currentBetAmountOption2, currentBetAmountOption1) }}
               ></div>
             </div>
             <div className="ballance-amount">
-              {card2.amount.toLocaleString()}원
+              {currentBetAmountOption2.toLocaleString()}원
             </div>
           </div>
         </div>
+
         <p>
           시작 전에 돈을 걸면,
           <br /> 종료시점 달성률에 따라 환급해드려요!
@@ -186,49 +226,43 @@ const PaymentPage = () => {
         </div>
         <div className="amount-options">
           <button
-            className={`amount-button ${
-              selectedAmount === 10000 ? "selected" : ""
-            }`}
+            className={`amount-button ${selectedAmount === 10000 ? "selected" : ""
+              }`}
             onClick={() => handleAmountClick(10000)}
           >
             10,000원
           </button>
           <button
-            className={`amount-button ${
-              selectedAmount === 30000 ? "selected" : ""
-            }`}
+            className={`amount-button ${selectedAmount === 30000 ? "selected" : ""
+              }`}
             onClick={() => handleAmountClick(30000)}
           >
             30,000원
           </button>
           <button
-            className={`amount-button ${
-              selectedAmount === 50000 ? "selected" : ""
-            }`}
+            className={`amount-button ${selectedAmount === 50000 ? "selected" : ""
+              }`}
             onClick={() => handleAmountClick(50000)}
           >
             50,000원
           </button>
           <button
-            className={`amount-button ${
-              selectedAmount === 100000 ? "selected" : ""
-            }`}
+            className={`amount-button ${selectedAmount === 100000 ? "selected" : ""
+              }`}
             onClick={() => handleAmountClick(100000)}
           >
             100,000원
           </button>
           <button
-            className={`amount-button ${
-              selectedAmount === 150000 ? "selected" : ""
-            }`}
+            className={`amount-button ${selectedAmount === 150000 ? "selected" : ""
+              }`}
             onClick={() => handleAmountClick(150000)}
           >
             150,000원
           </button>
           <button
-            className={`amount-button ${
-              selectedAmount === 200000 ? "selected" : ""
-            }`}
+            className={`amount-button ${selectedAmount === 200000 ? "selected" : ""
+              }`}
             onClick={() => handleAmountClick(200000)}
           >
             200,000원

@@ -32,4 +32,8 @@ public class Proof extends BaseEntity {
     @Column(name = "is_valid", nullable = false)
     @Builder.Default
     private Boolean isValid = true;
+
+    public void setIsValid(Boolean isValid) {
+        this.isValid = isValid;
+    }
 }

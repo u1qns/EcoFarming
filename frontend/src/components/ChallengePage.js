@@ -17,14 +17,15 @@ const ChallengePage = () => {
   const [guideText, setGuideText] = useState("");
   const [rightGuidePhotoUrl, setRightGuidePhotoUrl] = useState("");
   const [wrongGuidePhotoUrl, setWrongGuidePhotoUrl] = useState("");
-  const { challengeId, userId } = useParams();
+  const { challengeId } = useParams();
   const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const fetchChallengeData = async () => {
       try {
         const response = await axios.get(
-          `${apiUrl}/challenges/${challengeId}/${userId}`
+          `${apiUrl}/challenges/${challengeId}`
         );
         setChallengeData(response.data);
         setLoading(false);
@@ -67,6 +68,7 @@ const ChallengePage = () => {
     balanceId,
     option1Description,
     option2Description,
+    thumbPhotoUrl
   } = challengeData;
 
   const handleBackClick = () => {

@@ -51,12 +51,13 @@ public class ChallengeUserService {
     }
 
     @Transactional(readOnly = true)
-    public Object getChallengeDetailsByUser(Integer challengeId, Integer userId) {
+    public Object getChallengeDetailsByUser(Integer challengeId) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
         // 챌린지와 유저 존재 확인
         Challenge challenge = challengeRepository.findById(challengeId)
                 .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
-
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         // 유저가 해당 챌린지에 참여 중인지 확인
@@ -97,7 +98,7 @@ public class ChallengeUserService {
                     .endDate(challenge.getEndDate())
                     .frequency(challenge.getFrequency())
                     .duration(challenge.getDuration())
-                    .userCount(challengeUserRepository.countUserByChallengeId(challengeId))
+                    .userCount(Long.valueOf(challenge.getUserCount()))
                     .guideText(challenge.getChallengeCategory().getGuideText())
                     .balanceId(challenge.getBalanceGame().getBalanceId())
                     .balanceGamePick(challengeUser.getBalanceGamePick())
@@ -105,6 +106,7 @@ public class ChallengeUserService {
                     .totalBetAmountOption1(totalBetAmountOption1)
                     .totalBetAmountOption2(totalBetAmountOption2)
                     .prizeAmount(prizeAmount)
+                    .thumbPhotoUrl(challenge.getChallengeCategory().getThumbPhotoUrl())
                     .build();
 
         } else {
@@ -118,13 +120,14 @@ public class ChallengeUserService {
                     .endDate(challenge.getEndDate())
                     .frequency(challenge.getFrequency())
                     .duration(challenge.getDuration())
-                    .userCount(challengeUserRepository.countUserByChallengeId(challengeId))
+                    .userCount(Long.valueOf(challenge.getUserCount()))
                     .guideText(challenge.getChallengeCategory().getGuideText())
                     .balanceId(challenge.getBalanceGame().getBalanceId())
                     .option1Description(challenge.getBalanceGame().getOption1Description())
                     .option2Description(challenge.getBalanceGame().getOption2Description())
                     .totalBetAmountOption1(challenge.getTotalBetAmountOption1())
                     .totalBetAmountOption2(challenge.getTotalBetAmountOption2())
+                    .thumbPhotoUrl(challenge.getChallengeCategory().getThumbPhotoUrl())
                     .build();
         }
     }

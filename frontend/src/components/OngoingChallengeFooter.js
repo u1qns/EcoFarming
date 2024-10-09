@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./ChallengeFooter.css";
 import { CalendarIcon } from "lucide-react";
 
-const OngoingChallengeFooter = ({ challenge, userId }) => {
+const OngoingChallengeFooter = ({ challenge }) => {
   // challenge에서 startDate와 endDate를 가져와 사용
   const startDate = new Date(challenge.startDate);
   const endDate = new Date(challenge.endDate);
@@ -36,8 +36,7 @@ const OngoingChallengeFooter = ({ challenge, userId }) => {
 
   const handleGuideClick = () => {
     const challengeId = challenge.id; // challengeId 정의
-    // challengeId와 userId를 URL 파라미터로 전달
-    navigate(`/proof/${challengeId}/guide?userId=${userId}`); 
+    navigate(`/proof/${challengeId}/guide`); 
   };
 
   return (

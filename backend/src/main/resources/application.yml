@@ -6,10 +6,6 @@ spring:
     active: local # 기본 프로파일 설정
 
   jpa:
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: false
     hibernate:
       ddl-auto: update # 기본값, 필요시 변경 가능
 

@@ -8,7 +8,5 @@ import lombok.Getter;
 @Builder
 public class ComplaintRequestDto {
     private Integer proofId;
-    private Integer userId;
-    private Boolean aiPass;
     private String description;
 }

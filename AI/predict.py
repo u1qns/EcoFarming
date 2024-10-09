@@ -2,6 +2,9 @@ import torch
 import torchvision.models as models
 from torchvision import transforms
 from PIL import Image
+import subprocess
+import requests
+import time
 
 # ImageNet 클래스 라벨 가져오기
 from torchvision.models import ResNet50_Weights
@@ -53,16 +56,15 @@ def print_imagenet_classes():
     
     return class_labels
 
-# # 전체 실행 (이미지 경로 입력받아 예측)
-# if __name__ == "__main__":
-#     model = load_resnet50_model()
-#     # 예측할 이미지 경로
-#     image_tensor = preprocess_image("./images/image1.jpg")
-#     predicted_class_idx = predict_image(model, image_tensor)
-#     predicted_class_label = get_class_label(predicted_class_idx)
+# Flask 서버를 실행하고 AI 예측 요청 보내기
+def run_predict(image_url):
+    # Flask 서버를 백그라운드에서 실행
+    subprocess.Popen(["python", "app.py"])
     
-#     # print(f"Predicted class index: {predicted_class_idx}")
-#     print(f"Predicted class label: {predicted_class_label}")
+    # Flask 서버가 준비될 때까지 대기 (필요시 조정)
+    time.sleep(2)  # 서버가 시작될 시간을 확보
 
-#     # ImageNet 클래스 출력
-#     # imagenet_classes = print_imagenet_classes()
+    # Flask API에 예측 요청
+    response = requests.post("http://localhost:5000/run-predict", json={"image_url": image_url})
+    
+    return response.json()

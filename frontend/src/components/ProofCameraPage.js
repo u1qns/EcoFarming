@@ -14,7 +14,6 @@ const ProofCameraPage = () => {
   // 쿼리 스트링에서 challengeId와 userId 가져오기
   const queryParams = new URLSearchParams(location.search);
   const challengeId = queryParams.get("challengeId");
-  const userId = queryParams.get("userId");
 
   // 카메라 시작 함수
   const startCamera = async () => {
@@ -75,7 +74,6 @@ const ProofCameraPage = () => {
       // 업로드 함수 호출
       const filename = "tmp-image-file.png";
       const response = await uploadProof(
-        userId,
         challengeId,
         dataURLtoFile(capturedImage, filename)
       );

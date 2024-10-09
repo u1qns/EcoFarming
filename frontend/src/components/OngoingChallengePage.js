@@ -26,13 +26,20 @@ const OngoingChallengePage = () => {
     const fetchChallenge = async () => {
       try {
         const challengeResponse = await axios.get(
-          `${apiUrl}/challenges/${challengeId}/${userId}`
-        ); // API 호출 (챌린지 정보)
-        setChallenge(challengeResponse.data); // 챌린지 정보 저장
+          `${apiUrl}/challenges/${challengeId}`
+        );
+        setChallenge(challengeResponse.data);
       } catch (error) {
-        console.error("Error fetching challenge data:", error);
+        if (error.response) {
+          console.error("서버 오류:", error.response.status, error.response.data);
+        } else if (error.request) {
+          console.error("네트워크 오류:", error.request);
+        } else {
+          console.error("오류 발생:", error.message);
+        }
       }
     };
+    
 
     fetchChallenge();
 

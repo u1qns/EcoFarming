@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import "./ComplaintPage.css";
 import { submitComplaint } from "../services/complaintService";
+import { submitAIResult } from "../services/AIService";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -36,10 +37,8 @@ const ComplaintPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [loadingPopup, setLoadingPopup] = useState(false); // 로딩 팝업 상태 추가
   const [error, setError] = useState("");
-  const [aiPass, setAiPass] = useState(false);
 
-  const proofId = 1;
-  const userId = 1;
+  const proofId = 1; // TODO
 
   const handleReasonSelect = (reason) => {
     setSelectedReason(reason);
@@ -51,46 +50,40 @@ const ComplaintPage = () => {
 
   const isSubmitDisabled = detailedReason.length < 10;
 
-  const runPredict = async (photoUrl) => {
+  const runPredict = async (complaintId, photoUrl) => {
     try {
-      const response = await axios.post("http://localhost:5000/run-predict", {
-        image_url: photoUrl,
-      });
+      console.log("[runPredict] 호출");
+      const response = await axios.post("http://localhost:5000/run-predict",  { image_url: photoUrl });
       const predictedLabel = response.data.aiPass;
-      // TODO 카테고리1, 2, 3 이름 변경하기
-      if (
-        (challenge.title === "카테고리1" && predictedLabel === "water jug") ||
-        (challenge.title === "카테고리2" &&
-          predictedLabel === "shopping basket") ||
-        (challenge.title === "카테고리3" && predictedLabel === "handkerchief")
-      ) {
-        setAiPass(true);
-      } else {
-        setAiPass(false);
-      }
+      console.log("AI 분석 라벨 : ", predictedLabel);
+      const aiPass = (
+        (challenge.category_id === 1 && predictedLabel === "water jug") ||
+        (challenge.category_id === 2 && predictedLabel === "shopping basket") ||
+        (challenge.category_id === 3 && predictedLabel === "handkerchief")
+      );
+      console.log("AI 예측 결과 : ", aiPass);
+      await submitAIResult({complaintId, aiPass});
     } catch (error) {
       console.error("AI 예측 중 오류가 발생했습니다:", error);
-      setAiPass(false);
     }
   };
+
 
   const handleSubmit = async () => {
     if (!isSubmitDisabled) {
       setLoadingPopup(true); // 로딩 팝업 표시
       try {
-        await runPredict(proof.photoUrl);
-        const data = await submitComplaint({
+        const response = await submitComplaint({
           proofId: proofId,
-          userId: userId,
-          aiPass: aiPass,
           description: detailedReason,
         });
-        console.log("응답 데이터:", JSON.stringify(data, null, 2));
+
         setLoadingPopup(false); // 로딩 팝업 종료
         setShowPopup(true); // 완료 팝업 표시
+        await runPredict(response.id, proof.phoroUrl)
       } catch (error) {
+        console.error("신고 제출 중 오류 발생 : ", error);
         setLoadingPopup(false); // 로딩 팝업 종료
-        setError("신고 제출 중 오류가 발생했습니다. 다시 시도해주세요.");
       }
     }
   };
@@ -166,7 +159,7 @@ const ComplaintPage = () => {
       {showPopup && (
         <PopupModal
           message="신고가 접수되었습니다"
-          onClose={() => setShowPopup(false)}
+          onClose={() => handleBackClick()}
         />
       )}
     </div>
