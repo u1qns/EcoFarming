@@ -49,6 +49,3 @@ def run_predict():
 if __name__ == '__main__':
     # flask서버 시작
     app.run(host="0.0.0.0", port=5000)
-
-    # Flask 서버가 종료될 때까지 대기하거나, 필요 시 플라스크 종료 처리 가능
-    flask_process.terminate()  # 작업이 완료되면 플라스크 서버 종료
