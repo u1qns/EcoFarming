@@ -48,10 +48,10 @@ const ComplaintPage = () => {
 
   const isSubmitDisabled = detailedReason.length < 10;
 
-  const runPredict = async (complaintId, photoUrl) => {
+  const runPredict = async (complaintId, photoUrl, challengeId) => {
     try {
       console.log("[runPredict] 호출");
-      const response = await axios.post("https://j11a101.p.ssafy.io/run-predict",  { image_url: photoUrl });
+      const response = await axios.post("https://j11a101.p.ssafy.io/run-predict",  { image_url: photoUrl, challengeId : challengeId });
       const predictedLabel = response.data.aiPass;
       console.log("AI 분석 라벨 : ", predictedLabel);
       const aiPass = (
@@ -78,7 +78,7 @@ const ComplaintPage = () => {
 
         setLoadingPopup(false); // 로딩 팝업 종료
         setShowPopup(true); // 완료 팝업 표시
-        await runPredict(response.id, proof.phoroUrl)
+        await runPredict(response.id, proof.phoroUrl, challenge.challengeId)
       } catch (error) {
         console.error("신고 제출 중 오류 발생 : ", error);
         setLoadingPopup(false); // 로딩 팝업 종료
