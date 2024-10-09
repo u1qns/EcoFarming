@@ -53,7 +53,7 @@ const ComplaintPage = () => {
   const runPredict = async (complaintId, photoUrl) => {
     try {
       console.log("[runPredict] 호출");
-      const response = await axios.post("http://localhost:5000/run-predict",  { image_url: photoUrl });
+      const response = await axios.post("https://j11a101.p.ssafy.io/run-predict",  { image_url: photoUrl });
       const predictedLabel = response.data.aiPass;
       console.log("AI 분석 라벨 : ", predictedLabel);
       const aiPass = (
