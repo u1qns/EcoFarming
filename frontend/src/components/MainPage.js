@@ -97,8 +97,8 @@ function MainPage() {
               </div>
             ))}
           </Slider>
-          <p>나는야 에코핑!</p>
-          <h3>에코파밍 챌린지로 환경을 지켜chu~💕</h3>
+          <p>우리는 환경 지킴이!</p>
+          <h3>에코파밍 챌린지로 지구를 지켜요~🌍💚</h3>
         </div>
         <div className="card-container">
           {challenges.upcomingChallenge.map((challenge) => {
