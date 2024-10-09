@@ -13,6 +13,7 @@ import {
   Siren,
   Footprints,
   Ticket,
+  LogOut, 
 } from "lucide-react";
 
 const MenuOption = ({
@@ -66,6 +67,22 @@ function MyPage() {
   };
   const handleComplaintResultClick = () => {
     navigate(`/users/complaint-result`);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await axios.post('/logout');
+
+      localStorage.removeItem('token'); // 토큰 삭제
+      localStorage.removeItem('username');
+      localStorage.removeItem('userId');
+
+      // 쿠키에서 refresh token 삭제
+      document.cookie = 'refresh=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+      
+      navigate('/'); // 로그아웃 후 메인 페이지로 이동
+    } catch (error) {
+    }
   };
 
   return (
@@ -138,6 +155,7 @@ function MyPage() {
           <MenuOption icon={<Gift />} text="친구 초대" />
           <MenuOption icon={<Footprints />} text="만보기" />
           <MenuOption icon={<Ticket />} text="행운뽑기" />
+          <MenuOption icon={<LogOut />} text="로그아웃" onClick={handleLogout} />
         </div>
       </div>
       <Footer />

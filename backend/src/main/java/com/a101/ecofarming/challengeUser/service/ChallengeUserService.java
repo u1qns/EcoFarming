@@ -15,6 +15,7 @@ import com.a101.ecofarming.proof.repository.ProofRepository;
 import com.a101.ecofarming.user.entity.User;
 import com.a101.ecofarming.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +37,8 @@ public class ChallengeUserService {
     private final ProofRepository proofRepository;
 
     @Transactional(readOnly = true)
-    public List<ChallengeUserResponseDto> findChallengesByUserId(ChallengeStatus status, String email) {
+    public List<ChallengeUserResponseDto> findChallengesByUserId(ChallengeStatus status) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Integer userId = userRepository.findByEmail(email)
                 .map(User::getId)
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
