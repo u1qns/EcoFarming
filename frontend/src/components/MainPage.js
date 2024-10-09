@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./MainPage.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -7,19 +7,22 @@ import Card from "./Card";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import axios from 'axios';
+import axios from "axios";
 
 function MainPage() {
-  const [challenges, setChallenges] = useState({ ongoingChallenge: [], upcomingChallenge: [] });
+  const [challenges, setChallenges] = useState({
+    ongoingChallenge: [],
+    upcomingChallenge: [],
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
-        const response = await axios.get('/challenges');
+        const response = await axios.get("/challenges");
         setChallenges(response.data);
       } catch (error) {
-        console.error('Error fetching challenges:', error);
+        console.error("Error fetching challenges:", error);
       }
     };
 
@@ -27,11 +30,9 @@ function MainPage() {
   }, []);
 
   const carouselImages = [
-    require("../assets/images/subinPing.png"),
-    require("../assets/images/tiniping.jpg"),
-    require("../assets/images/tiniping2.jpg"),
-    require("../assets/images/tiniping3.jpg"),
-    require("../assets/images/tiniping4.jpg"),
+    require("../assets/images/carousel1.png"),
+    require("../assets/images/carousel2.png"),
+    require("../assets/images/carousel3.png"),
   ];
 
   const settings = {
@@ -61,7 +62,7 @@ function MainPage() {
       const challengeData = response.data;
 
       // API 응답 확인 (디버깅용 로그)
-      console.log('Challenge data:', challengeData);
+      console.log("Challenge data:", challengeData);
 
       // 백엔드에서 반환된 데이터 타입을 기반으로 분기 처리
       if (challengeData.type === "ParticipantChallengeResponseDto") {
@@ -76,7 +77,7 @@ function MainPage() {
         });
       }
     } catch (error) {
-      console.error('챌린지 정보를 불러오는 중 오류 발생:', error);
+      console.error("챌린지 정보를 불러오는 중 오류 발생:", error);
     }
   };
 
@@ -110,11 +111,19 @@ function MainPage() {
                 title={challenge.challengeTitle}
                 duration={`${challenge.duration / 7}주 동안`}
                 frequency={`${challenge.frequency}일`}
-                startDate={daysUntilStart > 0
-                  ? `${daysUntilStart}일 뒤 시작`
-                  : "오늘 시작"} // 며칠 뒤에 시작하는지 표시
+                startDate={
+                  daysUntilStart > 0
+                    ? `${daysUntilStart}일 뒤 시작`
+                    : "오늘 시작"
+                } // 며칠 뒤에 시작하는지 표시
                 participants={challenge.userCount}
-                onClick={() => handleCardClick(challenge.challengeId, localStorage.getItem('userId'), challenge.thumbPhotoUrl)}
+                onClick={() =>
+                  handleCardClick(
+                    challenge.challengeId,
+                    localStorage.getItem("userId"),
+                    challenge.thumbPhotoUrl
+                  )
+                }
               />
             );
           })}
@@ -128,7 +137,13 @@ function MainPage() {
               frequency={`${challenge.frequency}일`}
               startDate={"진행 중"}
               participants={challenge.userCount}
-              onClick={() => handleCardClick(challenge.challengeId, localStorage.getItem('userId'), challenge.thumbPhotoUrl)}
+              onClick={() =>
+                handleCardClick(
+                  challenge.challengeId,
+                  localStorage.getItem("userId"),
+                  challenge.thumbPhotoUrl
+                )
+              }
             />
           ))}
         </div>
