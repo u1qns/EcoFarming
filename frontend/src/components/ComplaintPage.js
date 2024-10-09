@@ -78,6 +78,8 @@ const ComplaintPage = () => {
 
         setLoadingPopup(false); // 로딩 팝업 종료
         setShowPopup(true); // 완료 팝업 표시
+        console.log(proof);
+        
         await runPredict(response.id, proof.photoUrl, challenge.challengeId)
       } catch (error) {
         console.error("신고 제출 중 오류 발생 : ", error);
