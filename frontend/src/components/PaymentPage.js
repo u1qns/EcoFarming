@@ -7,6 +7,7 @@ import { FaUser } from "react-icons/fa";
 import PaymentNavbar from "./PaymentNavbar";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { subscribeToTopic, unsubscribeFromTopic } from '../firebase/config.js';
 
 const PaymentPage = () => {
   const navigate = useNavigate();
@@ -116,6 +117,9 @@ const PaymentPage = () => {
         const newRemainingAmount = userAmount - selectedAmount + chargingAmount;
         setRemainingAmount(newRemainingAmount); // 남은 금액 업데이트
         setIsModalOpen(true); // 모달 열기
+
+        // FCM 구독 요청
+        await subscribeToTopic(challengeId);
       } else {
         console.error("결제에 실패했습니다.");
       }
