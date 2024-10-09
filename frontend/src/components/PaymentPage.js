@@ -183,7 +183,7 @@ const PaymentPage = () => {
       {/* 예치금 섹션 */}
       <div className="deposit-section">
         {/* <h3>예치금</h3> */}
-        <p>예치금을 걸고싶은 옵션을 선택해주세요.</p>
+        <h3>예치금을 걸고싶은 옵션을 선택해주세요.</h3>
         <div className="ballance-container">
           <div>
             <div
