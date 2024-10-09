@@ -201,6 +201,7 @@ public class ChallengeUserService {
                 .user(user)
                 .betAmount(paymentRequestDto.getBetAmount())
                 .balanceGamePick(paymentRequestDto.getBalanceGamePick())
+                .returnAmount(paymentRequestDto.getBetAmount())
                 .build();
 
         challengeRepository.save(challenge);
