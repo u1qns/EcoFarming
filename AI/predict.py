@@ -65,6 +65,6 @@ def run_predict(image_url):
     time.sleep(2)  # 서버가 시작될 시간을 확보
 
     # Flask API에 예측 요청
-    response = requests.post("https://j11a101.p.ssafy.io/api/run-predict", json={"image_url": image_url})
+    response = requests.post("https://j11a101.p.ssafy.io/run-predict", json={"image_url": image_url})
     
     return response.json()
