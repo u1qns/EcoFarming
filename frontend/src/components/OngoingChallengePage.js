@@ -81,7 +81,7 @@ const OngoingChallengePage = () => {
           />
         </div>
         <div className="challenge-content">
-          <button>상세페이지로 이동 </button>
+          {/* <button>상세페이지로 이동 </button> */}
           <h1 className="challenge-title">{challenge.title}</h1>
           <div className="challenge-stats">
             <span className="rating">⭐ 4.8</span>
