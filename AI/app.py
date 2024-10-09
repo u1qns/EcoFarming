@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True)  # CORS 허용 설정
 
 # 이미지가 저장된 경로 (기본 디렉토리 설정)
-UPLOAD_FOLDER = '/home/ubuntu/uploads/'
+UPLOAD_FOLDER = '/home/ubuntu/uploads'
 
 
 # AI 예측을 수행하는 엔드포인트
