@@ -15,6 +15,7 @@ import com.a101.ecofarming.user.entity.User;
 import com.a101.ecofarming.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -80,7 +81,8 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
-        List<Complaint> complaints = complaintRepository.findByUserId(user.getId());
+        List<Complaint> complaints = complaintRepository.findByUserId(user.getId(),
+                Sort.by(Sort.Direction.DESC, "createdAt"));
 
         return complaints.stream()
                 .map(this::convertToDto)

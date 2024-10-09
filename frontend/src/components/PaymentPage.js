@@ -100,8 +100,8 @@ const PaymentPage = () => {
     }
 
     const paymentData = {
-      balanceId: 1, // 여기에 실제 balanceId 값 설정
-      balanceGamePick: 1, // 여기에 실제 balanceGamePick 값 설정
+      balanceId: balanceId,
+      balanceGamePick: selectedCard === 1 ? 1 : 2, 
       chargingAmount,
       betAmount: selectedAmount,
     };

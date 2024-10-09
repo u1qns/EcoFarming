@@ -38,8 +38,6 @@ const ComplaintPage = () => {
   const [loadingPopup, setLoadingPopup] = useState(false); // 로딩 팝업 상태 추가
   const [error, setError] = useState("");
 
-  const proofId = 1; // TODO
-
   const handleReasonSelect = (reason) => {
     setSelectedReason(reason);
   };
@@ -53,7 +51,7 @@ const ComplaintPage = () => {
   const runPredict = async (complaintId, photoUrl) => {
     try {
       console.log("[runPredict] 호출");
-      const response = await axios.post("http://localhost:5000/run-predict",  { image_url: photoUrl });
+      const response = await axios.post("https://j11a101.p.ssafy.io/run-predict",  { image_url: photoUrl });
       const predictedLabel = response.data.aiPass;
       console.log("AI 분석 라벨 : ", predictedLabel);
       const aiPass = (
@@ -74,7 +72,7 @@ const ComplaintPage = () => {
       setLoadingPopup(true); // 로딩 팝업 표시
       try {
         const response = await submitComplaint({
-          proofId: proofId,
+          proofId: proof.proofId,
           description: detailedReason,
         });
 

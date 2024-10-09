@@ -26,12 +26,12 @@ function App() {
       <Router>
         <Routes>
           {/* Public routes: 로그인 필요 없음 */}
-          <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignupPage />} />
 
           {/* Private routes: 로그인 필요 */}
           <Route element={<PrivateRoute />}>
+            <Route path="/" element={<MainPage />} />
             <Route path="/challenge/:challengeId/:userId" element={<ChallengePage />} />
             <Route path="/ongoing-challenge/:challengeId/:userId" element={<OngoingChallengePage />} />
             <Route path="/proof" element={<ProofPage />} />
