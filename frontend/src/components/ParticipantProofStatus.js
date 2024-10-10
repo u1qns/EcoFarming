@@ -90,7 +90,7 @@ const ParticipantProofStatus = () => {
               </div>
             ))
           ) : (
-            <img src={emptyImage} alt="인증샷 없음" className="ParticipantProofStatus-empty-image" />
+            <p className="ParticipantProofStatus-empty-text">현재 인증샷이 없습니다.</p>
           )}
         </div>
       </div>

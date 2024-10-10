@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./MyProofStatus.css";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import emptyImage from "../assets/images/noPhoto.jpg";
 
 // 나의 인증 현황 컴포넌트
 const MyProofStatus = () => {
@@ -118,7 +117,7 @@ const MyProofStatus = () => {
               </div>
             ))
           ) : (
-            <img src={emptyImage} alt="인증샷 없음" className="MyProofStatus-empty-image" />
+            <p className="MyProofStatus-empty-text">현재 인증샷이 없습니다.</p>
           )}
         </div>
       </div>
