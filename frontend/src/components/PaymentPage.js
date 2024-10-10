@@ -4,7 +4,6 @@ import { FaUser } from "react-icons/fa";
 import axios from "axios";
 import PaymentNavbar from "./PaymentNavbar";
 import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { subscribeToTopic, unsubscribeFromTopic } from '../firebase/config.js';
 
 const PaymentPage = () => {
