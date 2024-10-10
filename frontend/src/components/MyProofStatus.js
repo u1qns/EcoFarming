@@ -20,12 +20,14 @@ const MyProofStatus = () => {
     const fetchMyProofs = async () => {
       try {
         // API 호출
-        const response = await axios.get(`${apiUrl}/proof/${challengeId}/${userId}`);
+        const response = await axios.get(
+          `${apiUrl}/proof/${challengeId}/${userId}`
+        );
         const proofsData = response.data.proofs; // 인증 데이터
         setMyProofs(proofsData); // 나의 인증 정보 저장
 
         // 달성률 계산
-        const successCount = proofsData.filter(proof => proof.isValid).length;
+        const successCount = proofsData.filter((proof) => proof.isValid).length;
         const totalProofs = proofsData.length;
         const failCount = totalProofs - successCount;
         const remainingCount = Math.max(0, 7 - totalProofs); // 남은 인증 횟수 (예시로 7일 기준)
@@ -37,7 +39,6 @@ const MyProofStatus = () => {
         });
 
         setAchievementRate(Math.round((successCount / 7) * 100)); // 반올림하여 소수점 없는 값으로 설정
-
       } catch (error) {
         console.error("Error fetching proof data:", error);
       }
@@ -56,7 +57,10 @@ const MyProofStatus = () => {
             <h1>{achievementRate}%</h1> {/* 달성률 표시 */}
           </div>
           <div className="progress-bar">
-            <div className="progress" style={{ width: `${achievementRate}%` }}></div>
+            <div
+              className="progress"
+              style={{ width: `${achievementRate}%` }}
+            ></div>
           </div>
         </div>
 
@@ -85,7 +89,16 @@ const MyProofStatus = () => {
                   <p>{index + 1}</p>
                 </div>
                 <div className="proof-info">
-                  <p>{new Date(proof.createdAt).toLocaleDateString()}</p> {/* 인증 날짜 */}
+                  <p
+                    style="
+    font-size: 13px;
+    padding-left: 6px;
+    padding-top: 3px;
+"
+                  >
+                    {new Date(proof.createdAt).toLocaleDateString()}
+                  </p>{" "}
+                  {/* 인증 날짜 */}
                   <p className={proof.isValid ? "success" : "fail"}>
                     {proof.isValid ? "성공" : "실패"} {/* 성공/실패 상태 */}
                   </p>
