@@ -19,7 +19,7 @@ const LoginPage = () => {
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // 기본 폼 제출 동작 방지
     try {
       const response = await axios.post('/login', credentials, {
         withCredentials: true
@@ -74,16 +74,16 @@ const LoginPage = () => {
               required
             />
           </div>
-        </form>
-      </div>
 
-      <div className="footer">
-        <button type="submit" className="auth-button" onClick={handleLogin}>
-          로그인
-        </button>
-        <button type="button" className="auth-button signup-button" onClick={handleSignupClick}>
-          회원가입
-        </button>
+          <div className="footer">
+            <button type="submit" className="auth-button">
+              로그인
+            </button>
+            <button type="button" className="auth-button signup-button" onClick={handleSignupClick}>
+              회원가입
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

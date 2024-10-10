@@ -169,3 +169,13 @@
 .ParticipantProofStatus .popup-report-button {
   color: #ef4444;
 }
+
+/* 빈 상태일 때 텍스트 스타일 */
+.ParticipantProofStatus-empty-text {
+  font-size: 1rem; /* 글씨 크기 크게 */
+  font-weight: 600; /* 글씨 굵게 */
+  color: #999; /* 부드러운 회색 */
+  text-align: center; /* 가운데 정렬 */
+  margin-top: 20px; /* 여백 추가 */
+  opacity: 0.8; /* 약간 투명하게 */
+}

@@ -23,6 +23,7 @@ public enum ErrorCode {
     INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "유효하지 않은 refresh token 입니다."),
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "refresh token을 찾을 수 없습니다."),
     EMAIL_ALREADY_EXIST(HttpStatus.CONFLICT, "이미 존재하는 이메일입니다."),
+    PROOF_ALREADY_EXIST(HttpStatus.CONFLICT, "이미 존재하는 인증샷입니다."),
 
     // FILE UPLOAD
     FILE_NAME_NULL(HttpStatus.BAD_REQUEST, "파일 이름이 null입니다."),

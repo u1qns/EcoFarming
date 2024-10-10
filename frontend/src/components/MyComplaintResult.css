@@ -5,6 +5,7 @@
   padding: 1rem 1rem 0.5rem 1rem;
   max-width: 28rem;
   margin-bottom: 15px;
+  width: 100%;
 }
 
 .MyComplaintResult .complaint-content {
@@ -100,4 +101,34 @@
 .MyComplaintResult button:hover {
   background-color: #2edd97;
   color: rgb(255, 255, 255);
+}
+
+.MyComplaintResult {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 60vh;
+  justify-content: flex-start;
+}
+
+.no-complaint {
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out; /* 애니메이션 추가 */
+}
+
+.no-complaint-message {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #555;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -33,14 +33,16 @@ const UpcomingChallenge = ({ setCount }) => { // setCount prop 추가
   }, [setCount]); // setCount가 변경되면 다시 실행
 
   if (loading) {
-    return <p>로딩 중...</p>; // 로딩 중일 때 표시
+    return <div className="ongoing-challenge-loading-spinner"></div>; // 로딩 애니메이션 표시
   }
 
   return (
     <div className="ongoing-challenge-container">
       {/* 챌린지가 하나도 없을 때 메시지 표시 */}
       {challenges.length === 0 ? (
-        <p>시작 예정인 챌린지가 없습니다.</p>
+        <div className="ongoing-challenge-no-challenge">
+          <p className="ongoing-challenge-no-challenge-message">현재 진행 전인 챌린지가 없습니다.</p>
+        </div>
       ) : (
         challenges.map((challenge) => (
           <div key={challenge.challengeId} className="ongoing-challenge-card"
@@ -63,7 +65,7 @@ const UpcomingChallenge = ({ setCount }) => { // setCount prop 추가
                   {new Date(challenge.endDate).toLocaleDateString()}
                 </p>
                 <p className="ongoing-challenge-time">
-                  인증 빈도: {challenge.frequency}일마다
+                  인증 빈도: 주 {challenge.frequency}회
                 </p>
                 <div className="ongoing-challenge-stats">
                   <div>
