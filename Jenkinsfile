@@ -10,8 +10,6 @@ pipeline {
         BLUE_PORT = '8085'
         GREEN_PORT = '8086'
         PORT_FILE = "/home/ubuntu/current_port.txt"  // EC2 서버에 저장할 포트 상태 파일
-        DB_PASSWORD = credentials('DB_PASSWORD')
-        REDIS_PASSWORD = credentials('REDIS_PASSWORD')
     }
 
     stages {
@@ -56,29 +54,24 @@ pipeline {
         }
 
         // 백엔드 빌드 및 Docker 이미지 생성
-stage('Build Backend and Docker Image') {
-    steps {
-        script {
-            withCredentials([string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'),
-                             string(credentialsId: 'REDIS_PASSWORD', variable: 'REDIS_PASSWORD')]) {
-                def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
-                def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
-                dir('backend') {
-                    echo "Start Building Backend for ${environmentName} Environment..."
-                    
-                    sh 'chmod +x ./gradlew'
-                    sh "./gradlew clean build -x test -Pprofile=prod -Dspring.datasource.password=${DB_PASSWORD} -Dspring.redis.password=${REDIS_PASSWORD}"
-                    echo "Backend Build Complete for ${environmentName} Environment!"
-                    
-                    echo "Start Building Docker Image for ${environmentName} Environment..."
-                    def app = docker.build("${BACKEND_DOCKER_REPO}:latest")
-                    echo "Docker Image Build Complete for ${environmentName} Environment!"
+        stage('Build Backend and Docker Image') {
+            steps {
+                script {
+                    def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
+                    def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
+                    dir('backend') {
+                        echo "Start Building Backend for ${environmentName} Environment..."
+                        sh 'chmod +x ./gradlew'
+                        sh './gradlew clean build -x test -Pprofile=prod'
+                        echo "Backend Build Complete for ${environmentName} Environment!"
+
+                        echo "Start Building Docker Image for ${environmentName} Environment..."
+                        def app = docker.build("${BACKEND_DOCKER_REPO}:latest")
+                        echo "Docker Image Build Complete for ${environmentName} Environment!"
+                    }
                 }
             }
         }
-    }
-}
-
 
           stage('Push Backend to Docker Hub') {
             steps {
