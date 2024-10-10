@@ -105,7 +105,8 @@ pipeline {
 stage('Deploy to New Environment') {
     steps {
         sshagent(['ssafy-ec2-ssh']) {
-            withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+            withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD'),
+                                             string(credentialsId: 'FIREBASE_CONFIG_PATH', variable: 'FIREBASE_CONFIG_PATH')]) {
                 script {
                     def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
                     def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
@@ -122,6 +123,7 @@ stage('Deploy to New Environment') {
                         -e JWT_SECRET=${JWT_SECRET} \\
                         -e MM_REPORT_URL=${MM_REPORT_URL} \\
                         -e MM_ERROR_URL=${MM_ERROR_URL} \\
+                        -e FIREBASE_CONFIG_PATH=${FIREBASE_CONFIG_PATH} \\
                         -v /home/ubuntu/uploads:/home/ubuntu/uploads ${BACKEND_DOCKER_REPO}:latest \\
                         --spring.profiles.active=${SPRING_PROFILE} --file.upload-dir=/home/ubuntu/uploads && \\
                         docker logout'
