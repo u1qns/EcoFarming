@@ -60,8 +60,10 @@ pipeline {
                     string(credentialsId: 'MM_ERROR_URL', variable: 'MM_ERROR_URL')
                 ]) {
                     script {
-                        echo "MM_REPORT_URL Loaded Successfully: ${MM_REPORT_URL}"
-                        echo "MM_ERROR_URL Loaded Successfully: ${MM_ERROR_URL}"
+                        env.MM_REPORT_URL = "${MM_REPORT_URL}"
+                        echo "MM_REPORT_URL Loaded Successfully"
+                        env.MM_ERROR_URL =  "${MM_ERROR_URL}"
+                        echo "MM_ERROR_URL Loaded Successfully"
                     }
                 }
             }
