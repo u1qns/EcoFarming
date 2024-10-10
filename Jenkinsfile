@@ -71,6 +71,19 @@ pipeline {
             }
         }
 
+        stage('Load and Copy FirebaseConfigFile') {
+            steps {
+                script {
+                    withCredentials([file(credentialsId: 'firebase-config', variable: 'FIREBASE_CONFIG_FILE')]) {
+                        // Firebase 설정 파일을 backend/src/main/resources에 복사
+                        sh """
+                        cp ${FIREBASE_CONFIG_FILE} backend/src/main/resources/firebase-config.json
+                        """
+                    }
+                }
+            }
+        }
+
         // 백엔드 빌드 및 Docker 이미지 생성
         stage('Build Backend and Docker Image') {
             steps {
@@ -110,6 +123,10 @@ stage('Deploy to New Environment') {
                     def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
                     def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
                     echo "Deploying to ${environmentName} Environment (Port: ${newPort})..."
+
+                    // Firebase config 파일을 EC2 서버로 복사
+                    sh "scp -o StrictHostKeyChecking=no ${FIREBASE_CONFIG_FILE} ubuntu@${USER_SERVER_IP}:/home/ubuntu/firebase-config.json"
+
                     sh """
                     ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} \\
                         'docker image prune -f && \\
@@ -122,10 +139,12 @@ stage('Deploy to New Environment') {
                         -e MM_REPORT_URL=${MM_REPORT_URL} \\
                         -e MM_ERROR_URL=${MM_ERROR_URL} \\
                         -v /home/ubuntu/uploads:/home/ubuntu/uploads ${BACKEND_DOCKER_REPO}:latest \\
+                        -v /home/ubuntu/firebase-config.json:/home/ubuntu/firebase-config.json \\ 
                         --spring.profiles.active=${SPRING_PROFILE} --file.upload-dir=/home/ubuntu/uploads && \\
                         docker logout'
                     """
                     echo "Deployment to ${environmentName} Environment Complete!"
+                    }
                 }
             }
         }
