@@ -15,7 +15,7 @@ UPLOAD_FOLDER = '/home/ubuntu/uploads'
 
 
 # AI 예측을 수행하는 엔드포인트
-@app.route('/run-predict', methods=['POST'])
+@app.route('/run-predict/', methods=['POST'])
 def run_predict():
     print(1111111111111111111)
     try:
@@ -33,7 +33,7 @@ def run_predict():
         if not os.path.exists(image_path):
             raise FileNotFoundError(f"File not found: {image_path}")
 
-        print(f"Processing image at path: {image_path}")  # 경로 확인 로그
+        print(f"Processing image at ``path: {image_path}")  # 경로 확인 로그
 
         image = Image.open(image_path)
 
