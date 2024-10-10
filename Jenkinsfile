@@ -27,6 +27,24 @@ pipeline {
             }
         }
 
+        // WEB HOOK URL 로드
+        stage('Load WEB HOOK') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'MM_REPORT_URL', variable: 'MM_REPORT_URL'),
+                    string(credentialsId: 'MM_ERROR_URL', variable: 'MM_ERROR_URL')
+                ]) {
+                    script {
+                        env.MM_REPORT_URL = "${MM_REPORT_URL}"
+                        echo "MM_REPORT_URL Loaded Successfully"
+                        env.MM_ERROR_URL =  "${MM_ERROR_URL}"
+                        echo "MM_ERROR_URL Loaded Successfully"
+                    }
+
+                }
+            }
+        }
+
         // 현재 활성화된 포트 읽기
         stage('Read Current Active Port') {
             steps {
@@ -100,7 +118,9 @@ stage('Deploy to New Environment') {
                         docker stop backend_${newPort} || true && \\
                         docker rm backend_${newPort} || true && \\
                         docker run -d --name backend_${newPort} -p ${newPort}:8080 \\
-                        -e JWT_SECRET=${JWT_SECRET} \\
+                        -e JWT_SECRET=${JWT_SECRET} 
+                        -e MM_REPORT_URL = "${MM_REPORT_URL}" 
+                        -e MM_ERROR_URL = "${MM_ERROR_URL}" \\
                         -v /home/ubuntu/uploads:/home/ubuntu/uploads ${BACKEND_DOCKER_REPO}:latest \\
                         --spring.profiles.active=${SPRING_PROFILE} --file.upload-dir=/home/ubuntu/uploads && \\
                         docker logout'
