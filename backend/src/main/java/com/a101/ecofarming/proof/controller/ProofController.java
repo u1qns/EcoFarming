@@ -1,5 +1,6 @@
 package com.a101.ecofarming.proof.controller;
 
+import com.a101.ecofarming.challenge.service.ChallengeService;
 import com.a101.ecofarming.challengeCategory.service.ChallengeCategoryService;
 import com.a101.ecofarming.proof.dto.request.ProofUploadRequestDto;
 import com.a101.ecofarming.proof.dto.response.ProofGuideResponseDto;
@@ -55,5 +56,11 @@ public class ProofController {
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return proofService.getProofsByChallengeIdAndUserId(challengeId, userId, pageable);
+    }
+
+    @GetMapping("/{challengeId}/verification")
+    public ResponseEntity<Boolean> verifyChallenge(@PathVariable Integer challengeId) {
+        Boolean isVerified = proofService.checkChallengeVerification(challengeId);
+        return ResponseEntity.ok(isVerified);
     }
 }

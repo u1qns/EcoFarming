@@ -29,3 +29,19 @@ export const uploadProof = async (challengeId, photo) => {
         throw new Error('Failed to upload proof: ' + error.message);
     }
 };
+
+// 챌린지 인증 여부 확인
+export const checkChallengeVerification = async (challengeId) => {
+    try {
+        const response = await axios.get(`${API_URL}/proof/${challengeId}/verification`);
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            const statusCode = error.response.status;
+            const errorMessage = error.response.data.message || error.message;
+            console.error(statusCode, " ", errorMessage);
+        } else {
+            throw new Error('서버 응답이 없습니다.');
+        }
+    }
+};
