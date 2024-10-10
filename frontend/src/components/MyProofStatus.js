@@ -38,7 +38,7 @@ const MyProofStatus = ({ challenge }) => {
           remainingCount: remainingCount,
         });
 
-        setAchievementRate(Math.round(successCount * 100 / challenge.frequency)); // 반올림하여 소수점 없는 값으로 설정
+        setAchievementRate(Math.floor(successCount * 100 / challenge.frequency)); // 내림하여 소수점 없는 값으로 설정
       } catch (error) {
         console.error("Error fetching proof data:", error);
       }
