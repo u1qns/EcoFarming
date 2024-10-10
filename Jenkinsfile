@@ -53,19 +53,35 @@ pipeline {
             }
         }
 
-        // 환경 변수 로드
-        stage('Load Monitoring URLs') {
-            steps {
-                script {
-                    withCredentials([string(credentialsId: 'MM_REPORT_URL', variable: 'MM_REPORT_URL')]) {
-                        withCredentials([string(credentialsId: 'MM_ERROR_URL', variable: 'MM_ERROR_URL')]) {
-                            echo "MM_REPORT_URL Loaded: ${MM_REPORT_URL}"
-                            echo "MM_ERROR_URL Loaded: ${MM_ERROR_URL}"
+        stages {
+            stage('Load Monitoring URLs') {
+                steps {
+                    withCredentials([
+                        string(credentialsId: 'MM_REPORT_URL', variable: 'MM_REPORT_URL'),
+                        string(credentialsId: 'MM_ERROR_URL', variable: 'MM_ERROR_URL')
+                    ]) {
+                        script {
+                            echo "MM_REPORT_URL Loaded Successfully: ${MM_REPORT_URL}"
+                            echo "MM_ERROR_URL Loaded Successfully: ${MM_ERROR_URL}"
                         }
                     }
                 }
             }
         }
+
+
+        // 환경 변수 로드
+        // stage('Load Monitoring URLs') {
+        //     steps {
+        //             withCredentials([string(credentialsId: 'MM_REPORT_URL', variable: 'MM_REPORT_URL')]) {
+        //                     script {
+        //                         env.MM_REPORT_URL = "${MM_REPORT_URL}"
+        //                         echo "MM_REPORT_URL Loaded Successfully."
+        //                     }
+        //                 }
+        //             }
+        //     }
+        // }
 
         // 백엔드 빌드 및 Docker 이미지 생성
         stage('Build Backend and Docker Image') {
