@@ -136,6 +136,8 @@ stage('Deploy to New Environment') {
                         -e MM_REPORT_URL=${MM_REPORT_URL} \\
                         -e MM_ERROR_URL=${MM_ERROR_URL} \\
                         -e FIREBASE_CONFIG_PATH=${FIREBASE_CONFIG_PATH} \\
+                        -e REDIS_PASSWORD=${REDIS_PASSWORD} \\
+                        -e DB_PASSWORD=${DB_PASSWORD} \\
                         -v /home/ubuntu/uploads:/home/ubuntu/uploads ${BACKEND_DOCKER_REPO}:latest \\
                         --spring.profiles.active=${SPRING_PROFILE} --file.upload-dir=/home/ubuntu/uploads && \\
                         docker logout'
