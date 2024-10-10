@@ -325,7 +325,7 @@ const PaymentPage = () => {
           </p>
           <p>
             <span>사용 예치금</span>
-            <span>-{userAmount.toLocaleString()}원</span>
+            <span>-{Math.min(selectedAmount, userAmount).toLocaleString()}원</span>
           </p>
           <p style={{ color: "gray" }}>
             <span>(현재 보유 예치금: {userAmount.toLocaleString()}원)</span>
