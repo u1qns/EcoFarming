@@ -90,11 +90,11 @@ const MyProofStatus = () => {
                 </div>
                 <div className="proof-info">
                   <p
-                    style="
-    font-size: 13px;
-    padding-left: 6px;
-    padding-top: 3px;
-"
+                    style={{
+                      fontSize: "13px",
+                      paddingLeft: "6px",
+                      paddingTop: "3px",
+                    }}
                   >
                     {new Date(proof.createdAt).toLocaleDateString()}
                   </p>{" "}
