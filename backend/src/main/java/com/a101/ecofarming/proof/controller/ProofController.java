@@ -59,8 +59,8 @@ public class ProofController {
     }
 
     @GetMapping("/{challengeId}/verification")
-    public ResponseEntity<Boolean> verifyChallenge(@PathVariable Integer challengeId) {
-        Boolean isVerified = proofService.checkChallengeVerification(challengeId);
-        return ResponseEntity.ok(isVerified);
+    public ResponseEntity<Integer> verifyChallenge(@PathVariable Integer challengeId) {
+        Integer todayChallengeUserCount  = proofService.getTodayChallengeVerificationCount(challengeId);
+        return ResponseEntity.ok(todayChallengeUserCount );
     }
 }

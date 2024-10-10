@@ -67,10 +67,10 @@ public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, In
             "WHERE cu.user.id = :userId")
     ChallengeCountsDto countChallengesByUserId(@Param("userId") Integer userId);
 
-    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM ChallengeUser c " +
+    @Query("SELECT COUNT(c) FROM ChallengeUser c " +
             "WHERE c.user.id = :userId AND c.challenge.id = :challengeId " +
             "AND DATE(c.createdAt) = CURDATE()")
-    boolean existsByUserIdAndChallengeIdAndCreatedAtToday(@Param("userId") Integer userId,
+    int countByUserIdAndChallengeIdAndCreatedAtToday(@Param("userId") Integer userId,
                                                           @Param("challengeId") Integer challengeId);
 
 }
