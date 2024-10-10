@@ -56,7 +56,22 @@ const PaymentPage = () => {
     navigate("/users");
   };
 
+  const validateSelection = () => {
+    if (selectedCard === null) {
+      alert("밸런스 게임을 반드시 선택해주세요 🎰");
+      return false;
+    }
+    if (selectedAmount <= 0) {
+      alert("예치금을 넣어주세요! 🌍");
+      return false;
+    }
+    return true;
+  };
+
   const handleFooterButtonClick = () => {
+    if(!validateSelection()) {
+      return;
+    }
     handlePaymentClick(); // 결제 처리
   };
 
