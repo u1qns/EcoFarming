@@ -64,7 +64,7 @@ const ChallengeFooter = ({ challenge, userId }) => {
 
   const apiUrl = process.env.REACT_APP_API_URL;
   const handlePaymentClick = async () => {
-    if (alreadyParticipated || isChallengeStarted) return; // 참가했거나 이미 시작된 경우 중단
+    if (alreadyParticipated) return; // 참가했거나 이미 시작된 경우 중단 -> 참가한 경우만 
     const userId = localStorage.getItem('userId'); // localStorage에서 userId 가져오기
     if (!userId) {
       console.error("userId가 존재하지 않습니다. 로그인 여부를 확인하세요.");
@@ -117,11 +117,9 @@ const ChallengeFooter = ({ challenge, userId }) => {
             주 {challenge.frequency}일, {challenge.duration / 7}주 동안
           </span>
         </div>
-        <button className="start-button" onClick={handlePaymentClick} disabled={alreadyParticipated || isChallengeStarted}>
-          {alreadyParticipated
+        <button className="start-button" onClick={handlePaymentClick} disabled={alreadyParticipated}>
+        {alreadyParticipated
             ? "이미 참가한 챌린지" // 이미 참가했을 때 비활성화 및 텍스트 표시
-            : isChallengeStarted
-            ? "이미 시작된 챌린지" // 챌린지가 이미 시작된 경우 비활성화
             : getDayDifference()}
         </button>
       </div>
