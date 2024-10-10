@@ -117,7 +117,11 @@ pipeline {
 stage('Deploy to New Environment') {
     steps {
         sshagent(['ssafy-ec2-ssh']) {
-            withCredentials([string(credentialsId: 'jwt-secret-id', variable: 'JWT_SECRET')]) { // JWT_SECRET을 Jenkins Credentials ID로 대체
+            withCredentials([
+                string(credentialsId: 'jwt-secret-id', variable: 'JWT_SECRET')
+                string(credentialsId: 'MM_REPORT_URL', variable: 'MM_REPORT_URL'),
+                string(credentialsId: 'MM_ERROR_URL', variable: 'MM_ERROR_URL')
+            ]) {
                 withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     script {
                         def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
@@ -131,7 +135,7 @@ stage('Deploy to New Environment') {
                             docker stop backend_${newPort} || true && \\
                             docker rm backend_${newPort} || true && \\
                             docker run -d --name backend_${newPort} -p ${newPort}:8080 \\
-                            -e JWT_SECRET=${JWT_SECRET} MM_REPORT_URL=${MM_REPORT_URL} MM_ERROR_URL=${MM_ERROR_URL}\\
+                            -e JWT_SECRET=${JWT_SECRET} MM_REPORT_URL=${MM_REPORT_URL} MM_ERROR_URL=${MM_ERROR_URL} \\
                             -v /home/ubuntu/uploads:/home/ubuntu/uploads ${BACKEND_DOCKER_REPO}:latest \\
                             --spring.profiles.active=${SPRING_PROFILE} --file.upload-dir=/home/ubuntu/uploads && \\
                             docker logout'
