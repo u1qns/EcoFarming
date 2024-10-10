@@ -53,17 +53,15 @@ pipeline {
             }
         }
 
-        stages {
-            stage('Load Monitoring URLs') {
-                steps {
-                    withCredentials([
-                        string(credentialsId: 'MM_REPORT_URL', variable: 'MM_REPORT_URL'),
-                        string(credentialsId: 'MM_ERROR_URL', variable: 'MM_ERROR_URL')
-                    ]) {
-                        script {
-                            echo "MM_REPORT_URL Loaded Successfully: ${MM_REPORT_URL}"
-                            echo "MM_ERROR_URL Loaded Successfully: ${MM_ERROR_URL}"
-                        }
+        stage('Load Monitoring URLs') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'MM_REPORT_URL', variable: 'MM_REPORT_URL'),
+                    string(credentialsId: 'MM_ERROR_URL', variable: 'MM_ERROR_URL')
+                ]) {
+                    script {
+                        echo "MM_REPORT_URL Loaded Successfully: ${MM_REPORT_URL}"
+                        echo "MM_ERROR_URL Loaded Successfully: ${MM_ERROR_URL}"
                     }
                 }
             }
