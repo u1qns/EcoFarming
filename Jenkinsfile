@@ -53,36 +53,6 @@ pipeline {
             }
         }
 
-        stage('Load Monitoring URLs') {
-            steps {
-                withCredentials([
-                    string(credentialsId: 'MM_REPORT_URL', variable: 'MM_REPORT_URL'),
-                    string(credentialsId: 'MM_ERROR_URL', variable: 'MM_ERROR_URL')
-                ]) {
-                    script {
-                        env.MM_REPORT_URL = "${MM_REPORT_URL}"
-                        echo "MM_REPORT_URL Loaded Successfully"
-                        env.MM_ERROR_URL =  "${MM_ERROR_URL}"
-                        echo "MM_ERROR_URL Loaded Successfully"
-                    }
-                }
-            }
-        }
-
-
-        // 환경 변수 로드
-        // stage('Load Monitoring URLs') {
-        //     steps {
-        //             withCredentials([string(credentialsId: 'MM_REPORT_URL', variable: 'MM_REPORT_URL')]) {
-        //                     script {
-        //                         env.MM_REPORT_URL = "${MM_REPORT_URL}"
-        //                         echo "MM_REPORT_URL Loaded Successfully."
-        //                     }
-        //                 }
-        //             }
-        //     }
-        // }
-
         // 백엔드 빌드 및 Docker 이미지 생성
         stage('Build Backend and Docker Image') {
             steps {
@@ -117,11 +87,7 @@ pipeline {
 stage('Deploy to New Environment') {
     steps {
         sshagent(['ssafy-ec2-ssh']) {
-            withCredentials([
-                string(credentialsId: 'jwt-secret-id', variable: 'JWT_SECRET'),
-                string(credentialsId: 'MM_REPORT_URL', variable: 'MM_REPORT_URL'),
-                string(credentialsId: 'MM_ERROR_URL', variable: 'MM_ERROR_URL')
-            ]) {
+            withCredentials([string(credentialsId: 'jwt-secret-id', variable: 'JWT_SECRET')]) { // JWT_SECRET을 Jenkins Credentials ID로 대체
                 withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     script {
                         def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
@@ -135,7 +101,7 @@ stage('Deploy to New Environment') {
                             docker stop backend_${newPort} || true && \\
                             docker rm backend_${newPort} || true && \\
                             docker run -d --name backend_${newPort} -p ${newPort}:8080 \\
-                            -e JWT_SECRET=${JWT_SECRET} MM_REPORT_URL=${MM_REPORT_URL} MM_ERROR_URL=${MM_ERROR_URL} \\
+                            -e JWT_SECRET=${JWT_SECRET} \\
                             -v /home/ubuntu/uploads:/home/ubuntu/uploads ${BACKEND_DOCKER_REPO}:latest \\
                             --spring.profiles.active=${SPRING_PROFILE} --file.upload-dir=/home/ubuntu/uploads && \\
                             docker logout'
@@ -149,29 +115,7 @@ stage('Deploy to New Environment') {
 }
 
 
-        // Health Check
-        stage('Health Check on New Environment') {
-            steps {
-                script {
-                    def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
-                    def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
-                    echo "Performing Health Check on ${environmentName} Environment (Port: ${newPort})..."
 
-                    retry(5) {
-                        sleep(time: 5, unit: "SECONDS")
-                        def response = sh(
-                            script: "curl --silent --fail http://${USER_SERVER_IP}:${newPort}/api/actuator/health",
-                            returnStatus: true
-                        )
-                        if (response != 0) {
-                            error("Health Check Failed for ${environmentName} Environment (Port: ${newPort}), stopping deployment.")
-                        }
-                    }
-
-                    echo "Health Check Passed for ${environmentName} Environment (Port: ${newPort})."
-                }
-            }
-        }
 
         // Nginx 설정 변경 및 트래픽 전환
         stage('Switch Traffic to New Environment') {
