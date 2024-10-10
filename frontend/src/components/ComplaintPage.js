@@ -32,7 +32,7 @@ const ComplaintPage = () => {
   const { proof, challenge } = location.state || {};
   const navigate = useNavigate();
 
-  const [selectedReason, setSelectedReason] = useState("");
+  const [selectedReason, setSelectedReason] = useState("인증샷 무효");
   const [detailedReason, setDetailedReason] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [loadingPopup, setLoadingPopup] = useState(false); // 로딩 팝업 상태 추가
@@ -133,6 +133,7 @@ const ComplaintPage = () => {
             placeholder="정확한 처리를 위해 신고하시는 구체적인 사유를 적어주세요. (최소 10자 이상)"
             value={detailedReason}
             onChange={handleDetailedReasonChange}
+            maxLength={100} // 100자 제한
           ></textarea>
         </div>
       </div>
