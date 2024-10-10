@@ -66,11 +66,4 @@ public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, In
             "JOIN cu.challenge c " +
             "WHERE cu.user.id = :userId")
     ChallengeCountsDto countChallengesByUserId(@Param("userId") Integer userId);
-
-    @Query("SELECT COUNT(c) FROM ChallengeUser c " +
-            "WHERE c.user.id = :userId AND c.challenge.id = :challengeId " +
-            "AND DATE(c.createdAt) = CURDATE()")
-    int countByUserIdAndChallengeIdAndCreatedAtToday(@Param("userId") Integer userId,
-                                                          @Param("challengeId") Integer challengeId);
-
 }
