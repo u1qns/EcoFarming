@@ -75,11 +75,13 @@ pipeline {
             steps {
                 script {
                     withCredentials([file(credentialsId: 'firebase-config', variable: 'FIREBASE_CONFIG_FILE')]) {
-                        // Firebase 설정 파일을 backend/src/main/resources에 복사
+                        // Firebase 설정 파일을 임시 경로에 복사
                         sh """
-                        cp ${FIREBASE_CONFIG_FILE} backend/src/main/resources/firebase-config.json
-                        """
+                        cp ${FIREBASE_CONFIG_FILE} /tmp/firebase-config.json
+                        cp /tmp/firebase-config.json backend/src/main/resources/firebase-config.json
+                        rm /tmp/firebase-config.json  // 임시 파일 삭제
                         echo "firebase-config Loaded Successfully !!"
+                        """
                     }
                 }
             }
