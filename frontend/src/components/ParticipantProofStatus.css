@@ -169,3 +169,10 @@
 .ParticipantProofStatus .popup-report-button {
   color: #ef4444;
 }
+
+.ParticipantProofStatus-empty-image {
+  width: 100px;
+  height: auto;
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
