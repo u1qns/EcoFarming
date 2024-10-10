@@ -196,7 +196,7 @@ stage('Deploy to New Environment') {
                             docker stop frontend || true
                             docker rm frontend || true
                             docker run -d --name frontend -p 3000:80 \\
-                            --env-file ${SECRET_FILE} \\
+                            --env-file ${front-env} \\
                             ${DOCKERHUB_FRONTEND_REPO}:latest
                             docker logout
     EOF
