@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 // 나의 인증 현황 컴포넌트
-const MyProofStatus = () => {
+const MyProofStatus = ({ challenge }) => {
   const { challengeId, userId } = useParams(); // URL에서 challengeId와 userId를 가져옴
   const apiUrl = process.env.REACT_APP_API_URL; // .env 파일의 API URL 사용
   const [myProofs, setMyProofs] = useState([]); // 나의 인증 정보를 저장할 상태
@@ -30,7 +30,7 @@ const MyProofStatus = () => {
         const successCount = proofsData.filter((proof) => proof.isValid).length;
         const totalProofs = proofsData.length;
         const failCount = totalProofs - successCount;
-        const remainingCount = Math.max(0, 7 - totalProofs); // 남은 인증 횟수 (예시로 7일 기준)
+        const remainingCount = Math.max(0, challenge.frequency - totalProofs); // 남은 인증 횟수 (예시로 7일 기준)
 
         setProofSummary({
           successCount: successCount,
@@ -38,7 +38,7 @@ const MyProofStatus = () => {
           remainingCount: remainingCount,
         });
 
-        setAchievementRate(Math.round((successCount / 7) * 100)); // 반올림하여 소수점 없는 값으로 설정
+        setAchievementRate(Math.floor(successCount * 100 / challenge.frequency)); // 내림하여 소수점 없는 값으로 설정
       } catch (error) {
         console.error("Error fetching proof data:", error);
       }

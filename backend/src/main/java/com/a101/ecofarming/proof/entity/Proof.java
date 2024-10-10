@@ -7,7 +7,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "Proof")
+@Table(name = "proof", indexes = {
+        @Index(name = "idx_proof_challenge_user", columnList = "challenge_id, user_id"),
+        @Index(name = "idx_proof_challenge", columnList = "challenge_id")
+})
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
