@@ -17,7 +17,7 @@ const OngoingChallenge = ({ setCount }) => { // setCount prop 추가
     try {
         const isVerified = await checkChallengeVerification(challengeId); // 인증 여부 확인
         console.log(isVerified);
-        if (!isVerified) {
+        if (isVerified == false) {
             navigate(`/proof/${challengeId}/guide`);
         } else {
             alert('오늘 이미 인증이 완료되었어요 📸');

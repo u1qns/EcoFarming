@@ -39,7 +39,8 @@ const OngoingChallengeFooter = ({ challenge }) => {
     const challengeId = challenge.id; // challengeId 정의
     try {
       const isVerified = await checkChallengeVerification(challengeId); // 인증 여부 확인
-      if (!isVerified) {
+      console.log(isVerified)
+      if (isVerified == false) {
           navigate(`/proof/${challengeId}/guide`);
       } else {
           alert('오늘 이미 인증이 완료되었어요 📸');

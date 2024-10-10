@@ -176,7 +176,7 @@ public class ProofService {
         Challenge challenge = challengeRepository.findById(challengeId)
                 .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
 
-        // 오늘 날짜에 이미 인증한 챌린지인지 확인
+        // 오늘 날짜에 이미 인증한 챌린지라면 true
         return challengeUserRepository.existsByUserIdAndChallengeIdAndCreatedAtToday(user.getId(), challenge.getId());
     }
 }
