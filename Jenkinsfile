@@ -144,7 +144,6 @@ stage('Deploy to New Environment') {
                         docker logout'
                     """
                     echo "Deployment to ${environmentName} Environment Complete!"
-                    }
                 }
             }
         }
