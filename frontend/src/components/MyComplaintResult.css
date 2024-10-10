@@ -101,3 +101,34 @@
   background-color: #2edd97;
   color: rgb(255, 255, 255);
 }
+
+.MyComplaintResult {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 2rem;
+}
+
+.no-complaint {
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out; /* 애니메이션 추가 */
+}
+
+.no-complaint-message {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #555;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -25,14 +25,16 @@ const CompletedChallenge = () => {
   }, []); // 컴포넌트가 마운트될 때만 실행
 
   if (loading) {
-    return <p>로딩 중...</p>; // 로딩 중일 때 표시
+    return <div className="ongoing-challenge-loading-spinner"></div>; // 로딩 애니메이션 표시
   }
 
   return (
     <div className="ongoing-challenge-container">
       {/* 챌린지가 하나도 없을 때 메시지 표시 */}
       {challenges.length === 0 ? (
-        <p>참여 완료한 챌린지가 없습니다.</p>
+        <div className="ongoing-challenge-no-challenge">
+          <p className="ongoing-challenge-no-challenge-message">현재 참가 중인 챌린지가 없습니다.</p>
+        </div>
       ) : (
         challenges.map((challenge) => (
           <div key={challenge.challengeId} className="ongoing-challenge-card">

@@ -32,7 +32,7 @@ const ComplaintPage = () => {
   const { proof, challenge } = location.state || {};
   const navigate = useNavigate();
 
-  const [selectedReason, setSelectedReason] = useState("");
+  const [selectedReason, setSelectedReason] = useState("인증샷 무효");
   const [detailedReason, setDetailedReason] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [loadingPopup, setLoadingPopup] = useState(false); // 로딩 팝업 상태 추가
@@ -51,7 +51,7 @@ const ComplaintPage = () => {
   const runPredict = async (complaintId, photoUrl) => {
     try {
       console.log("[runPredict] 호출");
-      const response = await axios.post("https://j11a101.p.ssafy.io/run-predict",  { image_url: photoUrl });
+      const response = await axios.post("https://j11a101.p.ssafy.io/run-predict/",  { image_url: photoUrl });
       const predictedLabel = response.data.aiPass;
       console.log("AI 분석 라벨 : ", predictedLabel);
       const aiPass = (
@@ -78,7 +78,9 @@ const ComplaintPage = () => {
 
         setLoadingPopup(false); // 로딩 팝업 종료
         setShowPopup(true); // 완료 팝업 표시
-        await runPredict(response.id, proof.phoroUrl)
+        console.log(proof);
+
+        await runPredict(response.id, proof.photoUrl)
       } catch (error) {
         console.error("신고 제출 중 오류 발생 : ", error);
         setLoadingPopup(false); // 로딩 팝업 종료
@@ -131,6 +133,7 @@ const ComplaintPage = () => {
             placeholder="정확한 처리를 위해 신고하시는 구체적인 사유를 적어주세요. (최소 10자 이상)"
             value={detailedReason}
             onChange={handleDetailedReasonChange}
+            maxLength={100} // 100자 제한
           ></textarea>
         </div>
       </div>

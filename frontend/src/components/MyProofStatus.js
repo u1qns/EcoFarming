@@ -130,7 +130,7 @@ const MyProofStatus = () => {
               </div>
             ))
           ) : (
-            <p>인증샷이 없습니다.</p> // 인증샷이 없을 때 표시
+            <p className="MyProofStatus-empty-text">현재 인증샷이 없습니다.</p>
           )}
         </div>
       </div>

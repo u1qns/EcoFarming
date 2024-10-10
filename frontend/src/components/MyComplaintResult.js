@@ -1,41 +1,14 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios"; // Axios 추가
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import "./MyComplaintResult.css";
 
-const MyComplaintResult = ({ complaints }) => {
-  // const complaints = [
-  //   {
-  //     complaintId: 1,
-  //     title: "플라스틱 줄이기",
-  //     thumbPhotoUrl: "https://via.placeholder.com/150",
-  //     complaintDate: "2024-09-01",
-  //     description: "이상한 사진인거가틈",
-  //     result: "통과",
-  //   },
-  //   {
-  //     complaintId: 2,
-  //     title: "일회용 컵 사용 안 하기",
-  //     thumbPhotoUrl: "https://via.placeholder.com/150",
-  //     complaintDate: "2024-09-05",
-  //     description: "인증 제대로 안했음",
-  //     result: "신고 검토 중",
-  //   },
-  //   {
-  //     complaintId: 3,
-  //     title: "안쓰는 콘센트 뽑기",
-  //     thumbPhotoUrl: "https://via.placeholder.com/150",
-  //     complaintDate: "2024-09-25",
-  //     description: "인증 제대로 안했음!!!",
-  //     result: "불통",
-  //   },
-  // ];
 
+const MyComplaintResult = ({ complaints }) => {
   return (
     <div className="MyComplaintResult">
-      {/* 신고가 하나도 없을 때 메시지 표시 */}
       {complaints.length === 0 ? (
-        <p>신고한 내역이 없습니다.</p>
+        <div className="no-complaint">
+          <p className="no-complaint-message">현재 신고된 내역이 없습니다.</p>
+        </div>
       ) : (
         complaints.map((complaint) => (
           <div key={complaint.complaintId} className="complaint-card">

@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom"; 
 import "./ChallengeFooter.css";
 import { CalendarIcon } from "lucide-react";
+import { checkChallengeVerification } from "../services/proofService";
 
 const OngoingChallengeFooter = ({ challenge }) => {
   // challenge에서 startDate와 endDate를 가져와 사용
@@ -34,9 +35,18 @@ const OngoingChallengeFooter = ({ challenge }) => {
   // 버튼이 활성화되는지 여부를 결정
   const isButtonActive = today >= startDate && today <= endDate;
 
-  const handleGuideClick = () => {
+  const handleGuideClick = async () => {
     const challengeId = challenge.id; // challengeId 정의
-    navigate(`/proof/${challengeId}/guide`); 
+    try {
+      const todayChallengeUserCount = await checkChallengeVerification(challengeId); // 인증 여부 확인
+      if (todayChallengeUserCount > 0) {
+        alert('오늘 이미 인증이 완료되었어요 📸');
+      } else {
+        navigate(`/proof/${challengeId}/guide`);
+      }
+    } catch (error) {
+        console.error("챌린지 인증 상태 확인 실패:", error.message);
+    }
   };
 
   return (

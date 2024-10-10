@@ -33,7 +33,7 @@ const ProofGuidePage = () => {
     fetchGuideData();
   }, [challengeId]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)return <div className="proof-guide-page-loading-spinner"></div>; // 로딩 애니메이션 표시
   if (error) return <div>Error: {error}</div>;
 
   const handleBackClick = () => {

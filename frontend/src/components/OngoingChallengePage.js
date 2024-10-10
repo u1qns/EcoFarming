@@ -53,7 +53,7 @@ const OngoingChallengePage = () => {
   };
 
   if (!challenge) {
-    return <p>Loading...</p>; // 챌린지 정보가 아직 로드되지 않았을 때
+    return <div className="OngoingChallengePage-loading-spinner"></div>; // 로딩 애니메이션 표시
   }
 
   return (

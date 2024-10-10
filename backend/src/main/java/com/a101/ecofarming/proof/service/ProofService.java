@@ -63,6 +63,12 @@ public class ProofService {
         Challenge challenge = challengeRepository.findById(requestDto.getChallengeId())
                 .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
 
+        // 오늘 날짜에 이미 인증한 챌린지인지 확인
+        Integer todayChallengeUserCount = getTodayChallengeVerificationCount(challenge.getId());
+        if (todayChallengeUserCount > 0) {
+            throw new CustomException(PROOF_ALREADY_EXIST);
+        }
+
         // 챌린지 인증 저장
         String filePath = saveProofFile(requestDto, user, challenge);
         Proof proof = Proof.builder()
@@ -112,8 +118,18 @@ public class ProofService {
         return urlPath;
     }
 
+    public Integer getTodayChallengeVerificationCount(Integer challengeId) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+        Challenge challenge = challengeRepository.findById(challengeId)
+                .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
+
+        return proofRepository.countByChallengeAndUserAndIsValidTrue(challenge, user);
+    }
+
     private Byte calculateSuccessRate(User user, Challenge challenge) {
-        Long proofCount = proofRepository.countByChallengeAndUserAndIsValidTrue(challenge, user);
+        Integer proofCount = getTodayChallengeVerificationCount(challenge.getId());
         log.info("Proof count: {}", proofCount);
 
         int frequency = challengeRepository.findFrequencyById(challenge.getId());
@@ -149,7 +165,7 @@ public class ProofService {
     }
 
     public ProofInfoResponseDto getProofsByChallengeIdAndUserId(Integer challengeId, Integer userId, Pageable pageable) {
-        Page<Proof> proofs = proofRepository.findByChallengeIdAndUserIdOrderByCreatedAtDesc(challengeId, userId, pageable);
+        Page<Proof> proofs = proofRepository.findByChallengeIdAndUserIdOrderByCreatedAtAsc(challengeId, userId, pageable);
 
         List<ProofDetailDto> proofDetails = proofs.stream()
                 .map(proof -> new ProofDetailDto(
@@ -163,4 +179,6 @@ public class ProofService {
 
         return new ProofInfoResponseDto(proofDetails);
     }
+
+
 }
