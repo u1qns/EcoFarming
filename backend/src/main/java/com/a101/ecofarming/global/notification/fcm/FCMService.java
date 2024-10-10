@@ -107,7 +107,8 @@ public class FCMService {
     private WebpushConfig createWebpushConfig(FCMMessageDto request) {
         return WebpushConfig.builder()
                 .putHeader("ttl", "300")
-                .setNotification(new WebpushNotification(request.getTitle(), request.getBody()))
+                .setNotification(new WebpushNotification(request.getTitle(), request.getBody(),
+                        "https://j11a101.p.ssafy.io/icons/mstile-310x310.png"))
                 .build();
     }
 
