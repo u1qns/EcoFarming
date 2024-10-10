@@ -7,6 +7,8 @@ import MyProofStatus from "./MyProofStatus";
 import ParticipantProofStatus from "./ParticipantProofStatus";
 import OngoingChallengeFooter from "./OngoingChallengeFooter"; // Footer 컴포넌트 임포트
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const OngoingChallengePage = () => {
   const { challengeId, userId } = useParams(); // URL에서 challengeId와 userId를 가져옴
@@ -52,6 +54,18 @@ const OngoingChallengePage = () => {
     navigate("/");
   };
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(window.location.href) // URL을 클립보드에 복사
+    .then(() => {
+      toast.success('URL이 클립보드에 복사되었습니다!', {
+        position: 'top-center', // 화면 상단 중앙에 표시
+        autoClose: false, // 자동으로 사라지지 않음
+        closeOnClick: true, // 클릭 시 사라짐
+      });
+    })
+  };
+
+
   if (!challenge) {
     return <div className="OngoingChallengePage-loading-spinner"></div>; // 로딩 애니메이션 표시
   }
@@ -64,7 +78,8 @@ const OngoingChallengePage = () => {
         </div>
         <div className="action-buttons">
           <div className="icon-background">
-            <Share2 className="share-button" />
+            <Share2 className="share-button" 
+              onClick={handleCopy}/>
           </div>
           <div className="icon-background">
             <Heart className="heart-button" />

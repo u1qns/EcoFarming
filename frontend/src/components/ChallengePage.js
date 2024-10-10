@@ -6,6 +6,8 @@ import "./ChallengePage.css";
 import ChallengeFooter from "./ChallengeFooter";
 import axios from "axios";
 import { fetchProofGuide } from "../services/proofService";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ChallengePage = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -75,6 +77,15 @@ const ChallengePage = () => {
     navigate("/");
   };
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => {
+        toast.success('URL이 클립보드에 복사되었습니다! 📋', {
+          autoClose: 1000,
+        });
+      })
+  };
+
   const bars = [
     { deposit: 100, refund: 0, reward: 0 },
     { deposit: 90, refund: 10, reward: 0 },
@@ -95,13 +106,19 @@ const ChallengePage = () => {
 
   return (
     <div className="ChallengePage">
+      <ToastContainer
+        limit={1}
+        closeButton={false}
+        hideProgressBar
+      />
       <div className="header">
         <div className="icon-background" onClick={handleBackClick}>
           <ChevronLeft className="back-button" />
         </div>
         <div className="action-buttons">
           <div className="icon-background">
-            <Share2 className="share-button" />
+            <Share2 className="share-button" 
+            onClick={handleCopy}/>
           </div>
           <div className="icon-background">
             <Heart className="heart-button" />
