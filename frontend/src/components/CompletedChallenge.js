@@ -54,7 +54,7 @@ const CompletedChallenge = () => {
                   {new Date(challenge.endDate).toLocaleDateString()}
                 </p>
                 <p className="ongoing-challenge-time">
-                  인증 빈도: {challenge.frequency}일마다
+                  인증 빈도: 주 {challenge.frequency}회
                 </p>
                 <div className="ongoing-challenge-stats">
                   <div>
