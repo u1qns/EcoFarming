@@ -64,7 +64,7 @@ public class ProofService {
                 .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
 
         // 오늘 날짜에 이미 인증한 챌린지인지 확인
-        Integer todayChallengeUserCount = challengeUserRepository.countByUserIdAndChallengeIdAndCreatedAtToday(user.getId(), challenge.getId());
+        Integer todayChallengeUserCount = getTodayChallengeVerificationCount(challenge.getId());
         if (todayChallengeUserCount > 0) {
             throw new CustomException(PROOF_ALREADY_EXIST);
         }
@@ -118,8 +118,18 @@ public class ProofService {
         return urlPath;
     }
 
+    public Integer getTodayChallengeVerificationCount(Integer challengeId) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+        Challenge challenge = challengeRepository.findById(challengeId)
+                .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
+
+        return proofRepository.countByChallengeAndUserAndIsValidTrue(challenge, user);
+    }
+
     private Byte calculateSuccessRate(User user, Challenge challenge) {
-        Long proofCount = proofRepository.countByChallengeAndUserAndIsValidTrue(challenge, user);
+        Integer proofCount = getTodayChallengeVerificationCount(challenge.getId());
         log.info("Proof count: {}", proofCount);
 
         int frequency = challengeRepository.findFrequencyById(challenge.getId());
@@ -170,13 +180,5 @@ public class ProofService {
         return new ProofInfoResponseDto(proofDetails);
     }
 
-    public Integer getTodayChallengeVerificationCount(Integer challengeId) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
-        Challenge challenge = challengeRepository.findById(challengeId)
-                .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
 
-        return challengeUserRepository.countByUserIdAndChallengeIdAndCreatedAtToday(user.getId(), challenge.getId());
-    }
 }
