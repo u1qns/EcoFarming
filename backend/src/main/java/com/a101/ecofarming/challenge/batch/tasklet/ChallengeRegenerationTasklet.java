@@ -5,6 +5,7 @@ import com.a101.ecofarming.balanceGame.repository.BalanceGameRepository;
 import com.a101.ecofarming.challenge.entity.Challenge;
 import com.a101.ecofarming.challenge.repository.ChallengeRepository;
 import com.a101.ecofarming.global.exception.CustomException;
+import com.a101.ecofarming.global.notification.NotificationManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -20,8 +21,8 @@ import static com.a101.ecofarming.global.exception.ErrorCode.BALANCE_GAME_NOT_FO
 @RequiredArgsConstructor
 public class ChallengeRegenerationTasklet implements Tasklet {
 
+    private final NotificationManager notificationManager;
     private final ChallengeRepository challengeRepository;
-
     private final BalanceGameRepository balanceGameRepository;
 
     @Override
@@ -36,6 +37,10 @@ public class ChallengeRegenerationTasklet implements Tasklet {
         
         // 새로운 챌린지 생성
         for (Challenge challenge : endingChallenges) {
+
+            // 챌린지 종료 알림을 전송한다.
+            notificationManager.sendNotification(challenge, 1);
+
             BalanceGame newBalanceGame = balanceGameRepository.findById(nextBalanceId)
                     .orElseThrow(() -> new CustomException(BALANCE_GAME_NOT_FOUND));
             Challenge newChallenge = Challenge.builder()
@@ -52,6 +57,9 @@ public class ChallengeRegenerationTasklet implements Tasklet {
             challengeRepository.save(newChallenge);
             // 밸런스 게임이 여러 개일 때를 대비해 숫자를 하나씩 올림
             nextBalanceId = (nextBalanceId % totalBalanceGameCount) + 1;
+
+            //챌린지 시작 알림을 전송한다.
+            notificationManager.sendNotification(newChallenge, 2);
         }
         return RepeatStatus.FINISHED;
     }

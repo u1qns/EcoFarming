@@ -3,7 +3,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import axios from "axios";
 import PaymentNavbar from "./PaymentNavbar";
-import "./PaymentPage.css"; // 스타일 파일 추가
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { subscribeToTopic, unsubscribeFromTopic } from '../firebase/config.js';
 
 const PaymentPage = () => {
   const navigate = useNavigate();
@@ -127,6 +129,9 @@ const PaymentPage = () => {
         const newRemainingAmount = userAmount - selectedAmount + chargingAmount;
         setRemainingAmount(newRemainingAmount); // 남은 금액 업데이트
         setIsModalOpen(true); // 모달 열기
+
+        // FCM 구독 요청
+        await subscribeToTopic(challengeId);
       } else {
         console.error("결제에 실패했습니다.");
       }
