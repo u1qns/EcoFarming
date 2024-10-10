@@ -14,14 +14,24 @@ pipeline {
 
     stages {
 
-        // JWT_SECRET 로드
-        stage('Load JWT_SECRET') {
+        // SECRET 로드
+        stage('Load SECRET') {
             steps {
-                withCredentials([string(credentialsId: 'jwt-secret-id', variable: 'JWT_SECRET')]) {
+                withCredentials([
+                    string(credentialsId: 'jwt-secret-id', variable: 'JWT_SECRET'),
+                    string(credentialsId: 'REDIS_PASSWORD', variable: 'REDIS_PASSWORD'),
+                    string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD')                  
+                ]) {
                     script {
                         // JWT_SECRET을 환경 변수로 설정
                         env.JWT_SECRET = "${JWT_SECRET}"
                         echo "JWT_SECRET Loaded Successfully"
+
+                        env.REDIS_PASSWORD = "${REDIS_PASSWORD}"
+                        echo "REDIS_PASSWORD Loaded Successfully"
+
+                        env.DB_PASSWORD = "${DB_PASSWORD}"
+                        echo "DB_PASSWORD Loaded Successfully"
                     }
                 }
             }
@@ -47,8 +57,6 @@ pipeline {
                 }
             }
         }
-
-
 
         // 현재 활성화된 포트 읽기
         stage('Read Current Active Port') {
