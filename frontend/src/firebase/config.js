@@ -16,6 +16,7 @@ const messaging = getMessaging(app);
 
 // 푸시 알림 권한 요청 및 토큰 가져오기
 export const requestPermission = async () => {
+  console.log(process.env.REACT_APP_FIREBASE_PROJECT_ID);
   try {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
