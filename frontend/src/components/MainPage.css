@@ -40,3 +40,33 @@
   margin: 0 auto; /* 가운데 정렬 */
   justify-content: space-between;
 }
+
+/* 로딩 컨테이너 */
+.MainPage-loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  text-align: center;
+}
+
+/* 로딩 스피너 */
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.MainPage-loading-spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #2edd97;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spinner 0.5s linear infinite;
+  margin: 100px auto;
+}

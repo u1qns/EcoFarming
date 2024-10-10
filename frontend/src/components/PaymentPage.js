@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import axios from "axios";
-import { ChevronLeft } from "lucide-react";
-import "./PaymentPage.css"; // 스타일 파일 추가
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
+import axios from "axios";
 import PaymentNavbar from "./PaymentNavbar";
-import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import "./PaymentPage.css"; // 스타일 파일 추가
 
 const PaymentPage = () => {
   const navigate = useNavigate();
@@ -39,7 +36,6 @@ const PaymentPage = () => {
   const [chargingAmount, setChargingAmount] = useState(0); // 실제 충전할 금액
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 표시 상태
   const [remainingAmount, setRemainingAmount] = useState(0); // 남은 금액 상태
-  const [selectedGameOption, setSelectedGameOption] = useState("option1");
 
   const handleAmountClick = (amount) => {
     setSelectedAmount(amount);
@@ -56,7 +52,22 @@ const PaymentPage = () => {
     navigate("/users");
   };
 
+  const validateSelection = () => {
+    if (selectedCard === null) {
+      alert("밸런스 게임을 반드시 선택해주세요 🎰");
+      return false;
+    }
+    if (selectedAmount <= 0) {
+      alert("예치금을 넣어주세요! 🌍");
+      return false;
+    }
+    return true;
+  };
+
   const handleFooterButtonClick = () => {
+    if(!validateSelection()) {
+      return;
+    }
     handlePaymentClick(); // 결제 처리
   };
 

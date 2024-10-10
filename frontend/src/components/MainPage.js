@@ -14,6 +14,7 @@ function MainPage() {
     ongoingChallenge: [],
     upcomingChallenge: [],
   });
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,8 +22,10 @@ function MainPage() {
       try {
         const response = await axios.get("/challenges");
         setChallenges(response.data);
+        setLoading(false); // 데이터 불러오면 로딩 상태 해제
       } catch (error) {
         console.error("Error fetching challenges:", error);
+        setLoading(false); // 오류 발생 시에도 로딩 상태 해제
       }
     };
 
@@ -85,68 +88,77 @@ function MainPage() {
     <div className="MainPage">
       <Navbar />
       <div className="content">
-        <div className="carousel">
-          <Slider {...settings}>
-            {carouselImages.map((image, index) => (
-              <div key={index}>
-                <img
-                  src={image}
-                  alt={`Slide ${index}`}
-                  className="carousel-image"
-                />
-              </div>
-            ))}
-          </Slider>
-          <p>우리는 환경 지킴이!</p>
-          <h3>에코파밍 챌린지로 지구를 지켜요~🌍💚</h3>
-        </div>
-        <div className="card-container">
-          {challenges.upcomingChallenge.map((challenge) => {
-            const daysUntilStart = getDaysUntilStart(challenge.startDate);
-            return (
-              <Card
-                key={challenge.challengeId}
-                id={challenge.challengeId}
-                thumbnail={challenge.thumbPhotoUrl}
-                title={challenge.challengeTitle}
-                duration={`${challenge.duration / 7}주 동안`}
-                frequency={`${challenge.frequency}일`}
-                startDate={
-                  daysUntilStart > 0
-                    ? `${daysUntilStart}일 뒤 시작`
-                    : "오늘 시작"
+        {loading ? ( // 로딩 상태일 때 로딩 애니메이션 표시
+          <div className="MainPage-loading-container">
+            <div className="MainPage-loading-spinner"></div> {/* 로딩 스피너 */}
+            <p>챌린지를 불러오는 중...</p>
+          </div>
+        ) : (
+          <>
+            <div className="carousel">
+              <Slider {...settings}>
+                {carouselImages.map((image, index) => (
+                  <div key={index}>
+                    <img
+                      src={image}
+                      alt={`Slide ${index}`}
+                      className="carousel-image"
+                    />
+                  </div>
+                ))}
+              </Slider>
+              <p>우리는 환경 지킴이!</p>
+              <h3>에코파밍 챌린지로 지구를 지켜요~🌍💚</h3>
+            </div>
+            <div className="card-container">
+              {challenges.upcomingChallenge.map((challenge) => {
+                const daysUntilStart = getDaysUntilStart(challenge.startDate);
+                return (
+                  <Card
+                    key={challenge.challengeId}
+                    id={challenge.challengeId}
+                    thumbnail={challenge.thumbPhotoUrl}
+                    title={challenge.challengeTitle}
+                    duration={`${challenge.duration / 7}주 동안`}
+                    frequency={`${challenge.frequency}일`}
+                    startDate={
+                      daysUntilStart > 0
+                        ? `${daysUntilStart}일 뒤 시작`
+                        : "오늘 시작"
                 } // 며칠 뒤에 시작하는지 표시
-                participants={challenge.userCount}
-                onClick={() =>
-                  handleCardClick(
-                    challenge.challengeId,
-                    localStorage.getItem("userId"),
-                    challenge.thumbPhotoUrl
-                  )
-                }
-              />
-            );
-          })}
-          {challenges.ongoingChallenge.map((challenge) => (
-            <Card
-              key={challenge.challengeId}
-              id={challenge.challengeId}
-              thumbnail={challenge.thumbPhotoUrl}
-              title={challenge.challengeTitle}
-              duration={`${challenge.duration / 7}주 동안`}
-              frequency={`${challenge.frequency}일`}
-              startDate={"진행 중"}
-              participants={challenge.userCount}
-              onClick={() =>
-                handleCardClick(
-                  challenge.challengeId,
-                  localStorage.getItem("userId"),
-                  challenge.thumbPhotoUrl
-                )
-              }
-            />
-          ))}
-        </div>
+                    participants={challenge.userCount}
+                    onClick={() =>
+                      handleCardClick(
+                        challenge.challengeId,
+                        localStorage.getItem("userId"),
+                        challenge.thumbPhotoUrl
+                      )
+                    }
+                  />
+                );
+              })}
+              {challenges.ongoingChallenge.map((challenge) => (
+                <Card
+                  key={challenge.challengeId}
+                  id={challenge.challengeId}
+                  thumbnail={challenge.thumbPhotoUrl}
+                  title={challenge.challengeTitle}
+                  duration={`${challenge.duration / 7}주 동안`}
+                  frequency={`${challenge.frequency}일`}
+                  startDate={"진행 중"}
+                  participants={challenge.userCount}
+                  onClick={() =>
+                    handleCardClick(
+                      challenge.challengeId,
+                      localStorage.getItem("userId"),
+                      challenge.thumbPhotoUrl
+                    )
+                  }
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
       <Footer />
     </div>
