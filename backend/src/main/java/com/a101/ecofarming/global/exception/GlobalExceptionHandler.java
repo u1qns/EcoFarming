@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -45,15 +44,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(new ErrorResponse(
                         HttpStatus.INTERNAL_SERVER_ERROR.toString(),
                         "Unsupported Error"));
-    }
-
-    @ExceptionHandler(FirebaseMessagingException.class)
-    protected ResponseEntity<ErrorResponse> handleException(FirebaseMessagingException e, HttpServletRequest req) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponse(
-                        HttpStatus.NOT_FOUND.toString(),
-                        e.getMessagingErrorCode().toString()));
     }
 
     private String getParams(HttpServletRequest req) {
