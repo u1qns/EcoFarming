@@ -57,7 +57,9 @@ const OngoingChallenge = ({ setCount }) => { // setCount prop 추가
     <div className="ongoing-challenge-container">
       {/* 챌린지가 하나도 없을 때 메시지 표시 */}
       {challenges.length === 0 ? (
-        <p>참가 중인 챌린지가 없습니다.</p>
+        <div className="ongoing-challenge-no-challenge">
+          <p className="ongoing-challenge-no-challenge-message">현재 참가중인 챌린지가 없습니다.</p>
+        </div>
       ) : (
         challenges.map((challenge) => (
           <div

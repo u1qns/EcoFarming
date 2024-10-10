@@ -108,3 +108,25 @@
   animation: spinner 0.5s linear infinite;
   margin: 100px auto;
 }
+
+.ongoing-challenge-no-challenge {
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out; /* 애니메이션 추가 */
+}
+
+.ongoing-challenge-no-challenge-message {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #555;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
