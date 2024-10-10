@@ -118,7 +118,7 @@ stage('Deploy to New Environment') {
     steps {
         sshagent(['ssafy-ec2-ssh']) {
             withCredentials([
-                string(credentialsId: 'jwt-secret-id', variable: 'JWT_SECRET')
+                string(credentialsId: 'jwt-secret-id', variable: 'JWT_SECRET'),
                 string(credentialsId: 'MM_REPORT_URL', variable: 'MM_REPORT_URL'),
                 string(credentialsId: 'MM_ERROR_URL', variable: 'MM_ERROR_URL')
             ]) {
