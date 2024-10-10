@@ -32,18 +32,23 @@ pipeline {
             steps {
                 withCredentials([
                     string(credentialsId: 'MM_REPORT_URL', variable: 'MM_REPORT_URL'),
-                    string(credentialsId: 'MM_ERROR_URL', variable: 'MM_ERROR_URL')
+                    string(credentialsId: 'MM_ERROR_URL', variable: 'MM_ERROR_URL'),
+                    string(credentialsId: 'FIREBASE_CONFIG_PATH', variable: 'FIREBASE_CONFIG_PATH')
                 ]) {
                     script {
                         env.MM_REPORT_URL = "${MM_REPORT_URL}"
                         echo "MM_REPORT_URL Loaded Successfully"
                         env.MM_ERROR_URL =  "${MM_ERROR_URL}"
                         echo "MM_ERROR_URL Loaded Successfully"
+                        env.FIREBASE_CONFIG_PATH="${FIREBASE_CONFIG_PATH}"
+                        echo "FIREBASE_CONFIG_PATH Loaded Successfully";
                     }
 
                 }
             }
         }
+
+
 
         // 현재 활성화된 포트 읽기
         stage('Read Current Active Port') {
@@ -105,8 +110,7 @@ pipeline {
 stage('Deploy to New Environment') {
     steps {
         sshagent(['ssafy-ec2-ssh']) {
-            withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD'),
-                                             string(credentialsId: 'FIREBASE_CONFIG_PATH', variable: 'FIREBASE_CONFIG_PATH')]) {
+            withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                 script {
                     def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
                     def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
