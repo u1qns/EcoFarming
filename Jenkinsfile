@@ -119,8 +119,8 @@ stage('Deploy to New Environment') {
                         docker rm backend_${newPort} || true && \\
                         docker run -d --name backend_${newPort} -p ${newPort}:8080 \\
                         -e JWT_SECRET=${JWT_SECRET} \\
-                        -e MM_REPORT_URL = "${MM_REPORT_URL}" \\
-                        -e MM_ERROR_URL = "${MM_ERROR_URL}" \\
+                        -e MM_REPORT_URL=${MM_REPORT_URL} \\
+                        -e MM_ERROR_URL=${MM_ERROR_URL} \\
                         -v /home/ubuntu/uploads:/home/ubuntu/uploads ${BACKEND_DOCKER_REPO}:latest \\
                         --spring.profiles.active=${SPRING_PROFILE} --file.upload-dir=/home/ubuntu/uploads && \\
                         docker logout'
