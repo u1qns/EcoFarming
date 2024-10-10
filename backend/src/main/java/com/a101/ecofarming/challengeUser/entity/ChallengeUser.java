@@ -7,11 +7,16 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "challenge_user")
+@Table(name = "challenge_user", indexes = {
+        @Index(name = "idx_challenge_user_challenge_id", columnList = "challenge_id"),
+        @Index(name = "idx_challenge_user_user_id", columnList = "user_id"),
+        @Index(name = "idx_challenge_user_success_rate", columnList = "success_rate")
+})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+
 public class ChallengeUser extends BaseEntity {
 
     @Id
