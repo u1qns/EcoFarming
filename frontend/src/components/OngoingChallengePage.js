@@ -91,7 +91,7 @@ const OngoingChallengePage = () => {
           </div>
           <div className="challenge-duration">
             <span className="duration-item">주 {challenge.frequency}일</span>
-            <span className="duration-item">{challenge.duration}일 동안</span>
+            <span className="duration-item">{challenge.duration / 7}주 동안</span>
           </div>
         </div>
 
