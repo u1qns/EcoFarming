@@ -15,7 +15,7 @@ UPLOAD_FOLDER = '/home/ubuntu/uploads'
 
 
 # AI 예측을 수행하는 엔드포인트
-@app.route('/run-predict', methods=['POST'])
+@app.route('/run-predict/', methods=['POST'])
 def run_predict():
     print(1111111111111111111)
     try:
