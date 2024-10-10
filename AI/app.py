@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True)  # CORS 허용 설정
 
 # 이미지가 저장된 경로 (기본 디렉토리 설정)
-UPLOAD_FOLDER = '/home/ubuntu/uploads/ProofPhotos/'
+UPLOAD_FOLDER = '/home/ubuntu/uploads'
 
 
 # AI 예측을 수행하는 엔드포인트
@@ -24,7 +24,7 @@ def run_predict():
         print(f"Received image filename: {image_filename}")  # 디버깅을 위한 로그 출력
 
         # 서버에서 해당 파일명을 사용하여 경로 생성
-        image_path = os.path.join(UPLOAD_FOLDER, image_filename)
+        image_path = os.path.join(UPLOAD_FOLDER ,image_filename)
 
         # 서버의 해당 경로에 파일이 존재하는지 확인
         if not os.path.exists(image_path):

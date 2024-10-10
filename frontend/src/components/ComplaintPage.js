@@ -78,7 +78,9 @@ const ComplaintPage = () => {
 
         setLoadingPopup(false); // 로딩 팝업 종료
         setShowPopup(true); // 완료 팝업 표시
-        await runPredict(response.id, proof.phoroUrl)
+        console.log(proof);
+
+        await runPredict(response.id, proof.photoUrl)
       } catch (error) {
         console.error("신고 제출 중 오류 발생 : ", error);
         setLoadingPopup(false); // 로딩 팝업 종료
