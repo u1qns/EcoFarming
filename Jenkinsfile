@@ -188,16 +188,20 @@ stage('Deploy to New Environment') {
             steps {
                 sshagent(['ssafy-ec2-ssh']) {
                     withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh """
-                        ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} << EOF
-                        echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
-                        docker pull ${DOCKERHUB_FRONTEND_REPO}:latest
-                        docker stop frontend || true
-                        docker rm frontend || true
-                        docker run -d --name frontend -p 3000:80 ${DOCKERHUB_FRONTEND_REPO}:latest
-                        docker logout
-EOF
-                        """
+                        withCredentials([file(credentialsId: 'front-env', variable: 'front-env')]) {
+                            sh """
+                            ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} << EOF
+                            echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
+                            docker pull ${DOCKERHUB_FRONTEND_REPO}:latest
+                            docker stop frontend || true
+                            docker rm frontend || true
+                            docker run -d --name frontend -p 3000:80 \\
+                            --env-file ${SECRET_FILE} \\
+                            ${DOCKERHUB_FRONTEND_REPO}:latest
+                            docker logout
+    EOF
+                            """
+                        }
                     }
                 }
             }
