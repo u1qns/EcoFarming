@@ -19,14 +19,12 @@ public class ProofController {
 
     private final ProofService proofService;
     private final ChallengeCategoryService challengeCategoryService;
-    private final ChallengeService challengeService;
 
     @Autowired
     public ProofController(ProofService proofService,
-                           ChallengeCategoryService challengeCategoryService, ChallengeService challengeService) {
+                           ChallengeCategoryService challengeCategoryService) {
         this.proofService = proofService;
         this.challengeCategoryService = challengeCategoryService;
-        this.challengeService = challengeService;
     }
 
     @GetMapping("/{challengeId}/guide")
