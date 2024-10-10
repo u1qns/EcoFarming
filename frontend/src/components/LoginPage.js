@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { requestPermission } from '../firebase/config.js';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import "./LoginSignup.css";
 
@@ -30,9 +29,6 @@ const LoginPage = () => {
       localStorage.setItem('token', token);
       localStorage.setItem('username', username);
       localStorage.setItem('userId', userId);
-
-      // 로그인할 때 FCM 알림 허용 & Token 발급 신청
-      await requestPermission();
 
       navigate('/');
     } catch (error) {

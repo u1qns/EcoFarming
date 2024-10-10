@@ -4,7 +4,6 @@ import com.a101.ecofarming.complaint.entity.Complaint;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,11 +98,11 @@ public class MatterMostMessageDto {
                     .append("**AI Pass:** ").append(complaint.getAiPass()).append("\n")
                     .append("**Admin Pass:** ").append(complaint.getAdminPass()).append("\n");
 
-            this.title = "관리자 검수가 필요한 신고가 들어왔습니다.";
+            this.title = "검수가 필요한 신고";
             this.titleLink = "https://j11a101.p.ssafy.io"; // 임시
             this.color = "#fb6f92";
-            //this.imageUrl = "https://em-content.zobj.net/source/apple/391/globe-showing-asia-australia_1f30f.png"; // 나중에 인증샷으로 교체 필요
-            this.text = sb.append("**Photo: **").append(complaint.getProof().getPhotoUrl()).toString();
+            this.imageUrl = "https://em-content.zobj.net/source/apple/391/globe-showing-asia-australia_1f30f.png"; // 나중에 인증샷으로 교체 필요
+            this.text = sb.toString();
 
             return this;
         }
