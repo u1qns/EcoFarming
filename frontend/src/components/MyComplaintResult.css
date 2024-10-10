@@ -1,3 +1,6 @@
+.MyComplaintResult {
+  padding: 0px;
+}
 .MyComplaintResult .complaint-card {
   background-color: white;
   border-radius: 0.95rem;
@@ -5,6 +8,7 @@
   padding: 1rem 1rem 0.5rem 1rem;
   max-width: 28rem;
   margin-bottom: 15px;
+  width: 100%;
 }
 
 .MyComplaintResult .complaint-content {
