@@ -115,7 +115,7 @@ const OngoingChallengePage = () => {
           </div>
 
           <div className="proofStatus-content">
-            {activeTab === "myStatus" && <MyProofStatus />}
+            {activeTab === "myStatus" && <MyProofStatus challenge={challenge} />}
             {activeTab === "participantStatus" && <ParticipantProofStatus />}
           </div>
         </div>
