@@ -51,7 +51,7 @@ const ChallengePage = () => {
     fetchGuideData(); 
 
   }, [challengeId, userId]);
-  if (loading) return <div>로딩 중...</div>;
+  if (loading) return <div className="challenge-page-loading-spinner"></div>;
   if (error) return <div>{error}</div>;
   if (!challengeData) return null;
 

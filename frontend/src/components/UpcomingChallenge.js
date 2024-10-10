@@ -33,7 +33,7 @@ const UpcomingChallenge = ({ setCount }) => { // setCount prop 추가
   }, [setCount]); // setCount가 변경되면 다시 실행
 
   if (loading) {
-    return <p>로딩 중...</p>; // 로딩 중일 때 표시
+    return <div className="ongoing-challenge-loading-spinner"></div>; // 로딩 애니메이션 표시
   }
 
   return (
