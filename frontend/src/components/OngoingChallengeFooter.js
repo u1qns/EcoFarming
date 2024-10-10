@@ -40,10 +40,10 @@ const OngoingChallengeFooter = ({ challenge }) => {
     try {
       const isVerified = await checkChallengeVerification(challengeId); // 인증 여부 확인
       console.log(isVerified)
-      if (isVerified == false) {
-          navigate(`/proof/${challengeId}/guide`);
+      if (isVerified) {
+        alert('오늘 이미 인증이 완료되었어요 📸');
       } else {
-          alert('오늘 이미 인증이 완료되었어요 📸');
+        navigate(`/proof/${challengeId}/guide`);
       }
     } catch (error) {
         console.error("챌린지 인증 상태 확인 실패:", error.message);
