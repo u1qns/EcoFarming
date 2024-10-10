@@ -33,7 +33,9 @@ const CompletedChallenge = () => {
       {/* 챌린지가 하나도 없을 때 메시지 표시 */}
       {challenges.length === 0 ? (
         <div className="ongoing-challenge-no-challenge">
-          <p className="ongoing-challenge-no-challenge-message">현재 참가 중인 챌린지가 없습니다.</p>
+          <p className="ongoing-challenge-no-challenge-message">
+            완료한 챌린지가 없습니다.
+          </p>
         </div>
       ) : (
         challenges.map((challenge) => (
@@ -62,9 +64,7 @@ const CompletedChallenge = () => {
                     <p className="stat-label">달성률</p>
                   </div>
                   <div>
-                    <p className="stat-value">
-                      {challenge.returnAmount}원
-                    </p>
+                    <p className="stat-value">{challenge.returnAmount}원</p>
                     <p className="stat-label">반환금</p>
                   </div>
                 </div>
