@@ -25,7 +25,7 @@ const CompletedChallenge = () => {
   }, []); // 컴포넌트가 마운트될 때만 실행
 
   if (loading) {
-    return <p>로딩 중...</p>; // 로딩 중일 때 표시
+    return <div className="ongoing-challenge-loading-spinner"></div>; // 로딩 애니메이션 표시
   }
 
   return (
