@@ -63,6 +63,11 @@ public class ProofService {
         Challenge challenge = challengeRepository.findById(requestDto.getChallengeId())
                 .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
 
+        // 오늘 날짜에 이미 인증한 챌린지인지 확인
+        if (challengeUserRepository.existsByUserIdAndChallengeIdAndCreatedAtToday(user.getId(), challenge.getId())) {
+            throw new CustomException(PROOF_ALREADY_EXIST);
+        }
+
         // 챌린지 인증 저장
         String filePath = saveProofFile(requestDto, user, challenge);
         Proof proof = Proof.builder()
@@ -149,7 +154,7 @@ public class ProofService {
     }
 
     public ProofInfoResponseDto getProofsByChallengeIdAndUserId(Integer challengeId, Integer userId, Pageable pageable) {
-        Page<Proof> proofs = proofRepository.findByChallengeIdAndUserIdOrderByCreatedAtDesc(challengeId, userId, pageable);
+        Page<Proof> proofs = proofRepository.findByChallengeIdAndUserIdOrderByCreatedAtAsc(challengeId, userId, pageable);
 
         List<ProofDetailDto> proofDetails = proofs.stream()
                 .map(proof -> new ProofDetailDto(
@@ -162,5 +167,16 @@ public class ProofService {
                 .collect(Collectors.toList());
 
         return new ProofInfoResponseDto(proofDetails);
+    }
+
+    public Boolean checkChallengeVerification(Integer challengeId) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+        Challenge challenge = challengeRepository.findById(challengeId)
+                .orElseThrow(() -> new CustomException(CHALLENGE_NOT_FOUND));
+
+        // 오늘 날짜에 이미 인증한 챌린지인지 확인
+        return challengeUserRepository.existsByUserIdAndChallengeIdAndCreatedAtToday(user.getId(), challenge.getId());
     }
 }
