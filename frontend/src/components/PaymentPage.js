@@ -363,7 +363,7 @@ const PaymentPage = () => {
             <div className="popup-content">
               <h2>결제가 완료되었습니다.</h2>
               <p>충전한 금액: {chargingAmount.toLocaleString()}원</p>
-              <p>사용 예치금: {userAmount.toLocaleString()}원</p>
+              <p>사용 예치금: {Math.min(selectedAmount, userAmount).toLocaleString()}원</p>
               <p>남은 금액: {remainingAmount.toLocaleString()}원</p>
 
               <button className="popup-button" onClick={handleModalClose}>
