@@ -77,7 +77,7 @@ pipeline {
                     withCredentials([file(credentialsId: 'firebase-config', variable: 'FIREBASE_CONFIG_FILE')]) {
                         // Firebase 설정 파일을 backend/src/main/resources에 복사
                         sh """
-                        cp ${FIREBASE_CONFIG_FILE} backend/src/main/resources
+                        sudo cp ${FIREBASE_CONFIG_FILE} backend/src/main/resources
                         """
                         echo "firebase-config Loaded Successfully !!"
                     }
