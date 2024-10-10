@@ -3,6 +3,7 @@ import { MoreVertical } from "lucide-react";
 import "./ParticipantProofStatus.css";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios"; // axios를 import
+import emptyImage from "../assets/images/noPhoto.jpg";
 
 // 참가자 인증 현황 컴포넌트
 const ParticipantProofStatus = () => {
@@ -89,7 +90,7 @@ const ParticipantProofStatus = () => {
               </div>
             ))
           ) : (
-            <p>인증샷이 없습니다.</p> // 데이터가 없을 때 표시할 메시지
+            <img src={emptyImage} alt="인증샷 없음" className="ParticipantProofStatus-empty-image" />
           )}
         </div>
       </div>

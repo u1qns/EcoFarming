@@ -13,13 +13,13 @@ const Footer = () => {
   const location = useLocation();
 
   // 현재 URL 경로에 따라 활성화된 아이콘 결정
-  const [activeIcon, setActiveIcon] = useState("home");
+  const [activeIcon, setActiveIcon] = useState(location.pathname);
 
   useEffect(() => {
     // URL 경로를 기준으로 activeIcon 상태를 설정
-    if (location.pathname === "/proof") {
+    if (location.pathname.startsWith("/proof")) {
       setActiveIcon("proof");
-    } else if (location.pathname === "/users") {
+    } else if (location.pathname.startsWith("/users")) {
       setActiveIcon("mypage");
     } else {
       setActiveIcon("home");

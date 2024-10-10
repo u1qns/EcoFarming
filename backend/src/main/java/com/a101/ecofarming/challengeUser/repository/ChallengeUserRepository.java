@@ -58,7 +58,7 @@ public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, In
     @Query("SELECT COUNT(cu) FROM ChallengeUser cu WHERE cu.challenge.id = :challengeId")
     Long countUserByChallengeId(@Param("challengeId") Integer challengeId);
 
-    @Query("SELECT new com.a101.ecofarming.challengeUser.dto.response.ChallengeCountsDto( " +
+    @Query("SELECT new com.a101.ecofarming.challengeUser.dto.response.ChallengeCountsDto ( " +
             "COALESCE(SUM(CASE WHEN c.startDate > CURRENT_DATE THEN 1 ELSE 0 END), 0), " +
             "COALESCE(SUM(CASE WHEN c.startDate <= CURRENT_DATE AND CURRENT_DATE <= c.endDate THEN 1 ELSE 0 END), 0), " +
             "COALESCE(SUM(CASE WHEN c.endDate < CURRENT_DATE THEN 1 ELSE 0 END), 0)) " +
@@ -66,5 +66,4 @@ public interface ChallengeUserRepository extends JpaRepository<ChallengeUser, In
             "JOIN cu.challenge c " +
             "WHERE cu.user.id = :userId")
     ChallengeCountsDto countChallengesByUserId(@Param("userId") Integer userId);
-
 }

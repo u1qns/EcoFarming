@@ -6,6 +6,7 @@ import "./ProofCameraPage.css";
 
 const ProofCameraPage = () => {
   const [capturedImage, setCapturedImage] = useState(null); // 촬영된 이미지 저장
+  const [isUploading, setIsUploading] = useState(false);
   const videoRef = useRef(null); // 비디오 참조
   const canvasRef = useRef(null); // 캔버스 참조
   const navigate = useNavigate();
@@ -71,6 +72,7 @@ const ProofCameraPage = () => {
   // 인증 완료 페이지로 이동 함수
   const handleCompleteVerification = async () => {
     try {
+      setIsUploading(true);
       // 업로드 함수 호출
       const filename = "tmp-image-file.png";
       const response = await uploadProof(
@@ -113,10 +115,11 @@ const ProofCameraPage = () => {
           <div className="footer">
             <button
               className="finish-button"
-              onClick={handleCompleteVerification}
+              onClick={ handleCompleteVerification }
+              disabled={ isUploading }
             >
-              업로드
-            </button>
+              {isUploading ? "업로드 중..." : "업로드"}
+              </button>
           </div>
         </div>
       )}
