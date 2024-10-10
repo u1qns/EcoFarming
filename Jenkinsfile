@@ -199,7 +199,7 @@ stage('Deploy to New Environment') {
                             --env-file ${FRONT_ENV_FILE} \\
                             ${DOCKERHUB_FRONTEND_REPO}:latest
                             docker logout
-    EOF
+EOF
                             """
                         }
                     }
