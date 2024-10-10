@@ -53,6 +53,20 @@ pipeline {
             }
         }
 
+        // 환경 변수 로드
+        stage('Load Monitoring URLs') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'MM_REPORT_URL', variable: 'MM_REPORT_URL')]) {
+                        withCredentials([string(credentialsId: 'MM_ERROR_URL', variable: 'MM_ERROR_URL')]) {
+                            echo "MM_REPORT_URL Loaded: ${MM_REPORT_URL}"
+                            echo "MM_ERROR_URL Loaded: ${MM_ERROR_URL}"
+                        }
+                    }
+                }
+            }
+        }
+
         // 백엔드 빌드 및 Docker 이미지 생성
         stage('Build Backend and Docker Image') {
             steps {
@@ -101,7 +115,7 @@ stage('Deploy to New Environment') {
                             docker stop backend_${newPort} || true && \\
                             docker rm backend_${newPort} || true && \\
                             docker run -d --name backend_${newPort} -p ${newPort}:8080 \\
-                            -e JWT_SECRET=${JWT_SECRET} \\
+                            -e JWT_SECRET=${JWT_SECRET} MM_REPORT_URL=${MM_REPORT_URL} MM_ERROR_URL=${MM_ERROR_URL}\\
                             -v /home/ubuntu/uploads:/home/ubuntu/uploads ${BACKEND_DOCKER_REPO}:latest \\
                             --spring.profiles.active=${SPRING_PROFILE} --file.upload-dir=/home/ubuntu/uploads && \\
                             docker logout'
