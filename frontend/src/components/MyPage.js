@@ -13,8 +13,23 @@ import {
   Siren,
   Footprints,
   Ticket,
-  LogOut, 
+  LogOut,
 } from "lucide-react";
+
+const MenuOptionArrow = ({
+  icon,
+  text,
+  rightIcon = <ChevronRight className="icon" />,
+  onClick,
+}) => (
+  <div className="menu-option" onClick={onClick}>
+    <div className="menu-option-left">
+      {React.cloneElement(icon, { className: "icon" })}
+      <span className="menu-text">{text}</span>
+    </div>
+    {rightIcon}
+  </div>
+);
 
 const MenuOption = ({
   icon,
@@ -27,7 +42,6 @@ const MenuOption = ({
       {React.cloneElement(icon, { className: "icon" })}
       <span className="menu-text">{text}</span>
     </div>
-    {rightIcon}
   </div>
 );
 
@@ -71,18 +85,18 @@ function MyPage() {
 
   const handleLogout = async () => {
     try {
-      await axios.post('/logout');
+      await axios.post("/logout");
 
-      localStorage.removeItem('token'); // 토큰 삭제
-      localStorage.removeItem('username');
-      localStorage.removeItem('userId');
+      localStorage.removeItem("token"); // 토큰 삭제
+      localStorage.removeItem("username");
+      localStorage.removeItem("userId");
 
       // 쿠키에서 refresh token 삭제
-      document.cookie = 'refresh=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;';
-      
-      navigate('/login'); // 로그아웃 후 로그인 페이지로 이동
-    } catch (error) {
-    }
+      document.cookie =
+        "refresh=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+
+      navigate("/login"); // 로그아웃 후 로그인 페이지로 이동
+    } catch (error) {}
   };
 
   return (
@@ -97,7 +111,7 @@ function MyPage() {
             />
           </div>
           <div className="profile-name">
-            <span>{localStorage.getItem('username')}</span>
+            <span>{localStorage.getItem("username")}</span>
             <ChevronRight size={20} className="chevron" />
           </div>
         </div>
@@ -145,17 +159,22 @@ function MyPage() {
         <hr className="mypageHr" />
         <div className="menu-container">
           <MenuOption icon={<Headphones />} text="문의하기" />
-          <MenuOption
+          <MenuOptionArrow
             icon={<Siren />}
             text="인증샷 신고 결과"
             onClick={handleComplaintResultClick}
+            style={{ cursor: "pointer" }}
           />
           <MenuOption icon={<Award />} text="내 레벨·배지" />
           <MenuOption icon={<BarChart2 />} text="챌린지 리포트" />
           <MenuOption icon={<Gift />} text="친구 초대" />
           <MenuOption icon={<Footprints />} text="만보기" />
           <MenuOption icon={<Ticket />} text="행운뽑기" />
-          <MenuOption icon={<LogOut />} text="로그아웃" onClick={handleLogout} />
+          <MenuOption
+            icon={<LogOut />}
+            text="로그아웃"
+            onClick={handleLogout}
+          />
         </div>
       </div>
       <Footer />
