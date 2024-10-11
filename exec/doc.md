@@ -139,7 +139,7 @@ OS : Ubuntu |
 - Docker
     - 포트번호
     
-    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/dfe6efba-c65e-4253-9ee4-0a70a72c3a37/5f9515f8-f319-48e4-b8ec-9d2aaa6f1425/image.png)
+    ![image.png](./image.png)
     
 - Jenkins
     
