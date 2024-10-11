@@ -32,6 +32,9 @@ webhook:
       url: ${MM_ERROR_URL}
       priority: important
 
+firebase:
+  config: file:${FIREBASE_CONFIG_PATH}
+
 server:
   servlet:
     context-path: /api

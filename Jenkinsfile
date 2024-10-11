@@ -14,15 +14,46 @@ pipeline {
 
     stages {
 
-        // JWT_SECRET 로드
-        stage('Load JWT_SECRET') {
+        // SECRET 로드
+        stage('Load SECRET') {
             steps {
-                withCredentials([string(credentialsId: 'jwt-secret-id', variable: 'JWT_SECRET')]) {
+                withCredentials([
+                    string(credentialsId: 'jwt-secret-id', variable: 'JWT_SECRET'),
+                    string(credentialsId: 'REDIS_PASSWORD', variable: 'REDIS_PASSWORD'),
+                    string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD')                  
+                ]) {
                     script {
                         // JWT_SECRET을 환경 변수로 설정
                         env.JWT_SECRET = "${JWT_SECRET}"
                         echo "JWT_SECRET Loaded Successfully"
+
+                        env.REDIS_PASSWORD = "${REDIS_PASSWORD}"
+                        echo "REDIS_PASSWORD Loaded Successfully"
+
+                        env.DB_PASSWORD = "${DB_PASSWORD}"
+                        echo "DB_PASSWORD Loaded Successfully"
                     }
+                }
+            }
+        }
+
+        // WEB HOOK URL 로드
+        stage('Load WEB HOOK') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'MM_REPORT_URL', variable: 'MM_REPORT_URL'),
+                    string(credentialsId: 'MM_ERROR_URL', variable: 'MM_ERROR_URL'),
+                    string(credentialsId: 'FIREBASE_CONFIG_PATH', variable: 'FIREBASE_CONFIG_PATH')
+                ]) {
+                    script {
+                        env.MM_REPORT_URL = "${MM_REPORT_URL}"
+                        echo "MM_REPORT_URL Loaded Successfully"
+                        env.MM_ERROR_URL =  "${MM_ERROR_URL}"
+                        echo "MM_ERROR_URL Loaded Successfully"
+                        env.FIREBASE_CONFIG_PATH="${FIREBASE_CONFIG_PATH}"
+                        echo "FIREBASE_CONFIG_PATH Loaded Successfully";
+                    }
+
                 }
             }
         }
@@ -87,27 +118,31 @@ pipeline {
 stage('Deploy to New Environment') {
     steps {
         sshagent(['ssafy-ec2-ssh']) {
-            withCredentials([string(credentialsId: 'jwt-secret-id', variable: 'JWT_SECRET')]) { // JWT_SECRET을 Jenkins Credentials ID로 대체
-                withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    script {
-                        def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
-                        def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
-                        echo "Deploying to ${environmentName} Environment (Port: ${newPort})..."
-                        sh """
-                        ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} \\
-                            'docker image prune -f && \\
-                            echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin && \\
-                            docker pull ${BACKEND_DOCKER_REPO}:latest && \\
-                            docker stop backend_${newPort} || true && \\
-                            docker rm backend_${newPort} || true && \\
-                            docker run -d --name backend_${newPort} -p ${newPort}:8080 \\
-                            -e JWT_SECRET=${JWT_SECRET} \\
-                            -v /home/ubuntu/uploads:/home/ubuntu/uploads ${BACKEND_DOCKER_REPO}:latest \\
-                            --spring.profiles.active=${SPRING_PROFILE} --file.upload-dir=/home/ubuntu/uploads && \\
-                            docker logout'
-                        """
-                        echo "Deployment to ${environmentName} Environment Complete!"
-                    }
+            withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                script {
+                    def newPort = (env.CURRENT_ACTIVE_PORT == BLUE_PORT) ? GREEN_PORT : BLUE_PORT
+                    def environmentName = (newPort == BLUE_PORT) ? "Blue" : "Green"
+                    echo "Deploying to ${environmentName} Environment (Port: ${newPort})..."
+
+                    sh """
+                    ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} \\
+                        'docker image prune -f && \\
+                        echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin && \\
+                        docker pull ${BACKEND_DOCKER_REPO}:latest && \\
+                        docker stop backend_${newPort} || true && \\
+                        docker rm backend_${newPort} || true && \\
+                        docker run -d --name backend_${newPort} -p ${newPort}:8080 \\
+                        -e JWT_SECRET=${JWT_SECRET} \\
+                        -e MM_REPORT_URL=${MM_REPORT_URL} \\
+                        -e MM_ERROR_URL=${MM_ERROR_URL} \\
+                        -e FIREBASE_CONFIG_PATH=${FIREBASE_CONFIG_PATH} \\
+                        -e REDIS_PASSWORD=${REDIS_PASSWORD} \\
+                        -e DB_PASSWORD=${DB_PASSWORD} \\
+                        -v /home/ubuntu/uploads:/home/ubuntu/uploads ${BACKEND_DOCKER_REPO}:latest \\
+                        --spring.profiles.active=${SPRING_PROFILE} --file.upload-dir=/home/ubuntu/uploads && \\
+                        docker logout'
+                    """
+                    echo "Deployment to ${environmentName} Environment Complete!"
                 }
             }
         }
@@ -170,16 +205,20 @@ stage('Deploy to New Environment') {
             steps {
                 sshagent(['ssafy-ec2-ssh']) {
                     withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh """
-                        ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} << EOF
-                        echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
-                        docker pull ${DOCKERHUB_FRONTEND_REPO}:latest
-                        docker stop frontend || true
-                        docker rm frontend || true
-                        docker run -d --name frontend -p 3000:80 ${DOCKERHUB_FRONTEND_REPO}:latest
-                        docker logout
+                        withCredentials([file(credentialsId: 'front-env', variable: 'FRONT_ENV_FILE')]) {
+                            sh """
+                            ssh -o StrictHostKeyChecking=no ubuntu@${USER_SERVER_IP} << EOF
+                            echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
+                            docker pull ${DOCKERHUB_FRONTEND_REPO}:latest
+                            docker stop frontend || true
+                            docker rm frontend || true
+                            docker run -d --name frontend -p 3000:80 \\
+                            --env-file ${FRONT_ENV_FILE} \\
+                            ${DOCKERHUB_FRONTEND_REPO}:latest
+                            docker logout
 EOF
-                        """
+                            """
+                        }
                     }
                 }
             }
