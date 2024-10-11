@@ -8,23 +8,24 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const PopupModal = ({ message, onClose }) => (
   <div className="complaint-popup">
-  <div className="popup-overlay">
-    <div className="popup-content">
-      <h2>{message}</h2>
-      {message === "신고가 접수되었습니다" && (
-        <p>
-          신고 결과는 '마이페이지 > 인증샷
-          <br />
-          신고 결과'에서 확인 하실 수 있습니다.
-        </p>
-      )}
-      {message !== "신고 처리 중입니다..." && (
-        <button className="popup-button" onClick={onClose}>
-          확인
-        </button>
-      )}
+    <div className="popup-overlay">
+      <div className="popup-content">
+        <h2>{message}</h2>
+        {message === "신고가 접수되었습니다" && (
+          <p>
+            신고 결과는 '마이페이지 > 인증샷
+            <br />
+            신고 결과'에서 확인 하실 수 있습니다.
+          </p>
+        )}
+        {message !== "신고 처리 중입니다..." && (
+          <button className="popup-button" onClick={onClose}>
+            확인
+          </button>
+        )}
+      </div>
     </div>
-  </div></div>
+  </div>
 );
 
 const ComplaintPage = () => {
@@ -50,22 +51,23 @@ const ComplaintPage = () => {
 
   const runPredict = async (complaintId, photoUrl) => {
     try {
-      console.log("[runPredict] 호출");
-      const response = await axios.post("https://j11a101.p.ssafy.io/run-predict/",  { image_url: photoUrl });
+      //console.log("[runPredict] 호출");
+      const response = await axios.post(
+        "https://j11a101.p.ssafy.io/run-predict/",
+        { image_url: photoUrl }
+      );
       const predictedLabel = response.data.aiPass;
-      console.log("AI 분석 라벨 : ", predictedLabel);
-      const aiPass = (
+      //console.log("AI 분석 라벨 : ", predictedLabel);
+      const aiPass =
         (challenge.category_id === 1 && predictedLabel === "water jug") ||
         (challenge.category_id === 2 && predictedLabel === "shopping basket") ||
-        (challenge.category_id === 3 && predictedLabel === "handkerchief")
-      );
+        (challenge.category_id === 3 && predictedLabel === "handkerchief");
       console.log("AI 예측 결과 : ", aiPass);
-      await submitAIResult({complaintId, aiPass});
+      await submitAIResult({ complaintId, aiPass });
     } catch (error) {
-      console.error("AI 예측 중 오류가 발생했습니다:", error);
+      //console.error("AI 예측 중 오류가 발생했습니다:", error);
     }
   };
-
 
   const handleSubmit = async () => {
     if (!isSubmitDisabled) {
@@ -80,7 +82,7 @@ const ComplaintPage = () => {
         setShowPopup(true); // 완료 팝업 표시
         console.log(proof);
 
-        await runPredict(response.id, proof.photoUrl)
+        await runPredict(response.id, proof.photoUrl);
       } catch (error) {
         console.error("신고 제출 중 오류 발생 : ", error);
         setLoadingPopup(false); // 로딩 팝업 종료
