@@ -100,17 +100,14 @@
 
 ## 📂 프로젝트 구조
 
+### 백엔드 프로젝트 구조
 ```
-EcoFarming/
-├── AI
 ├── backend
 │   ├── gradle
-│   │   └── wrapper
 │   └── src
 │       ├── main
 │       │   ├── java
-│       │   │   └── com
-│       │   │       └── a101.ecofarming
+│       │   │   └── com.a101.ecofarming
 │       │   │               ├── 🗂️ balanceGame
 │       │   │               │   ├── entity
 │       │   │               │   └── repository
@@ -181,6 +178,10 @@ EcoFarming/
 │       │   │                   ├── repository
 │       │   │                   └── service
 │       │   └── resources
+```
+
+### 프론트엔드 프로젝트 구조 
+```
 ├── frontend
 │   ├── public
 │   │   └── icons
@@ -195,6 +196,5 @@ EcoFarming/
 ## 📹 시연 영상 및 자료
 
 - **시연 영상:** [YouTube 링크](https://www.youtube.com/watch?v=ngiXBbhoRrc)  
-- **영상 포트폴리오:** [YouTube 링크](https://www.youtube.com/watch?v=_zmqM5AO4hQ)  
 - **발표 자료:** [MiriCanvas 링크](https://www.miricanvas.com/v/13qpik5)  
 - **배포 링크:** https://ecofarming.lol
